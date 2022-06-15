@@ -6,4 +6,8 @@
 
 * <h3>Arquitetura básica do projeto</h3>
 
-<img src="doc/img/architecture.jpeg" alt="basic architecture" height="425">
+<img src="doc/img/architecture.jpeg" alt="basic architecture" height="525">
+
+
+* <h3>Diagrama de casos de uso</h3>
+<img src="doc/img/usecaseDiagram.jpeg" alt="basic architecture" height="725">
