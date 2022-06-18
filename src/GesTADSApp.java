@@ -1,7 +1,9 @@
 package src;
 
+import src.control.Control;
+
 public class GesTADSApp {
     public static void main(String[] args) {
-        System.out.println("hello");
+        new Control().startApplication();
     }
 }
