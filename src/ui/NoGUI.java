@@ -46,11 +46,9 @@ public class NoGUI{
         }
     }
 
-    public void showConfirmDialog(String message) {
-
-    }
-
     public void showMainScreen() {
 
     }
+
+
 }

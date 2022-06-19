@@ -1,5 +1,6 @@
 package src.ui;
 
+import src.ui.swing.LoginGUI;
 import src.util.tools.GesLogger;
 
 public class UIManager {
@@ -21,6 +22,13 @@ public class UIManager {
     public void startUIManager() {
 
         if(GesLogger.ISLOGABLE) GesLogger.d(TAG, "startUIManager");
-        new TesteUI();
+        new LoginScreen();
+        new LoginGUI().createView();
+    }
+
+    public void startLoginUI() {
+    }
+
+    public void startHomeUI() {
     }
 }
