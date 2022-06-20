@@ -1,12 +1,14 @@
 package src.ui;
 
+import src.util.tools.BroadcastReceiver;
 import src.util.tools.GesLogger;
+import src.util.tools.Intent;
 
 import java.util.Scanner;
 
 public class LoginScreen extends GesTADSUI{
 
-    private final String TAG = "TesteUI";
+    private final String TAG = LoginScreen.class.getSimpleName();
 
     @Override
     public void createView() {
@@ -18,9 +20,13 @@ public class LoginScreen extends GesTADSUI{
         System.out.println("Please insert password: ");
         String password = scanner.nextLine();
 
+        Intent intent = new Intent(Intent.ACTION_LOGIN);
 
-//        Intent intent = new Intent(Intent.ACTION_LOGIN);
-//        intent.putInt("will", 28);
-//        BroadcastReceiver.sendBroadcast(intent);
+        intent.putString(Intent.KEY_USERNAME, username);
+        intent.putString(Intent.KEY_PASSWORD, password);
+
+        BroadcastReceiver.sendBroadcast(intent);
+
+        onDestroy();
     }
 }

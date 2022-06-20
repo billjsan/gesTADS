@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BroadcastReceiver {
+    private final static String TAG = BroadcastReceiver.class.getSimpleName();
     private static final List<BroadcastReceiver> receivers = new ArrayList<>();
 
     public BroadcastReceiver(){
@@ -17,6 +18,7 @@ public abstract class BroadcastReceiver {
     protected abstract void onReceive(Intent intent);
 
     public static void sendBroadcast(Intent i){
+        if(GesLogger.ISLOGABLE) GesLogger.d(TAG, "sendBroadcast");
         for (BroadcastReceiver b : receivers) {
             b.onReceive(i);
         }

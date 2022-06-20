@@ -12,5 +12,4 @@ public class Product {
     private Date fabricacao;
     private Date validade;
     private String lote;
-
 }

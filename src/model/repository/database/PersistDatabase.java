@@ -2,6 +2,9 @@ package src.model.repository.database;
 
 import src.util.tools.GesLogger;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -29,7 +32,8 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
         mExecutor.submit(() -> {
             try {
-                Thread.sleep(5000);
+                Thread.sleep(1);
+                testaConexao();
                 if (GesLogger.ISLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName()
                         + " Espera finalizada");
             } catch (InterruptedException e) {
@@ -78,5 +82,19 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
     public void allOtherMethods() {
 
+    }
+
+
+    private void testaConexao(){
+        try {
+            System.out.println("abrindo conexao");
+            Connection connection = DriverManager.
+                    getConnection("jdbc:mysql://localhost/gesTADS?useTimezone=true&serverTimezone=UTC",
+                            "root", "3Pshjd45lw8!");
+            System.out.println("fechando conexao");
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

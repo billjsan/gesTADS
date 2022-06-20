@@ -22,4 +22,8 @@ public abstract class GesTADSUI {
 
     public abstract void createView();
 
+    protected void onDestroy(){
+        if(GesLogger.ISLOGABLE) GesLogger.d(TAG, "onDestroy");
+    }
+
 }
