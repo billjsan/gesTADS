@@ -1,5 +1,6 @@
 package src.model.repository.database;
 
+import src.model.model.Employee;
 import src.util.tools.GesLogger;
 
 import java.sql.Connection;
@@ -28,17 +29,19 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
     @Override
     public void startUpDadaBase() {
-        if (GesLogger.ISLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName() + " startUpDB");
+        if (GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName() + " startUpDB");
 
         mExecutor.submit(() -> {
             try {
                 Thread.sleep(1);
                 testaConexao();
-                if (GesLogger.ISLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName()
+                if (GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName()
                         + " Espera finalizada");
             } catch (InterruptedException e) {
-                if (GesLogger.ISLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName()
-                        + " Error while getting future value from callable");
+
+                if(GesLogger.ISFULLLOGABLE) GesLogger.e(TAG, "Thread: " +
+                        Thread.currentThread().getName() + "\n" +
+                        e.getMessage());
             }
         });
     }
@@ -54,6 +57,7 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
             }
         } catch (InterruptedException e) {
             mExecutor.shutdownNow();
+            if(GesLogger.ISFULLLOGABLE) GesLogger.e(TAG, e.getMessage());
         }
     }
 
@@ -84,6 +88,16 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
     }
 
+    @Override
+    public Employee getEmployeeByMatricula(String matricula) {
+        return null;
+    }
+
+    @Override
+    public void insertEmployee(Employee employee) {
+
+    }
+
 
     private void testaConexao(){
         try {
@@ -94,7 +108,7 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
             System.out.println("fechando conexao");
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if(GesLogger.ISFULLLOGABLE) GesLogger.e(TAG, e.getMessage());
         }
     }
 }

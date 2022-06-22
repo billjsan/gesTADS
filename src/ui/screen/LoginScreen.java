@@ -1,18 +1,20 @@
-package src.ui;
+package src.ui.screen;
 
+import src.ui.GesTADSUI;
 import src.util.tools.BroadcastReceiver;
 import src.util.tools.GesLogger;
 import src.util.tools.Intent;
 
 import java.util.Scanner;
 
-public class LoginScreen extends GesTADSUI{
+public class LoginScreen extends GesTADSUI {
 
-    private final String TAG = LoginScreen.class.getSimpleName();
+    private final String TAG = "LoginScreen";
 
     @Override
     public void createView() {
-        if(GesLogger.ISLOGABLE) GesLogger.d(TAG, "GesTADSUI child createView");
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "GesTADSUI child createView");
 
         System.out.println("Please insert user name: ");
         Scanner scanner = new Scanner(System.in);

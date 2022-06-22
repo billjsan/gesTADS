@@ -1,19 +1,20 @@
 package src.model.model;
 
-import src.util.tools.GesLogger;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 public abstract class Employee {
 
     private final String TAG = Employee.class.getSimpleName();
 
+    //privilegios
+    public static Integer PRIVILEGE_ADMIN = 3;
+    public static Integer PRIVILEGE_SUPERVISOR = 2;
+    public static Integer PRIVILEGE_OPERATOR = 1;
+
     //dados da empresa
     private String nome = "employee";
     private String senha = "1234";
-    private int privilegio = 0;
+    protected Integer privilegio = 0;
     private String cargo = "";
     private Date admissao = new Date();
     // --------------------------------
@@ -24,15 +25,16 @@ public abstract class Employee {
     private String rg = "";
     private String endereco = "";
     private String estadoCivil = "";
+    private String matricula = "";
+    private String mLogin;
     // ------------------------------
 
     public Employee(){    }
 
-    public Employee(String nome, String senha, int privilegio, String cargo, Date admissao, String sexo,
-                    String cpf, String rg, String endereco, String estadoCivil) {
+    public Employee(String nome,String mLogin, String senha, String cargo, Date admissao, String sexo,
+                    String cpf, String rg, String endereco, String estadoCivil, String matricula) {
         this.nome = nome;
         this.senha = senha;
-        this.privilegio = privilegio;
         this.cargo = cargo;
         this.admissao = admissao;
         this.sexo = sexo;
@@ -40,7 +42,19 @@ public abstract class Employee {
         this.rg = rg;
         this.endereco = endereco;
         this.estadoCivil = estadoCivil;
+        this.matricula = matricula;
+        this.mLogin = mLogin;
     }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public abstract void upGradeEmployee();
 
     public String getNome() {
         return nome;
@@ -67,10 +81,6 @@ public abstract class Employee {
 
     public int getPrivilegio() {
         return privilegio;
-    }
-
-    public void setPrivilegio(int privilegio) {
-        this.privilegio = privilegio;
     }
 
     public String getCargo() {
@@ -138,5 +148,13 @@ public abstract class Employee {
 
     public void setEstadoCivil(String estadoCivil) {
         this.estadoCivil = estadoCivil;
+    }
+
+    public String getLogin() {
+        return mLogin;
+    }
+
+    public void setLogin(String login) {
+        this.mLogin = login;
     }
 }

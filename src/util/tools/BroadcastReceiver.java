@@ -18,7 +18,7 @@ public abstract class BroadcastReceiver {
     protected abstract void onReceive(Intent intent);
 
     public static void sendBroadcast(Intent i){
-        if(GesLogger.ISLOGABLE) GesLogger.d(TAG, "sendBroadcast");
+        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, "sendBroadcast");
         for (BroadcastReceiver b : receivers) {
             b.onReceive(i);
         }

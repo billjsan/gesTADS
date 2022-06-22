@@ -1,5 +1,7 @@
 package src.model.repository.database;
 
+import src.model.model.Employee;
+
 public interface GesTADSDataBaseInterface {
     void startUpDadaBase();
     void closeDataBase();
@@ -21,4 +23,7 @@ public interface GesTADSDataBaseInterface {
 
    void allOtherMethods();
 
+    Employee getEmployeeByMatricula(String matricula);
+
+    void insertEmployee(Employee employee);
 }

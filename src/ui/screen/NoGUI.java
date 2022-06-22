@@ -1,4 +1,4 @@
-package src.ui;
+package src.ui.screen;
 
 import java.util.Scanner;
 

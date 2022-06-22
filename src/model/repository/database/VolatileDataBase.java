@@ -1,7 +1,10 @@
 package src.model.repository.database;
 
+import src.model.model.Employee;
 import src.util.tools.GesLogger;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -11,6 +14,8 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     private final ExecutorService mExecutor;
     private static VolatileDataBase instance;
     private boolean isDBStarted;
+    private List<Employee> mEmployees = new ArrayList<>();
+
     private VolatileDataBase(){
         mExecutor = Executors.newFixedThreadPool(3); // define o n de Threads para o executor
     }
@@ -26,20 +31,19 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
         mExecutor.submit(() -> {
             try {
                 Thread.sleep(5000);
-                if(GesLogger.ISLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName()
+                if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName()
                         + " Espera finalizada");
                 isDBStarted = true;
                 closeDataBase();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                if(GesLogger.ISFULLLOGABLE) GesLogger.e(TAG, e.getMessage());
             }
         });
-
     }
 
     @Override
     public void closeDataBase() {
-        if(GesLogger.ISLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName()
+        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName()
                 + " closeDataBase");
         mExecutor.shutdown();
         try {
@@ -48,6 +52,7 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
             }
         } catch (InterruptedException e) {
             mExecutor.shutdownNow();
+            if(GesLogger.ISFULLLOGABLE) GesLogger.e(TAG, e.getMessage());
         }
     }
 
@@ -64,5 +69,20 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     @Override
     public void allOtherMethods() {
 
+    }
+
+    @Override
+    public Employee getEmployeeByMatricula(String matricula) {
+        for (Employee e: mEmployees){
+            if(e.getMatricula().equals(matricula)){
+                return e;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void insertEmployee(Employee employee) {
+        mEmployees.add(employee);
     }
 }
