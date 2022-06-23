@@ -1,5 +1,6 @@
 package src.ui.screen;
 
+import src.model.model.Employee;
 import src.ui.GesTADSUI;
 import src.util.tools.BroadcastReceiver;
 import src.util.tools.GesLogger;
@@ -35,7 +36,7 @@ public class CadastroScreen extends GesTADSUI {
             if(flags.contains(Intent.FLAG_FIRST_LOGIN)){
                 System.out.println("Você é o primeiro usuário do sistema");
 
-                intent.putInt(Intent.KEY_PRIVILEGE, Intent.PRIV_ADM);
+                intent.putInt(Intent.KEY_PRIVILEGE, Employee.PRIVILEGE_ADMIN);
             }
         }
 

@@ -2,6 +2,8 @@ package src.model.repository.database;
 
 import src.model.model.Employee;
 
+import java.util.List;
+
 public interface GesTADSDataBaseInterface {
     void startUpDadaBase();
     void closeDataBase();
@@ -26,4 +28,8 @@ public interface GesTADSDataBaseInterface {
     Employee getEmployeeByMatricula(String matricula);
 
     void insertEmployee(Employee employee);
+
+    boolean isEmptyDB();
+
+    List<Employee> getEmployees();
 }

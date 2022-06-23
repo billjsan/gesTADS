@@ -1,10 +1,11 @@
 package src;
 
-import com.sun.jmx.mbeanserver.Repository;
 import src.control.Control;
-import src.model.model.Operator;
-import sun.awt.windows.ThemeReader;
 
+// melhoria de codigo = [ICS]
+// adicao de logs no futuro = [LAS]
+// mudança de metodologia = [MCS]
+// adicao de documentacao no futuro = [CDS]
 public class GesTADSApp {
     public static void main(String[] args) {
         new Control().startApplication();
@@ -12,3 +13,5 @@ public class GesTADSApp {
 //        operator.setRg("willian santos");
     }
 }
+
+

@@ -1,7 +1,7 @@
 package src.control;
 
-import src.model.model.Admin;
 import src.model.model.Employee;
+import src.model.model.EmployeeBehavior;
 import src.model.repository.Repository;
 import src.ui.UIManager;
 import src.util.tools.BroadcastReceiver;
@@ -16,13 +16,13 @@ public class Control extends BroadcastReceiver {
     private final Repository mRepository;
     private final UIManager mUIManager;
     private boolean shouldRun = true;
-    private Integer currentPrivilege = 0;
     private boolean isLoggedIn = false;
     private final String TAG = Control.class.getSimpleName();
     private Employee mCurrentUser = null;
 
     public Control(){
-        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName() + " Control");
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(),"Control constuctor");
         mRepository = Repository.getInstance();
         mUIManager = UIManager.getInstance();
     }
@@ -31,13 +31,16 @@ public class Control extends BroadcastReceiver {
      * Entry point application
      */
     public void startApplication(){
-        //mUIManager.startUIManager();
+        //[LAS]
+        mRepository.startRepository();
+        mUIManager.startUIManager();
 
         while(shouldRun){
+            // [LAS]
             if(!isLoggedIn){
                 mUIManager.startLoginUI();
             }else {
-                mUIManager.startHomeUI(currentPrivilege);
+                mUIManager.startHomeUI(mCurrentUser.getPrivilegio());
             }
         }
     }
@@ -52,7 +55,7 @@ public class Control extends BroadcastReceiver {
         switch (intent.getAction()){
             case Intent.ACTION_LOGIN:
                 if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-                    GesLogger.d(TAG, "ACTION_LOGIN");
+                    GesLogger.d(TAG, Thread.currentThread(), "ACTION_LOGIN");
 
                 String login = intent.getString(Intent.KEY_USERNAME);
                 String pass = intent.getString(Intent.KEY_PASSWORD);
@@ -60,6 +63,7 @@ public class Control extends BroadcastReceiver {
 
                 if(isValidCredential(matricula, login, pass)){
                     isLoggedIn = true;
+                    shouldRun = false;
                 }
                 break;
 
@@ -67,13 +71,13 @@ public class Control extends BroadcastReceiver {
                 if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                     GesLogger.d(TAG, "ACTION_REGISTER");
 
-                Admin admin = new Admin();
-                admin.setNome(intent.getString(Intent.KEY_NAME));
-                admin.setLogin(intent.getString(Intent.KEY_USERNAME));
-                admin.setSenha(intent.getString(Intent.KEY_PASSWORD));
-                admin.setCpf(intent.getString(Intent.KEY_CPF));
+                Employee newUser = new Employee();
+                newUser.setNome(intent.getString(Intent.KEY_NAME));
+                newUser.setLogin(intent.getString(Intent.KEY_USERNAME));
+                newUser.setSenha(intent.getString(Intent.KEY_PASSWORD));
+                newUser.setCpf(intent.getString(Intent.KEY_CPF));
 
-                mRepository.addEmployee(admin);
+                mRepository.addEmployee(newUser);
                 break;
         }
     }
@@ -88,36 +92,32 @@ public class Control extends BroadcastReceiver {
      * @return
      */
     private boolean isValidCredential(String matricula, String login, String pass) {
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG,Thread.currentThread(),"isValidCredential");
 
         List<Employee> employees = mRepository.getEmployees();
 
-        if(employees.isEmpty()){
-            mUIManager.startFirstLoginScreen();
-            return false;
-        }
-
-        for (Employee employee :employees) {
+        for (Employee employee : employees) {
             if(employee.getMatricula().equals(matricula)){
                 if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
-                    GesLogger.d(TAG,Thread.currentThread().getName() + " matricula encontrada: " + matricula);
+                    GesLogger.d(TAG,Thread.currentThread(), "matricula encontrada: " + matricula);
 
                 if(employee.getSenha().equals(pass) && employee.getLogin().equals(login)){
-                    mCurrentUser = employee;
-
                     if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) {
-                        GesLogger.d(TAG,Thread.currentThread().getName() + " Login realizado com sucesso");
+                        GesLogger.d(TAG,Thread.currentThread(), "credenciais encontradas com sucesso");
                     }
+
+                    mCurrentUser = employee;
                     return true;
                 }
 
-                if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE )
-                    GesLogger.d(TAG, Thread.currentThread().getName() +
-                            " senha ou login errados l:" + login + " p:" + pass);
+                if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE ) GesLogger.d(TAG,
+                        Thread.currentThread(), "senha ou login errados l:" + login + " p:" + pass);
             }
         }
 
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG,
-                Thread.currentThread().getName() + " Matricula nao encontrada");
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE) GesLogger.d(TAG,
+                Thread.currentThread(), "matricula nao encontrada " + matricula);
         return false;
     }
 }

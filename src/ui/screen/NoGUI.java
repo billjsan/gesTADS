@@ -14,7 +14,7 @@ public class NoGUI{
 
             String input = inputStream.nextLine();
             if (input != null  && input.equals("")){
-                showLoginDialog();
+                //showLoginDialog();
             }
         }
     }
@@ -49,6 +49,4 @@ public class NoGUI{
     public void showMainScreen() {
 
     }
-
-
 }

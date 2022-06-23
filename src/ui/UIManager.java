@@ -22,11 +22,10 @@ public class UIManager {
     }
 
     public void startUIManager() {
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "startUIManager");
 
-        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, "startUIManager");
-        //new LoginScreen();
-
-        //new LoginGUI().createView();
+        //[ICS]
     }
 
     public void startLoginUI() {

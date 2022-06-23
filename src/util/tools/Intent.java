@@ -8,19 +8,19 @@ import java.util.List;
 
 public class Intent implements Serializable {
 
-    //CONSTANTS
-    public static final int PRIV_ADM = 3;
-    public static final int PRIV_OPERAT = 2;
-    public static final int PRIV_SUPERV = 1;
+    //CONSTANTS [CDS]
 
-    //Actions
-    public final static int ACTION_LOGIN = 1;
-    public final static int ACTION_LOGOUT = 2;
-    public static final int ACTION_REGISTER = 3;
-    public static final int ACTION_UI_FLAG = 25;
-    public static final int ACTION_SEARCH = 26;
 
-    //Keys
+    //Actions [CDS]
+    public final static int ACTION_LOGIN = 1001;
+    public final static int ACTION_LOGOUT = 1002;
+    public static final int ACTION_REGISTER = 1003;
+    public static final int ACTION_UI_FLAG = 1004;
+    public static final int ACTION_SEARCH = 1005;
+    public static final int ACTION_INSERT = 1006;
+    public static final int ACTION_AUTENTICATE = 1007;
+
+    //Keys [CDS]
     public static final String KEY_USERNAME = "key_username";
     public static final String KEY_PASSWORD = "key_password";
     public static final String KEY_MATRICULA = "key_matricula";
@@ -28,51 +28,78 @@ public class Intent implements Serializable {
     public static final String KEY_CPF = "key_cpf";
     public static final String KEY_PASSWORD_CONFIRM = "key_password_confirm";
     public static final String KEY_PRIVILEGE = "key_privilege";
+    public static final String KEY_CARGO = "key_cargo";
+    public static final String KEY_ADMISSAO = "key_admissao";
+    public static final String KEY_SEXO = "key_sexo";
+    public static final String KEY_RG = "key_rg";
+    public static final String KEY_ENDERECO = "key_endereco";
+    public static final String KEY_ESTADO_CIVIL = "key_estado_civil";
 
-    //Flags
+    //Flags [CDS]
     public static final int FLAG_FIRST_LOGIN = -1;
-
 
     private final HashMap<String, Integer> mIntMap = new HashMap<>();
     private final HashMap<String, String> mStringMap = new HashMap<>();
+    private final HashMap<String, List<?>> mListMap = new HashMap<>();
+    private final List<Integer> mFlagsList =  new ArrayList<>();
     private final int mAction;
-    private List<Integer> mFlags =  new ArrayList<>();
 
     public Intent(Integer action) {
+        // [LAS]
         this.mAction = action;
     }
 
-    public Integer getAction() {
+    final public Integer getAction() {
+        // [LAS]
         return mAction;
     }
 
-    public void putInt(String key, Integer integer) {
+    final public void putList(String key, List<?> list){
+        // [LAS]
+        this.mListMap.put(key, list);
+    }
+
+    final public List<?> getList(String key){
+        // [LAS]
+        if (mListMap.containsKey(key)) {
+            return new ArrayList<>(mListMap.get(key));
+        }
+        return null;
+    }
+
+    final public void putInt(String key, Integer integer) {
+        // [LAS]
         this.mIntMap.put(key, integer);
     }
 
-    public Integer getInt(String key) {
+    final public Integer getInt(String key) {
+        // [LAS]
         if (mIntMap.containsKey(key)) {
             return mIntMap.get(key);
         }
         return null;
     }
 
-    public String getString(String key) {
+    final public String getString(String key) {
+        // [LAS]
         if (mStringMap.containsKey(key)) {
             return mStringMap.get(key);
         }
         return null;
     }
 
-    public void putString(String key, String value) {
+    final public void putString(String key, String value) {
+        // [LAS]
         this.mStringMap.put(key, value);
     }
 
-    public void putFlag(Integer flag) {
-        mFlags.add(flag);
+    final public void putFlag(Integer flag) {
+        // [LAS]
+        mFlagsList.add(flag);
     }
 
-    public List<Integer> getFlags(){
-        return new ArrayList<>(mFlags);
+    final public List<Integer> getFlags(){
+        // [LAS]
+        return new ArrayList<>(mFlagsList);
     }
 }

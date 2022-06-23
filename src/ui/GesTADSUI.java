@@ -11,13 +11,13 @@ public abstract class GesTADSUI {
 
     public GesTADSUI(){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, "mother constructor");
+            GesLogger.d(TAG, "GesTADSUI constructor");
         onCreated();
     }
 
     public GesTADSUI(Intent intent){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, "mother constructor with Intent");
+            GesLogger.d(TAG, "GesTADSUI constructor with Intent");
 
         this.mContextIntent = intent;
         onStart();
@@ -25,13 +25,13 @@ public abstract class GesTADSUI {
 
     public  void onCreated(){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, "mother onCreated");
+            GesLogger.d(TAG, "GesTADSUI onCreated");
         onStart();
     }
 
     public  void onStart(){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, "mother onStart");
+            GesLogger.d(TAG, "GesTADSUI onStart");
         createView();
     }
 
@@ -39,6 +39,6 @@ public abstract class GesTADSUI {
 
     protected void onDestroy(){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, "onDestroy");
+            GesLogger.d(TAG, "GesTADSUI onDestroy");
     }
 }

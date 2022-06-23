@@ -14,10 +14,14 @@ public class LoginScreen extends GesTADSUI {
     @Override
     public void createView() {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, "GesTADSUI child createView");
+            GesLogger.d(TAG, "createView");
 
-        System.out.println("Please insert user name: ");
+
         Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Please insert user matricula: ");
+        String matricula = scanner.nextLine();
+        System.out.println("Please insert user name: ");
         String username = scanner.nextLine();
         System.out.println("Please insert password: ");
         String password = scanner.nextLine();
@@ -26,6 +30,7 @@ public class LoginScreen extends GesTADSUI {
 
         intent.putString(Intent.KEY_USERNAME, username);
         intent.putString(Intent.KEY_PASSWORD, password);
+        intent.putString(Intent.KEY_MATRICULA, matricula);
 
         BroadcastReceiver.sendBroadcast(intent);
 

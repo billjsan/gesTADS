@@ -14,13 +14,15 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     private final ExecutorService mExecutor;
     private static VolatileDataBase instance;
     private boolean isDBStarted;
-    private List<Employee> mEmployees = new ArrayList<>();
+    private final List<Employee> mEmployees = new ArrayList<>();
 
     private VolatileDataBase(){
+        // [LAS]
         mExecutor = Executors.newFixedThreadPool(3); // define o n de Threads para o executor
     }
 
     public static VolatileDataBase getInstance(){
+        // [LAS]
         if(instance == null){
             instance = new VolatileDataBase();
         }
@@ -28,11 +30,12 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     }
     @Override
     public void startUpDadaBase() {
+        // [LAS]
         mExecutor.submit(() -> {
             try {
                 Thread.sleep(5000);
-                if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName()
-                        + " Espera finalizada");
+                if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+                    GesLogger.d(TAG, Thread.currentThread(),"banco de dados inicializado");
                 isDBStarted = true;
                 closeDataBase();
             } catch (InterruptedException e) {
@@ -43,8 +46,8 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
 
     @Override
     public void closeDataBase() {
-        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName()
-                + " closeDataBase");
+        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG,
+                Thread.currentThread(),"closeDataBase");
         mExecutor.shutdown();
         try {
             if (!mExecutor.awaitTermination(1, TimeUnit.SECONDS)) {
@@ -58,21 +61,23 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
 
     @Override
     public boolean isDBInitialized() {
+        // [LAS]
         return isDBStarted;
     }
 
     @Override
     public void executeInsertQuery(String query) {
-
+        // [LAS]
     }
 
     @Override
     public void allOtherMethods() {
-
+        // [LAS]
     }
 
     @Override
     public Employee getEmployeeByMatricula(String matricula) {
+        // [LAS]
         for (Employee e: mEmployees){
             if(e.getMatricula().equals(matricula)){
                 return e;
@@ -83,6 +88,20 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
 
     @Override
     public void insertEmployee(Employee employee) {
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(),"insertEmployee: login " + employee.getLogin()
+            + " senha: " + employee.getSenha() + " matricula: " + employee.getMatricula());
+
         mEmployees.add(employee);
+    }
+
+    @Override
+    public boolean isEmptyDB() {
+        return mEmployees.isEmpty();
+    }
+
+    @Override
+    public List<Employee> getEmployees() {
+        return new ArrayList<>(mEmployees);
     }
 }

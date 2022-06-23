@@ -6,6 +6,7 @@ import src.util.tools.GesLogger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -96,6 +97,16 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
     @Override
     public void insertEmployee(Employee employee) {
 
+    }
+
+    @Override
+    public boolean isEmptyDB() {
+        return true;
+    }
+
+    @Override
+    public List<Employee> getEmployees() {
+        return null;
     }
 
 

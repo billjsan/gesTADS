@@ -18,26 +18,49 @@ public class Repository {
     //private final List<String> teste = Collections.synchronizedList(new ArrayList<>());
 
     private Repository(){
-        mDB = VolatileDataBase.getInstance(); //operacao sincrona na thread main
-        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName()
-                + " antes de iniciar outa thread");
+        // [ICS] - talvez usar uma factory recebendo uma flag pra cada impl do GesTADSDataBaseInterface
+        mDB = VolatileDataBase.getInstance();
+        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread(),
+                "antes de iniciar outa thread");
 
-        mDB.startUpDadaBase(); // inicia uma thread de execução
-        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName()
-                + " depois de iniciar outa thread");
+        mDB.startUpDadaBase();
+        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread(),
+                "depois de iniciar outa thread");
+
     }
 
-    public boolean checkDb(){
-        System.out.println("is db ok: " + mDB.isDBInitialized());
-        return mDB.isDBInitialized();
+    //[CDS]
+    public void startRepository(){
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "startRepository");
+
+        if(!mDB.isDBInitialized()){
+
+            //mDB.startUpDadaBase();
+        }
+
+        if(mDB.isEmptyDB()){
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+                GesLogger.d(TAG, Thread.currentThread(), "DadaBase empty");
+
+            Employee root = new Employee();
+            root.setLogin("admin");
+            root.setSenha("admin");
+            root.setMatricula("admin");
+            root.setPrivilegio(Employee.PRIVILEGE_ADMIN);
+            mDB.insertEmployee(root);
+            return;
+        }
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "DB not empty");
     }
 
     public static Repository getInstance(){  //singleton nullable
         if(instance == null){
             instance = new Repository();
         }
-        if(GesLogger.ISFULLLOGABLE) GesLogger.d("Repository", Thread.currentThread().getName() +
-                " vou retornar uma instacia de repository");
+        if(GesLogger.ISFULLLOGABLE) GesLogger.d("Repository", Thread.currentThread(),
+                "getInstance");
         return instance;
     }
 
@@ -46,12 +69,15 @@ public class Repository {
     }
 
     public List<Employee> getEmployees() {
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getEmployees");
 
-        return new ArrayList<>();
+        return new ArrayList<>(mDB.getEmployees());
     }
 
     public Employee getEmployeeByMatricula(String matricula) {
-        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread(), "getEmployeeByMatricula");
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getEmployeeByMatricula matricula: " + matricula);
         if(mDB.isDBInitialized()){
             return mDB.getEmployeeByMatricula(matricula); //[refactor] pensar sobre abordagem em outra thread
         }
