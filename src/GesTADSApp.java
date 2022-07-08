@@ -8,10 +8,9 @@ import src.control.Control;
 // adicao de documentacao no futuro = [CDS]
 public class GesTADSApp {
     public static void main(String[] args) {
+        // [ICS] adicionar uma intent que recebe
+        // argumentos ao inicializar o programa
+        // que decide o tipo da UI e do DB
         new Control().startApplication();
-//        Operator operator = new Operator();
-//        operator.setRg("willian santos");
     }
 }
-
-

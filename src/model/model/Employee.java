@@ -12,19 +12,19 @@ public class Employee {
     public static int PRIVILEGE_OPERATOR = 1;
 
     //Dados da empresa [CDS]
-    private String nome = "";
-    private String senha = "";
+    private String mNome = "";
+    private String mSenha = "";
     protected int mPrivilegio = 0;
-    private String cargo = "";
-    private Date admissao = new Date();
+    private String mCargo = "";
+    private Date mAdmissao = new Date();
 
     //Dados do usuario [CDS]
-    private String sexo = "";
-    private String cpf = "";
-    private String rg = "";
-    private String endereco = "";
-    private String estadoCivil = "";
-    private String matricula = "";
+    private String mSexo = "";
+    private String mCpf = "";
+    private String mRg = "";
+    private String mEndereco = "";
+    private String mEstadoCivil = "";
+    private String mMatricula = "";
     private String mLogin;
 
     EmployeeBehavior  mEmployeeBehavior;
@@ -33,20 +33,20 @@ public class Employee {
         //[LAS]
     }
 
-    public Employee(String nome,String login, String senha, String cargo, Date admissao, String sexo,
+    public Employee(String nome, String login, String senha, String cargo, Date admissao, String sexo,
                     String cpf, String rg, String endereco, String estadoCivil, String matricula) {
         //[LAS]
-        this.nome = nome;
+        this.mNome = nome;
         this.mLogin = login;
-        this.senha = senha;
-        this.cargo = cargo;
-        this.admissao = admissao;
-        this.sexo = sexo;
-        this.cpf = cpf;
-        this.rg = rg;
-        this.endereco = endereco;
-        this.estadoCivil = estadoCivil;
-        this.matricula = matricula;
+        this.mSenha = senha;
+        this.mCargo = cargo;
+        this.mAdmissao = admissao;
+        this.mSexo = sexo;
+        this.mCpf = cpf;
+        this.mRg = rg;
+        this.mEndereco = endereco;
+        this.mEstadoCivil = estadoCivil;
+        this.mMatricula = matricula;
     }
 
     public EmployeeBehavior getEmployeeBehavior() {
@@ -61,32 +61,32 @@ public class Employee {
 
     public String getMatricula() {
         //[LAS]
-        return matricula;
+        return mMatricula;
     }
 
-    public void setMatricula(String matricula) {
+    public void setMatricula(String mMatricula) {
         //[LAS]
-        this.matricula = matricula;
+        this.mMatricula = mMatricula;
     }
 
     public String getNome() {
         //[LAS]
-        return nome;
+        return mNome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(String mNome) {
         //[LAS]
-        this.nome = nome;
+        this.mNome = mNome;
     }
 
     public String getSenha() {
         //[LAS]
-        return senha;
+        return mSenha;
     }
 
-    public final void setSenha(String senha) {
+    public final void setSenha(String mSenha) {
         //[LAS]
-        this.senha = senha;
+        this.mSenha = mSenha;
 //        MessageDigest md = null;
 //        try {
 //            md = MessageDigest.getInstance("SHA-256");
@@ -104,50 +104,50 @@ public class Employee {
 
     public String getCargo() {
         //[LAS]
-        return cargo;
+        return mCargo;
     }
 
-    public void setCargo(String cargo) {
+    public void setCargo(String mCargo) {
         //[LAS]
-        this.cargo = cargo;
+        this.mCargo = mCargo;
     }
 
     public Date getAdmissao() {
         //[LAS]
-        return admissao;
+        return mAdmissao;
     }
 
-    public void setAdmissao(Date admissao) {
+    public void setAdmissao(Date mAdmissao) {
         //[LAS]
-        this.admissao = admissao;
+        this.mAdmissao = mAdmissao;
     }
 
     public String getSexo() {
         //[LAS]
-        return sexo;
+        return mSexo;
     }
 
-    public void setSexo(String sexo) {
+    public void setSexo(String mSexo) {
         //[LAS]
-        this.sexo = sexo;
+        this.mSexo = mSexo;
     }
 
     public String getCpf() {
         //[LAS]
-        return cpf;
+        return mCpf;
     }
 
-    public void setCpf(String cpf) {
+    public void setCpf(String mCpf) {
         //[LAS]
-        this.cpf = cpf;
+        this.mCpf = mCpf;
     }
 
     public String getRg() {
         //[LAS]
-        return rg;
+        return mRg;
     }
 
-    public void setRg(String rg) {
+    public void setRg(String mRg) {
         //[LAS]
     }
 
@@ -164,22 +164,22 @@ public class Employee {
 
     public String getEndereco() {
         //[LAS]
-        return endereco;
+        return mEndereco;
     }
 
-    public void setEndereco(String endereco) {
+    public void setEndereco(String mEndereco) {
         //[LAS]
-        this.endereco = endereco;
+        this.mEndereco = mEndereco;
     }
 
     public String getEstadoCivil() {
         //[LAS]
-        return estadoCivil;
+        return mEstadoCivil;
     }
 
-    public void setEstadoCivil(String estadoCivil) {
+    public void setEstadoCivil(String mEstadoCivil) {
         //[LAS]
-        this.estadoCivil = estadoCivil;
+        this.mEstadoCivil = mEstadoCivil;
     }
 
     public String getLogin() {

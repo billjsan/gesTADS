@@ -59,11 +59,26 @@ public class CadastroScreen extends GesTADSUI {
         System.out.println("Please re-insert password: ");
         String passwordConfirm = scanner.nextLine();
 
+        System.out.println("Please RG");
+        String rg = scanner.nextLine();
+
+        System.out.println("Please insert address");
+        String address = scanner.nextLine();
+
         intent.putString(Intent.KEY_USERNAME, username);
         intent.putString(Intent.KEY_PASSWORD, password);
         intent.putString(Intent.KEY_PASSWORD_CONFIRM, passwordConfirm);
         intent.putString(Intent.KEY_NAME, name);
         intent.putString(Intent.KEY_CPF, cpf);
+        intent.putString(Intent.KEY_RG, rg);
+        intent.putString(Intent.KEY_ENDERECO, address);
+
+        //completar
+        intent.putString(Intent.KEY_PRIVILEGE, "address");
+        intent.putString(Intent.KEY_ADMISSAO, address);
+        intent.putString(Intent.KEY_CARGO, address);
+        intent.putString(Intent.KEY_ESTADO_CIVIL, address);
+        intent.putString(Intent.KEY_SEXO, address);
 
         BroadcastReceiver.sendBroadcast(intent);
     }

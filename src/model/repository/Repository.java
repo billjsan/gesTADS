@@ -20,10 +20,12 @@ public class Repository {
     private Repository(){
         // [ICS] - talvez usar uma factory recebendo uma flag pra cada impl do GesTADSDataBaseInterface
         mDB = VolatileDataBase.getInstance();
+        // [LAS] melhoria do log
         if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread(),
                 "antes de iniciar outa thread");
 
         mDB.startUpDadaBase();
+        // [LAS] melhoria do log
         if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread(),
                 "depois de iniciar outa thread");
 
@@ -39,7 +41,7 @@ public class Repository {
             //mDB.startUpDadaBase();
         }
 
-        if(mDB.isEmptyDB()){
+        if(mDB.getEmployees().isEmpty()){
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                 GesLogger.d(TAG, Thread.currentThread(), "DadaBase empty");
 
@@ -55,17 +57,13 @@ public class Repository {
             GesLogger.d(TAG, Thread.currentThread(), "DB not empty");
     }
 
-    public static Repository getInstance(){  //singleton nullable
+    public static Repository getInstance(){
         if(instance == null){
             instance = new Repository();
         }
         if(GesLogger.ISFULLLOGABLE) GesLogger.d("Repository", Thread.currentThread(),
                 "getInstance");
         return instance;
-    }
-
-    public HashMap<String, String> getCredentialsInfo() {
-       return new HashMap<String, String>();
     }
 
     public List<Employee> getEmployees() {

@@ -89,7 +89,7 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     @Override
     public void insertEmployee(Employee employee) {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
-            GesLogger.d(TAG, Thread.currentThread(),"insertEmployee: login " + employee.getLogin()
+            GesLogger.d(TAG, Thread.currentThread(),"insert default employee: login " + employee.getLogin()
             + " senha: " + employee.getSenha() + " matricula: " + employee.getMatricula());
 
         mEmployees.add(employee);
@@ -97,7 +97,7 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
 
     @Override
     public boolean isEmptyDB() {
-        return mEmployees.isEmpty();
+        return true; //mEmployees.isEmpty();
     }
 
     @Override

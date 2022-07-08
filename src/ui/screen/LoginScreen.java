@@ -12,9 +12,23 @@ public class LoginScreen extends GesTADSUI {
     private final String TAG = "LoginScreen";
 
     @Override
+    public void onCreated() {
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "onCreated");
+        super.onCreated();
+    }
+
+    @Override
+    public void onStart() {
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "onStart");
+        super.onStart();
+    }
+
+    @Override
     public void createView() {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, "createView");
+            GesLogger.d(TAG, Thread.currentThread(),"createView");
 
 
         Scanner scanner = new Scanner(System.in);
@@ -35,5 +49,12 @@ public class LoginScreen extends GesTADSUI {
         BroadcastReceiver.sendBroadcast(intent);
 
         onDestroy();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(),"onDestroy");
+        super.onDestroy();
     }
 }

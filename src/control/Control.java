@@ -1,7 +1,6 @@
 package src.control;
 
 import src.model.model.Employee;
-import src.model.model.EmployeeBehavior;
 import src.model.repository.Repository;
 import src.ui.UIManager;
 import src.util.tools.BroadcastReceiver;
@@ -22,7 +21,8 @@ public class Control extends BroadcastReceiver {
 
     public Control(){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(),"Control constuctor");
+            GesLogger.d(TAG, Thread.currentThread(),"constuctor");
+
         mRepository = Repository.getInstance();
         mUIManager = UIManager.getInstance();
     }
@@ -39,9 +39,9 @@ public class Control extends BroadcastReceiver {
             // [LAS]
             if(!isLoggedIn){
                 mUIManager.startLoginUI();
-            }else {
-                mUIManager.startHomeUI(mCurrentUser.getPrivilegio());
-            }
+            }//else  {
+//                mUIManager.startHomeUI(mCurrentUser.getPrivilegio());
+//            }
         }
     }
 
@@ -76,7 +76,15 @@ public class Control extends BroadcastReceiver {
                 newUser.setLogin(intent.getString(Intent.KEY_USERNAME));
                 newUser.setSenha(intent.getString(Intent.KEY_PASSWORD));
                 newUser.setCpf(intent.getString(Intent.KEY_CPF));
+                newUser.setRg(intent.getString(Intent.KEY_RG));
+                newUser.setSexo(intent.getString(Intent.KEY_SEXO));
+                newUser.setEstadoCivil(intent.getString(Intent.KEY_ESTADO_CIVIL));
+                newUser.setCargo(intent.getString(Intent.KEY_CARGO));
+                newUser.setMatricula(intent.getString(Intent.KEY_MATRICULA));
+                newUser.setEndereco(intent.getString(Intent.KEY_ENDERECO));
+                newUser.setPrivilegio(intent.getInt(Intent.KEY_PRIVILEGE));
 
+                //newUser.setAdmissao(intent.getString(Intent.KEY_ADMISSAO));
                 mRepository.addEmployee(newUser);
                 break;
         }

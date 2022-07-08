@@ -5,13 +5,15 @@ import src.ui.screen.LoginScreen;
 import src.util.tools.GesLogger;
 import src.util.tools.Intent;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 public class UIManager {
     private final String TAG = UIManager.class.getSimpleName();
 
     private static UIManager instance;
 
     private UIManager(){
-        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, "UIManager instantiation");
+        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, "instantiation");
     }
 
     public static UIManager getInstance(){
@@ -29,10 +31,19 @@ public class UIManager {
     }
 
     public void startLoginUI() {
+        //[LAS]
         new LoginScreen();
+//        ExecutorService executorService = Executors.newSingleThreadExecutor();
+//        executorService.submit(new Runnable() {
+//            @Override
+//            public void run() {
+//                new LoginScreen();
+//            }
+//        });
     }
 
     public void startHomeUI(Integer currentPrivilege) {
+        //[LAS]
     }
 
     public void startFirstLoginScreen() {

@@ -9,6 +9,7 @@ public interface GesTADSDataBaseInterface {
     void closeDataBase();
     boolean isDBInitialized();
     void executeInsertQuery(String query);
+
     /** abaixo virão todos os metodos que irão
      * efetivamente manipular o banco de dados.
      * inserir, remover, buscar, etc. As queries

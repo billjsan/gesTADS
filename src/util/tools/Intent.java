@@ -72,12 +72,12 @@ public class Intent implements Serializable {
         this.mIntMap.put(key, integer);
     }
 
-    final public Integer getInt(String key) {
+    final public int getInt(String key) {
         // [LAS]
         if (mIntMap.containsKey(key)) {
             return mIntMap.get(key);
         }
-        return null;
+        return -1;
     }
 
     final public String getString(String key) {
