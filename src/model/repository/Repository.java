@@ -18,43 +18,34 @@ public class Repository {
     //private final List<String> teste = Collections.synchronizedList(new ArrayList<>());
 
     private Repository(){
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, Thread.currentThread(),
+                "Repository constructor");
+        
         // [ICS] - talvez usar uma factory recebendo uma flag pra cada impl do GesTADSDataBaseInterface
         mDB = VolatileDataBase.getInstance();
         // [LAS] melhoria do log
-        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread(),
-                "antes de iniciar outa thread");
-
-        mDB.startUpDadaBase();
-        // [LAS] melhoria do log
-        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread(),
-                "depois de iniciar outa thread");
-
     }
 
     //[CDS]
     public void startRepository(){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "startRepository");
-
-        if(!mDB.isDBInitialized()){
-
-            //mDB.startUpDadaBase();
-        }
-
-        if(mDB.getEmployees().isEmpty()){
-            if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-                GesLogger.d(TAG, Thread.currentThread(), "DadaBase empty");
-
-            Employee root = new Employee();
-            root.setLogin("admin");
-            root.setSenha("admin");
-            root.setMatricula("admin");
-            root.setPrivilegio(Employee.PRIVILEGE_ADMIN);
-            mDB.insertEmployee(root);
-            return;
-        }
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "DB not empty");
+        
+        mDB.startUpDadaBase();
+//        if(mDB.getEmployees().isEmpty()){
+//            if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+//                GesLogger.d(TAG, Thread.currentThread(), "DadaBase empty");
+//
+//            Employee root = new Employee();
+//            root.setLogin("admin");
+//            root.setSenha("admin");
+//            root.setMatricula("admin");
+//            root.setPrivilegio(Employee.PRIVILEGE_ADMIN);
+//            mDB.insertEmployee(root);
+//            return;
+//        }
+//        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+//            GesLogger.d(TAG, Thread.currentThread(), "DB not empty");
     }
 
     public static Repository getInstance(){
@@ -84,5 +75,12 @@ public class Repository {
 
     public void addEmployee(Employee employee) {
         mDB.insertEmployee(employee);
+    }
+
+    public boolean isDbReady() {
+        boolean response = mDB.isDBInitialized();
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "isDbReady: " + response);
+        return response;
     }
 }

@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 public class CadastroScreen extends GesTADSUI {
 
+
     private final String TAG = "CadastroScreen";
 
     public CadastroScreen(Intent intent) {
@@ -18,8 +19,8 @@ public class CadastroScreen extends GesTADSUI {
     }
 
     @Override
-    public void onCreated() {
-        super.onCreated();
+    public void onCreate() {
+        super.onCreate();
     }
 
     @Override

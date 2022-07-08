@@ -30,14 +30,17 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     }
     @Override
     public void startUpDadaBase() {
-        // [LAS]
+
         mExecutor.submit(() -> {
             try {
+                if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+                    GesLogger.d(TAG, Thread.currentThread(),"startUpDadaBase");
+
                 Thread.sleep(5000);
                 if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                     GesLogger.d(TAG, Thread.currentThread(),"banco de dados inicializado");
                 isDBStarted = true;
-                closeDataBase();
+                //closeDataBase();
             } catch (InterruptedException e) {
                 if(GesLogger.ISFULLLOGABLE) GesLogger.e(TAG, e.getMessage());
             }

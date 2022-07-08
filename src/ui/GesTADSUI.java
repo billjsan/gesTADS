@@ -9,14 +9,13 @@ import java.util.concurrent.Executors;
 public abstract class GesTADSUI {
 
     private final String TAG = GesTADSUI.class.getSimpleName();
-
     protected Intent mContextIntent;
     private ExecutorService mExecutor;
 
     public GesTADSUI() {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, "constructor");
-        onCreated();
+        onCreate();
         //newThread();
     }
 
@@ -25,7 +24,7 @@ public abstract class GesTADSUI {
             GesLogger.d(TAG, "constructor with Intent");
 
         this.mContextIntent = intent;
-        onCreated();
+        onCreate();
         //newThread();
     }
 
@@ -41,7 +40,7 @@ public abstract class GesTADSUI {
         });
     }
 
-    public void onCreated() {
+    public void onCreate() {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, "onCreated");
         onStart();

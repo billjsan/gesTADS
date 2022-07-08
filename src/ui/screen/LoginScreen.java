@@ -11,11 +11,15 @@ public class LoginScreen extends GesTADSUI {
 
     private final String TAG = "LoginScreen";
 
+    LoginScreen(Intent intent){
+        super(intent);
+    }
+
     @Override
-    public void onCreated() {
+    public void onCreate() {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "onCreated");
-        super.onCreated();
+        super.onCreate();
     }
 
     @Override
@@ -29,7 +33,6 @@ public class LoginScreen extends GesTADSUI {
     public void createView() {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(),"createView");
-
 
         Scanner scanner = new Scanner(System.in);
 

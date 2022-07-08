@@ -21,7 +21,7 @@ public class Control extends BroadcastReceiver {
 
     public Control(){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(),"constuctor");
+            GesLogger.d(TAG, Thread.currentThread(),"Control constuctor");
 
         mRepository = Repository.getInstance();
         mUIManager = UIManager.getInstance();
@@ -38,7 +38,7 @@ public class Control extends BroadcastReceiver {
         while(shouldRun){
             // [LAS]
             if(!isLoggedIn){
-                mUIManager.startLoginUI();
+                mUIManager.startLoginUI(null);
             }//else  {
 //                mUIManager.startHomeUI(mCurrentUser.getPrivilegio());
 //            }
@@ -57,36 +57,54 @@ public class Control extends BroadcastReceiver {
                 if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                     GesLogger.d(TAG, Thread.currentThread(), "ACTION_LOGIN");
 
-                String login = intent.getString(Intent.KEY_USERNAME);
-                String pass = intent.getString(Intent.KEY_PASSWORD);
-                String matricula = intent.getString(Intent.KEY_MATRICULA);
-
-                if(isValidCredential(matricula, login, pass)){
-                    isLoggedIn = true;
-                    shouldRun = false;
-                }
+                login(intent);
                 break;
 
             case Intent.ACTION_REGISTER:
                 if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                     GesLogger.d(TAG, "ACTION_REGISTER");
 
-                Employee newUser = new Employee();
-                newUser.setNome(intent.getString(Intent.KEY_NAME));
-                newUser.setLogin(intent.getString(Intent.KEY_USERNAME));
-                newUser.setSenha(intent.getString(Intent.KEY_PASSWORD));
-                newUser.setCpf(intent.getString(Intent.KEY_CPF));
-                newUser.setRg(intent.getString(Intent.KEY_RG));
-                newUser.setSexo(intent.getString(Intent.KEY_SEXO));
-                newUser.setEstadoCivil(intent.getString(Intent.KEY_ESTADO_CIVIL));
-                newUser.setCargo(intent.getString(Intent.KEY_CARGO));
-                newUser.setMatricula(intent.getString(Intent.KEY_MATRICULA));
-                newUser.setEndereco(intent.getString(Intent.KEY_ENDERECO));
-                newUser.setPrivilegio(intent.getInt(Intent.KEY_PRIVILEGE));
-
-                //newUser.setAdmissao(intent.getString(Intent.KEY_ADMISSAO));
-                mRepository.addEmployee(newUser);
+                register(intent);
                 break;
+        }
+    }
+
+    private void register(Intent intent) {
+        Employee newUser = new Employee();
+        newUser.setNome(intent.getString(Intent.KEY_NAME));
+        newUser.setLogin(intent.getString(Intent.KEY_USERNAME));
+        newUser.setSenha(intent.getString(Intent.KEY_PASSWORD));
+        newUser.setCpf(intent.getString(Intent.KEY_CPF));
+        newUser.setRg(intent.getString(Intent.KEY_RG));
+        newUser.setSexo(intent.getString(Intent.KEY_SEXO));
+        newUser.setEstadoCivil(intent.getString(Intent.KEY_ESTADO_CIVIL));
+        newUser.setCargo(intent.getString(Intent.KEY_CARGO));
+        newUser.setMatricula(intent.getString(Intent.KEY_MATRICULA));
+        newUser.setEndereco(intent.getString(Intent.KEY_ENDERECO));
+        newUser.setPrivilegio(intent.getInt(Intent.KEY_PRIVILEGE));
+
+        //newUser.setAdmissao(intent.getString(Intent.KEY_ADMISSAO));
+        mRepository.addEmployee(newUser);
+    }
+
+    private void login(Intent intent) {
+        String login = intent.getString(Intent.KEY_USERNAME);
+        String pass = intent.getString(Intent.KEY_PASSWORD);
+        String matricula = intent.getString(Intent.KEY_MATRICULA);
+
+        System.out.println("esperando DB");
+
+        do {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }while (!mRepository.isDbReady());
+
+        if(isValidCredential(matricula, login, pass)){
+            isLoggedIn = true;
+            shouldRun = false;
         }
     }
 

@@ -1,19 +1,18 @@
 package src.ui;
 
 import src.ui.screen.CadastroScreen;
-import src.ui.screen.LoginScreen;
 import src.util.tools.GesLogger;
 import src.util.tools.Intent;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 public class UIManager {
     private final String TAG = UIManager.class.getSimpleName();
 
     private static UIManager instance;
+    private final GesTADSScreensInterface mInterface;
 
     private UIManager(){
-        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, "instantiation");
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, "instantiation");
+        mInterface = UIFactory.getInterface(UIFactory.NO_UI);
     }
 
     public static UIManager getInstance(){
@@ -30,9 +29,10 @@ public class UIManager {
         //[ICS]
     }
 
-    public void startLoginUI() {
+    public void startLoginUI(Intent intent) {
         //[LAS]
-        new LoginScreen();
+        mInterface.loginScreen(intent);
+//        new LoginScreen();
 //        ExecutorService executorService = Executors.newSingleThreadExecutor();
 //        executorService.submit(new Runnable() {
 //            @Override
