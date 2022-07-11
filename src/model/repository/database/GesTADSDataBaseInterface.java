@@ -33,4 +33,8 @@ public interface GesTADSDataBaseInterface {
     boolean isEmptyDB();
 
     List<Employee> getEmployees();
+
+    List<String> getPositions();
+
+    void setPosition(String position);
 }

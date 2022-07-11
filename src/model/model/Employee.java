@@ -1,7 +1,5 @@
 package src.model.model;
 
-import java.util.Date;
-
 public class Employee {
 
     private final String TAG = Employee.class.getSimpleName();
@@ -11,12 +9,16 @@ public class Employee {
     public static int PRIVILEGE_SUPERVISOR = 2;
     public static int PRIVILEGE_OPERATOR = 1;
 
+    public static final String POSITION_ADMIN = "Administrador";
+    public static final String POSITION_SUPERVISOR = "Supervisor";
+    public static final String POSITION_OPERADOR = "Operador";
+
     //Dados da empresa [CDS]
     private String mNome = "";
     private String mSenha = "";
     protected int mPrivilegio = 0;
     private String mCargo = "";
-    private Date mAdmissao = new Date();
+    private String mAdmissao = "";
 
     //Dados do usuario [CDS]
     private String mSexo = "";
@@ -33,7 +35,7 @@ public class Employee {
         //[LAS]
     }
 
-    public Employee(String nome, String login, String senha, String cargo, Date admissao, String sexo,
+    public Employee(String nome, String login, String senha, String cargo, String admissao, String sexo,
                     String cpf, String rg, String endereco, String estadoCivil, String matricula) {
         //[LAS]
         this.mNome = nome;
@@ -47,6 +49,8 @@ public class Employee {
         this.mEndereco = endereco;
         this.mEstadoCivil = estadoCivil;
         this.mMatricula = matricula;
+
+        setPrivilege();
     }
 
     public EmployeeBehavior getEmployeeBehavior() {
@@ -110,14 +114,15 @@ public class Employee {
     public void setCargo(String mCargo) {
         //[LAS]
         this.mCargo = mCargo;
+        setPrivilege();
     }
 
-    public Date getAdmissao() {
+    public String getAdmissao() {
         //[LAS]
         return mAdmissao;
     }
 
-    public void setAdmissao(Date mAdmissao) {
+    public void setAdmissao(String mAdmissao) {
         //[LAS]
         this.mAdmissao = mAdmissao;
     }
@@ -195,5 +200,27 @@ public class Employee {
     public void setPrivilegio(int mPrivilegio) {
         //[LAS]
         this.mPrivilegio = mPrivilegio;
+    }
+
+    private void setPrivilege(){
+        //[LAS]
+
+        if (mCargo == null || mCargo.isEmpty()){
+            setPrivilegio(Employee.PRIVILEGE_OPERATOR);
+        }else {
+            switch (mCargo){
+                case Employee.POSITION_ADMIN:
+                    setPrivilegio(Employee.PRIVILEGE_ADMIN);
+                    break;
+
+                case Employee.POSITION_SUPERVISOR:
+                    setPrivilegio(Employee.PRIVILEGE_SUPERVISOR);
+                    break;
+
+                case Employee.POSITION_OPERADOR:
+                    setPrivilegio(Employee.PRIVILEGE_OPERATOR);
+                    break;
+            }
+        }
     }
 }

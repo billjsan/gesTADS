@@ -18,7 +18,15 @@ public class Intent implements Serializable {
     public static final int ACTION_UI_FLAG = 1004;
     public static final int ACTION_SEARCH = 1005;
     public static final int ACTION_INSERT = 1006;
-    public static final int ACTION_AUTENTICATE = 1007;
+    public static final int ACTION_QUIT = 1007 ;
+    public static final int ACTION_CHECK_CREDENTIALS = 1008;
+    public static final int ACTION_VALIDATE_NEW_USER = 1009;
+
+    public static final int LAUNCH_REGISTER_SCREEN = 2000;
+    public static final int LAUNCH_LOGIN_SCREEN = 2001;
+    public static final int LAUNCH_MAIN_SCREEN = 2002;
+    public static final int LAUNCH_ALERT_SCREEN = 2003;
+    public static final int LAUNCH_REMOVE_USER_SCREEN = 2004;
 
     //Keys [CDS]
     public static final String KEY_USERNAME = "key_username";
@@ -34,9 +42,15 @@ public class Intent implements Serializable {
     public static final String KEY_RG = "key_rg";
     public static final String KEY_ENDERECO = "key_endereco";
     public static final String KEY_ESTADO_CIVIL = "key_estado_civil";
+    public static final String KEY_DATA_POSITIONS = "key_data_positions";
+    public static final String KEY_MESSAGE_DIALOG = "key_message_dialog";
 
     //Flags [CDS]
     public static final int FLAG_FIRST_LOGIN = -1;
+    public static final int FLAG_POSITIONS_DATA = -2;
+    public static final int FLAG_SEARCH_BY_CPF = -3;
+    public static final int FLAG_SEARCH_BY_NOME = -4;
+    public static final int FLAG_SEARCH_BY_MATRICULA = -5;
 
     private final HashMap<String, Integer> mIntMap = new HashMap<>();
     private final HashMap<String, String> mStringMap = new HashMap<>();
@@ -102,4 +116,5 @@ public class Intent implements Serializable {
         // [LAS]
         return new ArrayList<>(mFlagsList);
     }
+
 }

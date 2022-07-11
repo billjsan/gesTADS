@@ -109,6 +109,17 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
         return null;
     }
 
+    @Override
+    public List<String> getPositions() {
+        return null;
+    }
+
+    @Override
+    public void setPosition(String position) {
+
+
+    }
+
 
     private void testaConexao(){
         try {

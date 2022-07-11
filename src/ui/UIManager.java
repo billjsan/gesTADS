@@ -1,6 +1,6 @@
 package src.ui;
 
-import src.ui.screen.CadastroScreen;
+import src.ui.screen.RegisterScreen;
 import src.util.tools.GesLogger;
 import src.util.tools.Intent;
 
@@ -11,7 +11,7 @@ public class UIManager {
     private final GesTADSScreensInterface mInterface;
 
     private UIManager(){
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, "instantiation");
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, "UIManager constructor");
         mInterface = UIFactory.getInterface(UIFactory.NO_UI);
     }
 
@@ -42,8 +42,10 @@ public class UIManager {
 //        });
     }
 
-    public void startHomeUI(Integer currentPrivilege) {
+    public void startHomeUI(Intent intent) {
         //[LAS]
+
+        mInterface.homeScreen(intent);
     }
 
     public void startFirstLoginScreen() {
@@ -52,6 +54,22 @@ public class UIManager {
 
         Intent intent = new Intent(Intent.ACTION_UI_FLAG);
         intent.putFlag(Intent.FLAG_FIRST_LOGIN);
-        new CadastroScreen(intent);
+        new RegisterScreen(intent);
+    }
+
+    public void startMainUI(Intent intent) {
+        mInterface.mainScreen(intent);
+    }
+
+    public void startRegisterUI(Intent intent) {
+        mInterface.registerScreen(intent);
+    }
+
+    public void startDialogUI(Intent intent) {
+        mInterface.dialogScreen(intent);
+    }
+
+    public void startRemoveUI(Intent intent) {
+        mInterface.removeScreen(intent);
     }
 }
