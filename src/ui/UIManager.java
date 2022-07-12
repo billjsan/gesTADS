@@ -1,6 +1,6 @@
 package src.ui;
 
-import src.ui.screen.RegisterScreen;
+import src.ui.screen.RegisterEmployeeScreen;
 import src.util.tools.GesLogger;
 import src.util.tools.Intent;
 
@@ -8,7 +8,7 @@ public class UIManager {
     private final String TAG = UIManager.class.getSimpleName();
 
     private static UIManager instance;
-    private final GesTADSScreensInterface mInterface;
+    private final GesTADSSUIInterface mInterface;
 
     private UIManager(){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, "UIManager constructor");
@@ -54,7 +54,7 @@ public class UIManager {
 
         Intent intent = new Intent(Intent.ACTION_UI_FLAG);
         intent.putFlag(Intent.FLAG_FIRST_LOGIN);
-        new RegisterScreen(intent);
+        new RegisterEmployeeScreen(intent);
     }
 
     public void startMainUI(Intent intent) {
@@ -71,5 +71,9 @@ public class UIManager {
 
     public void startRemoveUI(Intent intent) {
         mInterface.removeScreen(intent);
+    }
+
+    public void startSearchUI(Intent intent) {
+        mInterface.searchScreen(intent);
     }
 }

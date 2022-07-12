@@ -10,7 +10,7 @@ public abstract class BroadcastReceiver {
     private static final List<BroadcastReceiver> receivers = new ArrayList<>();
     private static ExecutorService mExecutor = null;
 
-    public BroadcastReceiver() {
+    protected BroadcastReceiver() {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(
                 TAG, Thread.currentThread(), "BroadcastReceiver constructor");
 

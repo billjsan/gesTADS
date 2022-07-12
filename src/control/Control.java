@@ -15,7 +15,6 @@ public class Control extends BroadcastReceiver {
 
     private final Repository mRepository;
     private final UIManager mUIManager;
-    private boolean shouldRun = true;
     private boolean isLoggedIn = false;
     private final String TAG = Control.class.getSimpleName();
     private volatile Employee mCurrentUser = null;
@@ -34,41 +33,29 @@ public class Control extends BroadcastReceiver {
     public void startApplication(){
         //[LAS]
 
-        //GesTADSApp.infoThread();
-
         mRepository.startRepository();
         mUIManager.startUIManager();
 
-        GesTADSApp.infoThread();
-
         mUIManager.startHomeUI(null);
-//        while(shouldRun){
-//            // [LAS]
-//            if(!isLoggedIn){
-//                mUIManager.startLoginUI(null);
-//            }//else  {
-////                mUIManager.startHomeUI(mCurrentUser.getPrivilegio());
-////            }
-//        }
     }
 
     @Override
-    public void onReceive(Intent intent) {
+    protected void onReceive(Intent intent) {
 
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, "onReceive");
         if(intent == null || intent.getAction() == null) return;
 
         //usecases
         switch (intent.getAction()){
-            case Intent.LAUNCH_REGISTER_SCREEN:
+            case Intent.ACTION_LAUNCH_REGISTER_SCREEN:
                 launchRegisterScreen(null);
                 break;
 
-            case Intent.LAUNCH_LOGIN_SCREEN:
+            case Intent.ACTION_LAUNCH_LOGIN_SCREEN:
                 launchLoginScreen(intent);
                 break;
 
-            case Intent.LAUNCH_REMOVE_USER_SCREEN:
+            case Intent.ACTION_LAUNCH_REMOVE_USER_SCREEN:
                 launchRemoveScreen(intent);
                 break;
 
@@ -79,6 +66,10 @@ public class Control extends BroadcastReceiver {
             case Intent.ACTION_LOGIN:
 
                 System.out.println("erro, nao deveria rodar a tela de login por aqui");
+                break;
+
+            case Intent.ACTION_SEARCH_EMPLOYEE:
+                searchEmployee(intent);
                 break;
 
             case Intent.ACTION_QUIT:
@@ -95,7 +86,48 @@ public class Control extends BroadcastReceiver {
         }
     }
 
+    private void searchEmployee(Intent intent) {
+        //[LAS]
+
+        if(intent == null || intent.getAction() != Intent.ACTION_SEARCH_EMPLOYEE) return;
+        List<Integer> flags = intent.getFlags();
+
+        if(flags.contains(Intent.FLAG_SEARCH_BY_CPF)){
+
+            mUIManager.startSearchUI(intent);
+
+        } else if (flags.contains(Intent.FLAG_SEARCH_BY_MATRICULA)) {
+
+            if(intent.getString(Intent.KEY_EMPLOYEE_MATRICULA) != null){
+                Employee emp = mRepository.getEmployeeByMatricula(intent.getString(Intent.KEY_EMPLOYEE_MATRICULA));
+
+                if(emp != null){
+                    Intent populatedIntent = populateIntentWithEmployee(Intent.ACTION_SEARCH_EMPLOYEE, emp);
+                    if(flags.contains(Intent.FLAG_REMOVING_USER_IN_PROGRESS)){
+                        populatedIntent.putFlag(Intent.FLAG_REMOVING_USER_IN_PROGRESS);
+                        mUIManager.startRemoveUI(populatedIntent);
+                    }
+                    mUIManager.startSearchUI(populatedIntent);
+                }
+            }else {
+
+                //matricula nao encontrada
+                mUIManager.startSearchUI(intent);
+            }
+
+        } else if (flags.contains(Intent.FLAG_SEARCH_BY_NOME)) {
+
+            //outr o algo
+        }else {
+            //mais lele
+        }
+
+    }
+
     private void launchRemoveScreen(Intent intent) {
+        //[LAS]
+
+        intent.putFlag(Intent.FLAG_REMOVING_USER_IN_PROGRESS);
         mUIManager.startRemoveUI(intent);
     }
 
@@ -120,15 +152,12 @@ public class Control extends BroadcastReceiver {
 
         if(mRepository.isDbReady()){
             List<Employee> employees = mRepository.getEmployees();
-            Employee newEmployee = populateUser(intent);
+            Employee newEmployee = populateEmployee(intent);
 
             for (Employee empl: employees) {
                 if(empl.getCpf().equals(newEmployee.getCpf())){
 
-                    Intent dialogIntent = new Intent(Intent.ACTION_UI_FLAG);
-                    dialogIntent.putString(Intent.KEY_MESSAGE_DIALOG, "Usuário ja cadastrado");
-
-                    mUIManager.startDialogUI(dialogIntent);
+                    showDialogUI("Usuário ja cadastrado");
 
                     if(isLoggedIn){
                         mUIManager.startMainUI(intent);
@@ -141,39 +170,40 @@ public class Control extends BroadcastReceiver {
 
             mRepository.addEmployee(newEmployee);
 
-            Intent dialogIntent = new Intent(Intent.ACTION_UI_FLAG);
-            dialogIntent.putString(Intent.KEY_MESSAGE_DIALOG, "Usuário cadastrado com sucesso");
-
-            mUIManager.startDialogUI(dialogIntent);
-
+            showDialogUI("Usuário cadastrado com sucesso");
             mUIManager.startMainUI(intent);
         }else {
 
-            Intent dialogIntent = new Intent(Intent.ACTION_UI_FLAG);
-            dialogIntent.putString(Intent.KEY_MESSAGE_DIALOG, "banco de dados offline");
-
-            mUIManager.startDialogUI(dialogIntent);
-
+            showDialogUI("banco de dados offline");
             mUIManager.startMainUI(intent);
         }
     }
 
-    private Employee populateUser(Intent intent) {
+    private void showDialogUI(String message){
+        //[LAS]
+
+        Intent dialogIntent = new Intent(Intent.ACTION_UI_FLAG);
+        dialogIntent.putString(Intent.KEY_MESSAGE_DIALOG, message);
+
+        mUIManager.startDialogUI(dialogIntent);
+    }
+
+    private Employee populateEmployee(Intent intent) {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "populateUser");
 
         return new Employee(
-                intent.getString(Intent.KEY_NAME),
-                intent.getString(Intent.KEY_USERNAME),
-                intent.getString(Intent.KEY_PASSWORD),
-                intent.getString(Intent.KEY_CARGO),
-                intent.getString(Intent.KEY_ADMISSAO),
-                intent.getString(Intent.KEY_SEXO),
-                intent.getString(Intent.KEY_CPF),
-                intent.getString(Intent.KEY_RG),
-                intent.getString(Intent.KEY_ENDERECO),
-                intent.getString(Intent.KEY_ESTADO_CIVIL),
-                intent.getString(Intent.KEY_MATRICULA)
+                intent.getString(Intent.KEY_EMPLOYEE_NAME),
+                intent.getString(Intent.KEY_EMPLOYEE_USERNAME),
+                intent.getString(Intent.KEY_EMPLOYEE_PASSWORD),
+                intent.getString(Intent.KEY_EMPLOYEE_CARGO),
+                intent.getString(Intent.KEY_EMPLOYEE_ADMISSAO),
+                intent.getString(Intent.KEY_EMPLOYEE_SEXO),
+                intent.getString(Intent.KEY_EMPLOYEE_CPF),
+                intent.getString(Intent.KEY_EMPLOYEE_RG),
+                intent.getString(Intent.KEY_EMPLOYEE_ENDERECO),
+                intent.getString(Intent.KEY_EMPLOYEE_ESTADO_CIVIL),
+                intent.getString(Intent.KEY_EMPLOYEE_MATRICULA)
         );
     }
 
@@ -186,7 +216,7 @@ public class Control extends BroadcastReceiver {
                 GesLogger.d(TAG, Thread.currentThread(), "credentials validated");
 
             isLoggedIn = true;
-            mUIManager.startMainUI(intent);
+            mUIManager.startMainUI(populateIntentWithEmployee(Intent.ACTION_UI_FLAG,mCurrentUser));
         }else {
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                 GesLogger.d(TAG, Thread.currentThread(), "credentials refused");
@@ -197,13 +227,33 @@ public class Control extends BroadcastReceiver {
 
     private boolean isValidCredentials(Intent intent) {
 
-        String login = intent.getString(Intent.KEY_USERNAME);
-        String pass = intent.getString(Intent.KEY_PASSWORD);
-        String mat = intent.getString(Intent.KEY_MATRICULA);
+        if(intent == null) return false;
+
+        String login = intent.getString(Intent.KEY_EMPLOYEE_USERNAME);
+        String pass = intent.getString(Intent.KEY_EMPLOYEE_PASSWORD);
+
+        if(login == null || pass == null) return false;
 
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE) GesLogger.d(TAG, Thread.currentThread(),
-                "isValidCredentials: login:" + login + " pass:" + pass + " mat:" + mat);
+                "isValidCredentials: login:" + login + " pass:" + pass);
 
+        awaitDatabase();
+
+        List<Employee> employees = mRepository.getEmployees();
+
+        for (Employee employee : employees) {
+            if(employee.getLogin().equals(login)){
+                if(employee.getSenha().equals(pass) && employee.getLogin().equals(login)){
+
+                    mCurrentUser = employee; //campo modificado aqui para evitar re-busca no aaray
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void awaitDatabase() {
         do {
             try {
                 System.out.println("Aguarde...");
@@ -212,19 +262,6 @@ public class Control extends BroadcastReceiver {
                 if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE) GesLogger.e(TAG, e.getMessage());
             }
         }while (!mRepository.isDbReady());
-
-        List<Employee> employees = mRepository.getEmployees();
-
-        for (Employee employee : employees) {
-            if(employee.getMatricula().equals(mat)){
-                if(employee.getSenha().equals(pass) && employee.getLogin().equals(login)){
-
-                    mCurrentUser = employee;
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     private void finalizeApp() {
@@ -242,6 +279,25 @@ public class Control extends BroadcastReceiver {
         mUIManager.startLoginUI(intent);
     }
 
+    private Intent populateIntentWithEmployee(int action, Employee employee){
+        //[LAS]
+
+        Intent intent = new Intent(action);
+        intent.putString(Intent.KEY_EMPLOYEE_NAME, employee.getNome());
+        intent.putString(Intent.KEY_EMPLOYEE_USERNAME, employee.getNome());
+        intent.putString(Intent.KEY_EMPLOYEE_CPF, employee.getNome());
+        intent.putString(Intent.KEY_EMPLOYEE_RG, employee.getNome());
+        intent.putString(Intent.KEY_EMPLOYEE_SEXO, employee.getNome());
+        intent.putString(Intent.KEY_EMPLOYEE_ENDERECO, employee.getNome());
+        intent.putString(Intent.KEY_EMPLOYEE_ESTADO_CIVIL, employee.getNome());
+        intent.putString(Intent.KEY_EMPLOYEE_MATRICULA, employee.getNome());
+        intent.putString(Intent.KEY_EMPLOYEE_CARGO, employee.getNome());
+        intent.putString(Intent.KEY_EMPLOYEE_ADMISSAO, employee.getNome());
+        intent.putString(Intent.KEY_EMPLOYEE_PRIVILEGE, employee.getNome());
+
+        return intent;
+    }
+
     private void launchRegisterScreen(Intent intent) {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, "launchRegisterScreen");
@@ -251,7 +307,7 @@ public class Control extends BroadcastReceiver {
 
             //lista de cargos
             intent.putFlag(Intent.FLAG_POSITIONS_DATA);
-            intent.putList(Intent.KEY_DATA_POSITIONS, mRepository.getPositions());
+            intent.putList(Intent.KEY_DATA_CARGOS, mRepository.getPositions());
         }
 
         mUIManager.startRegisterUI(intent);

@@ -52,12 +52,12 @@ public class MainScreen extends GesTADSUI {
                     break;
 
                 case "2":
-                    i = new Intent(Intent.LAUNCH_REGISTER_SCREEN);
+                    i = new Intent(Intent.ACTION_LAUNCH_REGISTER_SCREEN);
                     match = true;
                     break;
 
                 case "3":
-                    i = new Intent(Intent.LAUNCH_REMOVE_USER_SCREEN);
+                    i = new Intent(Intent.ACTION_LAUNCH_REMOVE_USER_SCREEN);
                     match = true;
                     break;
 

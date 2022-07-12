@@ -5,8 +5,6 @@ import src.util.tools.BroadcastReceiver;
 import src.util.tools.GesLogger;
 import src.util.tools.Intent;
 
-import java.util.Scanner;
-
 public class HomeScreen extends GesTADSUI {
 
     private final String TAG = "HomeScreen";
@@ -38,7 +36,7 @@ public class HomeScreen extends GesTADSUI {
                     shouldRun = false;
                     break;
                 case "1":
-                    i = new Intent(Intent.LAUNCH_LOGIN_SCREEN);
+                    i = new Intent(Intent.ACTION_LAUNCH_LOGIN_SCREEN);
                     BroadcastReceiver.sendBroadcast(i);
                     shouldRun = false;
                     break;

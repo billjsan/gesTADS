@@ -11,7 +11,7 @@ import java.util.Scanner;
 public abstract class GesTADSUI {
 
     private final String TAG = GesTADSUI.class.getSimpleName();
-    public static int LINE_LENGTH = 120;
+    public static int LINE_LENGTH = 80;
     protected Intent mContextIntent;
 
     public GesTADSUI() {

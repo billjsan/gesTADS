@@ -41,8 +41,6 @@ public class LoginScreen extends GesTADSUI {
         System.out.println(formattedTitle("Vocês está realizando login"));
         System.out.println();
 
-        System.out.print("Entre com a matrícula: ");
-        String matricula = scanner.nextLine();
         System.out.print("Entre com o login: ");
         String username = scanner.nextLine();
         System.out.print("Entre com a senha: ");
@@ -50,9 +48,8 @@ public class LoginScreen extends GesTADSUI {
 
         Intent intent = new Intent(Intent.ACTION_CHECK_CREDENTIALS);
 
-        intent.putString(Intent.KEY_USERNAME, username);
-        intent.putString(Intent.KEY_PASSWORD, password);
-        intent.putString(Intent.KEY_MATRICULA, matricula);
+        intent.putString(Intent.KEY_EMPLOYEE_USERNAME, username);
+        intent.putString(Intent.KEY_EMPLOYEE_PASSWORD, password);
 
         BroadcastReceiver.sendBroadcast(intent);
 

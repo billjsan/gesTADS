@@ -1,9 +1,9 @@
 package src.ui.screen;
 
-import src.ui.GesTADSScreensInterface;
+import src.ui.GesTADSSUIInterface;
 import src.util.tools.Intent;
 
-public class ScreensImpl implements GesTADSScreensInterface {
+public class GesTADSScreensImpl implements GesTADSSUIInterface {
     @Override
     public void loginScreen(Intent intent) {
         //[LAS]
@@ -25,7 +25,7 @@ public class ScreensImpl implements GesTADSScreensInterface {
     @Override
     public void registerScreen(Intent intent) {
         //[LAS]
-        new RegisterScreen(intent);
+        new RegisterEmployeeScreen(intent);
     }
 
     @Override
@@ -37,6 +37,12 @@ public class ScreensImpl implements GesTADSScreensInterface {
     @Override
     public void removeScreen(Intent intent) {
         //[LAS]
-        new RemoveScreen(intent);
+        new RemoveEmployeeScreen(intent);
+    }
+
+    @Override
+    public void searchScreen(Intent intent) {
+        //[LAS]
+        new SearchScreen(intent);
     }
 }

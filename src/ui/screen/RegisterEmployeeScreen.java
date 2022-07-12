@@ -8,12 +8,12 @@ import src.util.tools.Intent;
 import java.util.List;
 import java.util.MissingFormatArgumentException;
 
-public class RegisterScreen extends GesTADSUI {
+public class RegisterEmployeeScreen extends GesTADSUI {
 
 
     private final String TAG = "CadastroScreen";
 
-    public RegisterScreen(Intent intent) {
+    public RegisterEmployeeScreen(Intent intent) {
         super(intent);
     }
 
@@ -35,33 +35,33 @@ public class RegisterScreen extends GesTADSUI {
         Intent intent = new Intent(Intent.ACTION_VALIDATE_NEW_USER);
 
         System.out.print("Please insert your name: ");
-        intent.putString(Intent.KEY_NAME, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_NAME, getUserInput());
 
         System.out.print("Please insert your CPF: ");
-        intent.putString(Intent.KEY_CPF, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_CPF, getUserInput());
 
         System.out.print("Please insert username: ");
-        intent.putString(Intent.KEY_USERNAME, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_USERNAME, getUserInput());
 
         System.out.print("Please insert password: ");
-        intent.putString(Intent.KEY_PASSWORD, getPassword());
+        intent.putString(Intent.KEY_EMPLOYEE_PASSWORD, getPassword());
 
         System.out.print("Please insert RG: ");
-        intent.putString(Intent.KEY_RG, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_RG, getUserInput());
 
         System.out.print("Please insert address: ");
-        intent.putString(Intent.KEY_ENDERECO, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_ENDERECO, getUserInput());
 
-        intent.putString(Intent.KEY_CARGO, getCargo());
+        intent.putString(Intent.KEY_EMPLOYEE_CARGO, getCargo());
 
         System.out.print("Please insert admission date: ");
-        intent.putString(Intent.KEY_ADMISSAO, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_ADMISSAO, getUserInput());
 
         System.out.print("Please insert material status: ");
-        intent.putString(Intent.KEY_ESTADO_CIVIL, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_ESTADO_CIVIL, getUserInput());
 
         System.out.print("Please insert gender: ");
-        intent.putString(Intent.KEY_SEXO, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_SEXO, getUserInput());
 
         BroadcastReceiver.sendBroadcast(intent);
 
@@ -100,7 +100,7 @@ public class RegisterScreen extends GesTADSUI {
             System.out.println("Please chose a position:\n");
 
             try {
-                List<String> positions = (List<String>) mContextIntent.getList(Intent.KEY_DATA_POSITIONS);
+                List<String> positions = (List<String>) mContextIntent.getList(Intent.KEY_DATA_CARGOS);
 
                 int listSize = positions.size();
                 for (int i = 0; i < positions.size(); i++) {

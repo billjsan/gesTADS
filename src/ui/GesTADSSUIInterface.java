@@ -2,7 +2,7 @@ package src.ui;
 
 import src.util.tools.Intent;
 
-public interface GesTADSScreensInterface {
+public interface GesTADSSUIInterface {
     void loginScreen(Intent intent);
 
     void homeScreen(Intent intent);
@@ -14,4 +14,6 @@ public interface GesTADSScreensInterface {
     void dialogScreen(Intent intent);
 
     void removeScreen(Intent intent);
+
+    void searchScreen(Intent intent);
 }
