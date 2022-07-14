@@ -30,7 +30,8 @@ public class Control extends BroadcastReceiver {
      * Entry point application
      */
     public void startApplication(){
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(),"startApplication");
 
         mRepository.startRepository();
         mUIManager.startUIManager();
@@ -41,7 +42,9 @@ public class Control extends BroadcastReceiver {
     @Override
     protected void onReceive(Intent intent) {
 
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, "onReceive");
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG,Thread.currentThread(), "onReceive");
+
         if(intent == null || intent.getAction() == null) return;
 
         //usecases
