@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class PersistDatabase implements GesTADSDataBaseInterface {
+public class PersistDatabase  {
     private final String TAG = PersistDatabase.class.getSimpleName();
     private boolean isDBInitialized;
     private static PersistDatabase instance;
@@ -28,39 +28,7 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
         return instance;
     }
 
-    @Override
-    public void startUpDadaBase() {
-        if (GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName() + " startUpDB");
 
-        mExecutor.submit(() -> {
-            try {
-                Thread.sleep(1);
-                testaConexao();
-                if (GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread().getName()
-                        + " Espera finalizada");
-            } catch (InterruptedException e) {
-
-                if(GesLogger.ISFULLLOGABLE) GesLogger.e(TAG, "Thread: " +
-                        Thread.currentThread().getName() + "\n" +
-                        e.getMessage());
-            }
-        });
-    }
-
-    @Override
-    public void closeDataBase() {
-        System.out.println(Thread.currentThread().getName() + " Database -- closeDB");
-
-        mExecutor.shutdown();
-        try {
-            if (!mExecutor.awaitTermination(1, TimeUnit.SECONDS)) {
-                mExecutor.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            mExecutor.shutdownNow();
-            if(GesLogger.ISFULLLOGABLE) GesLogger.e(TAG, e.getMessage());
-        }
-    }
 
     public boolean isDBInitialized() {
         return isDBInitialized;
@@ -86,37 +54,6 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
      */
 
     public void allOtherMethods() {
-
-    }
-
-    @Override
-    public Employee getEmployeeByMatricula(String matricula) {
-        return null;
-    }
-
-    @Override
-    public void insertEmployee(Employee employee) {
-
-    }
-
-    @Override
-    public boolean isEmptyDB() {
-        return true;
-    }
-
-    @Override
-    public List<Employee> getEmployees() {
-        return null;
-    }
-
-    @Override
-    public List<String> getPositions() {
-        return null;
-    }
-
-    @Override
-    public void setPosition(String position) {
-
 
     }
 

@@ -105,6 +105,7 @@ public abstract class GesTADSUI {
     }
 
     protected String getUserInput() {
+        //[LAS]
 
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();

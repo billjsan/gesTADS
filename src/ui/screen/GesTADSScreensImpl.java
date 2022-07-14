@@ -45,4 +45,10 @@ public class GesTADSScreensImpl implements GesTADSSUIInterface {
         //[LAS]
         new SearchScreen(intent);
     }
+
+    @Override
+    public void searchEmployeeScreen(Intent intent) {
+        //[LAS]
+        new SearchEmployeeScreen(intent);
+    }
 }

@@ -26,6 +26,8 @@ public interface GesTADSDataBaseInterface {
 
    void allOtherMethods();
 
+    Employee getEmployeeByCPF(String cpf);
+
     Employee getEmployeeByMatricula(String matricula);
 
     void insertEmployee(Employee employee);
@@ -34,7 +36,7 @@ public interface GesTADSDataBaseInterface {
 
     List<Employee> getEmployees();
 
-    List<String> getPositions();
+    List<String> getCargo();
 
-    void setPosition(String position);
+    void setCargo(String position);
 }

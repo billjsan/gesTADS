@@ -76,4 +76,8 @@ public class UIManager {
     public void startSearchUI(Intent intent) {
         mInterface.searchScreen(intent);
     }
+
+    public void startSearchEmployeeUI(Intent intent) {
+        mInterface.searchEmployeeScreen(intent);
+    }
 }

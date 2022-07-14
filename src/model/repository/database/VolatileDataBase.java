@@ -5,9 +5,6 @@ import src.util.tools.GesLogger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public class VolatileDataBase implements GesTADSDataBaseInterface {
     public final String TAG = VolatileDataBase.class.getSimpleName();
@@ -49,9 +46,9 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
         if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG,
                 Thread.currentThread(),"populateDatabase");
 
-    setPosition(Employee.POSITION_ADMIN);
-    setPosition(Employee.POSITION_SUPERVISOR);
-    setPosition(Employee.POSITION_OPERADOR);
+    setCargo(Employee.POSITION_ADMIN);
+    setCargo(Employee.POSITION_SUPERVISOR);
+    setCargo(Employee.POSITION_OPERADOR);
     }
 
     @Override
@@ -75,6 +72,17 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     @Override
     public void allOtherMethods() {
         // [LAS]
+    }
+
+    @Override
+    public Employee getEmployeeByCPF(String cpf) {
+        // [LAS]
+        for (Employee e: mEmployees){
+            if(e.getCpf().equals(cpf)){
+                return e;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -108,13 +116,13 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     }
 
     @Override
-    public List<String> getPositions() {
+    public List<String> getCargo() {
 
         return new ArrayList<>(mPositions);
     }
 
     @Override
-    public void setPosition(String position) {
+    public void setCargo(String position) {
         //[LAS]
 
         this.mPositions.add(position);

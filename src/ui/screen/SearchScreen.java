@@ -30,7 +30,7 @@ public class SearchScreen extends GesTADSUI {
         if(mContextIntent.getAction() == Intent.ACTION_SEARCH_EMPLOYEE){
             List<Integer> flags = mContextIntent.getFlags();
 
-            if(flags.contains(Intent.FLAG_SEARCH_BY_CPF)){
+            if(flags.contains(Intent.FLAG_SEARCH_EMPLOYEE_BY_CPF)){
                 telaBuscaPorCPF();
             } else if (flags.contains(Intent.FLAG_SEARCH_BY_NOME)) {
                 telaBuscaPorNome();

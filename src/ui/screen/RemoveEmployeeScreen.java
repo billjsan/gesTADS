@@ -51,7 +51,7 @@ public class RemoveEmployeeScreen extends GesTADSUI {
             switch (getUserInput()){
                 case "0":
                     i = new Intent(Intent.ACTION_SEARCH_EMPLOYEE);
-                    i.putFlag(Intent.FLAG_SEARCH_BY_CPF);
+                    i.putFlag(Intent.FLAG_SEARCH_EMPLOYEE_BY_CPF);
                     BroadcastReceiver.sendBroadcast(i);
                     shouldRun = false;
                     break;

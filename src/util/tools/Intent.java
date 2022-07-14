@@ -20,11 +20,16 @@ public class Intent implements Serializable {
     public static final int ACTION_QUIT = 1007 ;
     public static final int ACTION_CHECK_CREDENTIALS = 1008;
     public static final int ACTION_VALIDATE_NEW_USER = 1009;
-    public static final int ACTION_LAUNCH_REGISTER_SCREEN = 2000;
+    public static final int ACTION_RESULT_SET = 1010;
+    public static final int ACTION_REMOVE_EMPLOYEE = 1011;
+    public static final int ACTION_EDIT_EMPLOYEE = 1012;
+
+    public static final int ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN = 2000;
     public static final int ACTION_LAUNCH_LOGIN_SCREEN = 2001;
     public static final int ACTION_LAUNCH_MAIN_SCREEN = 2002;
     public static final int LAUNCH_ALERT_SCREEN = 2003;
     public static final int ACTION_LAUNCH_REMOVE_USER_SCREEN = 2004;
+    public static final int ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN = 2005;
 
     //Keys [CDS]
     public static final String KEY_EMPLOYEE_USERNAME = "key_username";
@@ -41,14 +46,16 @@ public class Intent implements Serializable {
     public static final String KEY_EMPLOYEE_ESTADO_CIVIL = "key_estado_civil";
     public static final String KEY_DATA_CARGOS = "key_data_positions";
     public static final String KEY_MESSAGE_DIALOG = "key_message_dialog";
+    public static final String KEY_RESULT_SET = "key_result_set";
 
     //Flags [CDS]
     public static final int FLAG_FIRST_LOGIN = -1;
     public static final int FLAG_POSITIONS_DATA = -2;
-    public static final int FLAG_SEARCH_BY_CPF = -3;
+    public static final int FLAG_SEARCH_EMPLOYEE_BY_CPF = -3;
     public static final int FLAG_SEARCH_BY_NOME = -4;
     public static final int FLAG_SEARCH_BY_MATRICULA = -5;
     public static final int FLAG_REMOVING_USER_IN_PROGRESS = -6;
+    public static final int FLAG_RESULT_SET = -7;
 
     private final HashMap<String, Integer> mIntMap = new HashMap<>();
     private final HashMap<String, String> mStringMap = new HashMap<>();

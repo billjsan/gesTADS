@@ -6,7 +6,6 @@ import src.model.repository.database.VolatileDataBase;
 import src.util.tools.GesLogger;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Repository {
 
-    private static Repository instance;
+    private static Repository sInstance;
     private final GesTADSDataBaseInterface mDB;
     private final String TAG = Repository.class.getSimpleName();
     private ExecutorService mExecutor = null;
@@ -79,12 +78,12 @@ public class Repository {
     }
 
     public static Repository getInstance(){
-        if(instance == null){
-            instance = new Repository();
+        if(sInstance == null){
+            sInstance = new Repository();
         }
         if(GesLogger.ISFULLLOGABLE) GesLogger.d("Repository", Thread.currentThread(),
                 "getInstance");
-        return instance;
+        return sInstance;
     }
 
     public List<Employee> getEmployees() {
@@ -117,7 +116,7 @@ public class Repository {
     public List<String> getPositions() {
         //[LAS]
 
-        this.mCargos = mDB.getPositions();
+        this.mCargos = mDB.getCargo();
        return new ArrayList<>(mCargos);
     }
 
@@ -125,5 +124,11 @@ public class Repository {
         //[LAS]
 
         this.mCargos.add(position);
+    }
+
+    public Employee getEmployeeByCPF(String cpf) {
+        //[LAS]
+
+        return this.mDB.getEmployeeByCPF(cpf);
     }
 }

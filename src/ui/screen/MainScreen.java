@@ -29,10 +29,10 @@ public class MainScreen extends GesTADSUI {
         System.out.println(formattedTitle("Menu"));
         System.out.println(formattedLineMenu("* Logout", "[1]"));
         System.out.println(formattedLineMenu("* Registrar usuário", "[2]"));
-        System.out.println(formattedLineMenu("* Remover usuário", "[3]"));
+        System.out.println(formattedLineMenu("* Busca de usuário", "[3]"));
         System.out.println(formattedLineMenu("* Entrada de produto", "[4]"));
         System.out.println(formattedLineMenu("* Saída de produto", "[5]"));
-        System.out.println(formattedLineMenu("* Busca de produto", "[6]"));
+        System.out.println(formattedLineMenu("* Remover usuário", "[6]"));
         System.out.println(formattedLineMenu("* sair", "[0]"));
 
         boolean match = false;
@@ -52,12 +52,12 @@ public class MainScreen extends GesTADSUI {
                     break;
 
                 case "2":
-                    i = new Intent(Intent.ACTION_LAUNCH_REGISTER_SCREEN);
+                    i = new Intent(Intent.ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN);
                     match = true;
                     break;
 
                 case "3":
-                    i = new Intent(Intent.ACTION_LAUNCH_REMOVE_USER_SCREEN);
+                    i = new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN);
                     match = true;
                     break;
 
@@ -66,6 +66,11 @@ public class MainScreen extends GesTADSUI {
                     break;
 
                 case "5":
+                    match = true;
+                    break;
+
+                case "200":
+                    i = new Intent(Intent.ACTION_LAUNCH_REMOVE_USER_SCREEN);
                     match = true;
                     break;
 

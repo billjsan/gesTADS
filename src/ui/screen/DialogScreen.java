@@ -24,9 +24,10 @@ public class DialogScreen extends GesTADSUI {
 
         System.out.println();
         System.out.println(formattedTitle("DIALOG"));
-        System.out.println(formattedTitle(mContextIntent.getString(Intent.KEY_MESSAGE_DIALOG)));
-        System.out.println(formattedTitle("-"));
-        System.out.println(formattedTitle("-"));
+        System.out.println();
+        System.out.println(formattedTitle(mContextIntent.getString(Intent.KEY_MESSAGE_DIALOG)).toUpperCase());
+        System.out.println();
+        System.out.println(formattedTitle(".."));
         System.out.println();
 
         onDestroy();

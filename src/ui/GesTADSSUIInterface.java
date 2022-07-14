@@ -16,4 +16,6 @@ public interface GesTADSSUIInterface {
     void removeScreen(Intent intent);
 
     void searchScreen(Intent intent);
+
+    void searchEmployeeScreen(Intent intent);
 }
