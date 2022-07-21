@@ -94,13 +94,13 @@ public class PROCURAREMPREGADO extends GesTADSUI {
         Intent broadcastIntent = null;
         boolean isOptionSelected = false;
         do {
-            switch (getUserInput()){
+            switch (screenGetTextFromUser()){
                 case "1": // busca por cpf
                     if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                         GesLogger.d(TAG, Thread.currentThread(), "busca por cpf");
 
                     System.out.print("Digite o CPF: ");
-                    String cpf = getUserInput();
+                    String cpf = screenGetTextFromUser();
 
                     broadcastIntent = new Intent(Intent.ACTION_SEARCH_EMPLOYEE);
                     broadcastIntent.putFlag(Intent.FLAG_SEARCH_EMPLOYEE_BY_CPF);
@@ -157,7 +157,7 @@ public class PROCURAREMPREGADO extends GesTADSUI {
                 Integer set = null;
                 while (set == null){
 
-                    set = getIntFromTheUser();
+                    set = screenGetIntegerFromUser();
                 }
                 System.out.println("foooooooooooooi");
 
@@ -212,7 +212,7 @@ public class PROCURAREMPREGADO extends GesTADSUI {
 
             Intent broadcastIntent = null;
 
-            switch (getUserInput()){
+            switch (screenGetTextFromUser()){
                 case "1": // remover usuário
                     broadcastIntent = new Intent(Intent.ACTION_REMOVE_EMPLOYEE); // todo handler not created yet
                     broadcastIntent.putFlag(Intent.FLAG_RESULT_SET);

@@ -35,33 +35,33 @@ public class RegisterEmployeeScreen extends GesTADSUI {
         Intent intent = new Intent(Intent.ACTION_VALIDATE_NEW_USER);
 
         System.out.print("Please insert your name: ");
-        intent.putString(Intent.KEY_EMPLOYEE_NAME, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_NAME, screenGetTextFromUser());
 
         System.out.print("Please insert your CPF: ");
-        intent.putString(Intent.KEY_EMPLOYEE_CPF, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_CPF, screenGetTextFromUser());
 
         System.out.print("Please insert username: ");
-        intent.putString(Intent.KEY_EMPLOYEE_USERNAME, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_USERNAME, screenGetTextFromUser());
 
         System.out.print("Please insert password: ");
         intent.putString(Intent.KEY_EMPLOYEE_PASSWORD, getPassword());
 
         System.out.print("Please insert RG: ");
-        intent.putString(Intent.KEY_EMPLOYEE_RG, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_RG, screenGetTextFromUser());
 
         System.out.print("Please insert address: ");
-        intent.putString(Intent.KEY_EMPLOYEE_ENDERECO, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_ENDERECO, screenGetTextFromUser());
 
-        intent.putString(Intent.KEY_EMPLOYEE_CARGO, getCargo());
+        intent.putString(Intent.KEY_EMPLOYEE_CARGO, screenGetTextFromUser());
 
         System.out.print("Please insert admission date: ");
-        intent.putString(Intent.KEY_EMPLOYEE_ADMISSAO, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_ADMISSAO, screenGetTextFromUser());
 
         System.out.print("Please insert material status: ");
-        intent.putString(Intent.KEY_EMPLOYEE_ESTADO_CIVIL, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_ESTADO_CIVIL, screenGetTextFromUser());
 
         System.out.print("Please insert gender: ");
-        intent.putString(Intent.KEY_EMPLOYEE_SEXO, getUserInput());
+        intent.putString(Intent.KEY_EMPLOYEE_SEXO, screenGetTextFromUser());
 
         BroadcastReceiver.sendBroadcast(intent);
 
@@ -74,9 +74,9 @@ public class RegisterEmployeeScreen extends GesTADSUI {
         boolean isPswrdSetd = false;
         String pass = "";
         while (!isPswrdSetd) {
-            String pswrd = getUserInput();
+            String pswrd = screenGetTextFromUser();
             System.out.print("Please re-insert password: ");
-            String repswrd = getUserInput();
+            String repswrd = screenGetTextFromUser();
 
             if (!pswrd.equals(repswrd)) {
                 System.out.println("password mismatch");
@@ -109,7 +109,7 @@ public class RegisterEmployeeScreen extends GesTADSUI {
                 }
 
                 System.out.print("position: ");
-                int input = Integer.parseInt(getUserInput());
+                int input = Integer.parseInt(screenGetTextFromUser());
 
                 if (input >= 0 && input < listSize) {
 

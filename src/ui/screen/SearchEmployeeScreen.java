@@ -85,7 +85,7 @@ public class SearchEmployeeScreen extends GesTADSUI {
             // captura o item escolhido pelo usuario
             boolean isEmployeeSelected = false;
             do {
-                    int input = Integer.parseInt(getUserInput());
+                    int input = Integer.parseInt(screenGetTextFromUser());
 
                 // todo [ICS] problemas ao capturar uma letra do usuario (especializar o metodo?)
 
@@ -110,7 +110,7 @@ public class SearchEmployeeScreen extends GesTADSUI {
                         ArrayList<Intent> intents = new ArrayList<>();
                         intents.add(selectedEmployee);
 
-                        switch (getUserInput()){
+                        switch (screenGetTextFromUser()){
                             case "1": // remover usuário
                                 broadcastIntent = new Intent(Intent.ACTION_REMOVE_EMPLOYEE); // todo handler not created yet
                                 broadcastIntent.putFlag(Intent.FLAG_RESULT_SET);
@@ -169,13 +169,13 @@ public class SearchEmployeeScreen extends GesTADSUI {
         Intent broadcastIntent = null;
         boolean isOptionSelected = false;
         do {
-            switch (getUserInput()){
+            switch (screenGetTextFromUser()){
                 case "1": // busca por cpf
                     if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                         GesLogger.d(TAG, Thread.currentThread(), "busca por cpf");
 
                     System.out.print("Digite o CPF: ");
-                    String cpf = getUserInput();
+                    String cpf = screenGetTextFromUser();
 
                     broadcastIntent = new Intent(Intent.ACTION_SEARCH_EMPLOYEE);
                     broadcastIntent.putFlag(Intent.FLAG_SEARCH_EMPLOYEE_BY_CPF);

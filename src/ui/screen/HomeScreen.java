@@ -29,7 +29,7 @@ public class HomeScreen extends GesTADSUI {
         do {
 
             Intent i ;
-            switch (getUserInput()){
+            switch (screenGetTextFromUser()){
                 case "0":
                     i = new Intent(Intent.ACTION_QUIT);
                     BroadcastReceiver.sendBroadcast(i);

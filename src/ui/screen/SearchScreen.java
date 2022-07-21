@@ -54,7 +54,7 @@ public class SearchScreen extends GesTADSUI {
         if(matIntent.getString(Intent.KEY_EMPLOYEE_MATRICULA) == null){
 
             System.out.print("Ente com a matricula para busca");
-            matIntent.putString(Intent.KEY_EMPLOYEE_MATRICULA, getUserInput());
+            matIntent.putString(Intent.KEY_EMPLOYEE_MATRICULA, screenGetTextFromUser());
         }else {
             //recuperar os dados que tem la
         }

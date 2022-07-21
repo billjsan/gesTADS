@@ -133,7 +133,7 @@ public abstract class GesTADSUI {
         Integer integer = null;
         try {
             System.out.print("Digite um número inteiro: ");
-            integer = Integer.valueOf(getUserInput());
+            integer = Integer.valueOf(screenGetTextFromUser());
         }catch (NumberFormatException e){
 //            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE) GesLogger.e(TAG,
 //                    "can't cast to int");
