@@ -117,7 +117,8 @@ public class Intent implements Serializable {
     }
 
     final public void putFlag(Integer flag) {
-        // [LAS]
+        //[LAS]
+
         mFlagsList.add(flag);
         this.mHasExtras = true;
     }

@@ -38,5 +38,6 @@ public class DialogScreen extends GesTADSUI {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(),"onDestroy");
         super.onDestroy();
+
     }
 }

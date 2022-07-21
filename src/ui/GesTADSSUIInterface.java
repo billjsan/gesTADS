@@ -18,4 +18,5 @@ public interface GesTADSSUIInterface {
     void searchScreen(Intent intent);
 
     void searchEmployeeScreen(Intent intent);
+
 }

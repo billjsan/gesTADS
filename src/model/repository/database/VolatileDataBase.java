@@ -60,7 +60,9 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
 
     @Override
     public boolean isDBInitialized() {
-        // [LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "isDBInitialized");
+
         return isDBStarted;
     }
 

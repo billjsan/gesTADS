@@ -11,7 +11,7 @@ import java.util.MissingFormatArgumentException;
 public class RegisterEmployeeScreen extends GesTADSUI {
 
 
-    private final String TAG = "CadastroScreen";
+    private final String TAG = "RegisterEmployeeScreen";
 
     public RegisterEmployeeScreen(Intent intent) {
         super(intent);
@@ -130,12 +130,18 @@ public class RegisterEmployeeScreen extends GesTADSUI {
                     GesLogger.e(TAG, e.getMessage());
                 }
                 System.out.println(formattedTitle("dado inválido"));
-            }catch (Exception e){
+            } catch (NumberFormatException e){
                 if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE) {
                     GesLogger.e(TAG, e.getMessage());
                 }
                 System.out.println(formattedTitle("você não digitou um número"));
+            } catch (Exception e){
+                if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE) {
+                    GesLogger.e(TAG, e.getMessage());
+                }
+                System.out.println(formattedTitle("Algo deu muito errado"));
             }
+
         }
         return position;
     }

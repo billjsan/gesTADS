@@ -31,7 +31,7 @@ public abstract class BroadcastReceiver {
 
     public static void sendBroadcast(Intent intent) {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(
-                TAG, Thread.currentThread(), "sendBroadcast");
+                TAG, Thread.currentThread(), "sendBroadcast Intent action: " + intent.getAction());
 
         if (mExecutor == null) {
             if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE) GesLogger.e(

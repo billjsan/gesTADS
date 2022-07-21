@@ -14,7 +14,6 @@ public class GesTADSApp {
         // argumentos ao inicializar o programa
         // que decide o tipo da UI e do DB
 
-
         new Control().startApplication();
     }
 

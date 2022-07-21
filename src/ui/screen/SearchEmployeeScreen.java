@@ -6,6 +6,7 @@ import src.util.tools.GesLogger;
 import src.util.tools.Intent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SearchEmployeeScreen extends GesTADSUI {
@@ -24,7 +25,7 @@ public class SearchEmployeeScreen extends GesTADSUI {
         System.out.println(formattedTitle("BUSCAR FUNCIONARIO"));
         System.out.println();
 
-        // inicia uma tela de busca nova (intent é vazio)
+        // INTENT VAZIO - ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN
         if(mContextIntent.getAction() == Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN &&
                 !mContextIntent.hasExtras()){
             if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
@@ -33,99 +34,127 @@ public class SearchEmployeeScreen extends GesTADSUI {
             System.out.println(formattedLineMenu("Buscar por CPF", "[1]"));
             System.out.println(formattedLineMenu("Cancelar", "[0]"));
 
-            broadcastIntent = getSearchOptionIntent();
+            broadcastIntent = getSearchDetailsIntent();
+        }
 
-        } else if (mContextIntent.getAction() == Intent.ACTION_RESULT_SET && mContextIntent.hasExtras()) {
-
+        // INTENT COM EXTRA - ACTION_RESULT_SET
+        else if (mContextIntent.getAction() == Intent.ACTION_RESULT_SET && mContextIntent.hasExtras()) {
             if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
                 GesLogger.d(TAG, Thread.currentThread(), "intent: FLAG_RESULT_SET with extra");
 
-            try {
-                List<Intent> list = (List<Intent>) mContextIntent.getList(Intent.KEY_RESULT_SET);
-
-                for (int i = 0; i < list.size(); i++) {
-
-                    System.out.println("resultado:");
-
-                    String nome = list.get(i).getString(Intent.KEY_EMPLOYEE_NAME);
-                    String cpf = list.get(i).getString(Intent.KEY_EMPLOYEE_CPF);
-                    String cargo = list.get(i).getString(Intent.KEY_EMPLOYEE_CARGO);
-                    int privilegio = list.get(i).getInt(Intent.KEY_EMPLOYEE_PRIVILEGE);
-
-                    String set = "nome:" + nome + " cpf:" + cpf + " cargo:" + cargo + " privilégio:" + privilegio;
-
-                    System.out.println(formattedLineMenu(set,"["+i+"]"));
-                }
-
-                System.out.println();
-                System.out.println("selecione um item para mais opções ou [-1] para sair");
-
-                boolean isEmployeeSelected = false;
-                do {
-                    int input = Integer.parseInt(getUserInput());
-
-                    if(input >= 0 && input <= list.size()){
-                        Intent selectedEmployee = list.get(input);
-
-                        System.out.println("Vocẽ selecionou: nome:" +
-                                selectedEmployee.getString(Intent.KEY_EMPLOYEE_NAME) +
-                                " cpf:" + selectedEmployee.getString(Intent.KEY_EMPLOYEE_CPF));
-
-                        System.out.println(formattedLineMenu("Remover", "[1]"));
-                        System.out.println(formattedLineMenu("Editar", "[2]"));
-                        System.out.println(formattedLineMenu("Cancelar", "[0]"));
-
-                        boolean isOptionSelected = false;
-                        do {
-                            ArrayList<Intent> intents = new ArrayList<>();
-                            intents.add(selectedEmployee);
-
-                            switch (getUserInput()){
-                                case "1":
-                                    broadcastIntent = new Intent(Intent.ACTION_REMOVE_EMPLOYEE); //handler not created yet
-                                    broadcastIntent.putFlag(Intent.FLAG_RESULT_SET);
-                                    broadcastIntent.putList(Intent.KEY_RESULT_SET, intents);
-
-                                    isOptionSelected = true;
-                                    break;
-
-                                case "2":
-                                    broadcastIntent = new Intent(Intent.ACTION_EDIT_EMPLOYEE); //handler not created yet
-                                    broadcastIntent.putFlag(Intent.FLAG_RESULT_SET);
-                                    broadcastIntent.putList(Intent.KEY_RESULT_SET, intents);
-
-                                    isOptionSelected = true;
-                                    break;
-
-                                case "0":
-                                    broadcastIntent = new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN);
-                                    isOptionSelected = true;
-                                    break;
-
-                                default:
-                                    System.out.println("Entrada inválida!");
-                            }
-
-                        }while (!isOptionSelected);
-
-                    } else if (input == -1) {
-                        broadcastIntent = new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN);
-                        isEmployeeSelected = true;
-                    }
-                }while (!isEmployeeSelected);
-
-
-
-            }catch (NullPointerException e){
-                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE) GesLogger.e(TAG, e.getMessage());
-
-                formattedTitle("ocorreu um erro");
-                broadcastIntent = new Intent(Intent.ACTION_LAUNCH_MAIN_SCREEN);
-            }
+            broadcastIntent = getResultForDataSetIntent();
         }
 
         BroadcastReceiver.sendBroadcast(broadcastIntent);
         onDestroy();
+    }
+
+    /**
+     * this method handle the data set from search result
+     * to show it on screen and handle the options avaiable
+     * for user selection
+     *
+     * @return an intent with user action about result item selected
+     *
+     * todo simplify this method
+     */
+    private Intent getResultForDataSetIntent() {
+        Intent broadcastIntent = null;
+
+        try {
+            List<Intent> list = (List<Intent>) mContextIntent.getList(Intent.KEY_RESULT_SET);
+
+            // shows the search result set
+            for (int i = 0; i < list.size(); i++) {
+
+                System.out.println("resultado:");
+
+                String nome = list.get(i).getString(Intent.KEY_EMPLOYEE_NAME);
+                String cpf = list.get(i).getString(Intent.KEY_EMPLOYEE_CPF);
+                String cargo = list.get(i).getString(Intent.KEY_EMPLOYEE_CARGO);
+                int privilegio = list.get(i).getInt(Intent.KEY_EMPLOYEE_PRIVILEGE);
+
+                String set = "nome:" + nome + " cpf:" + cpf + " cargo:" + cargo + " privilégio:" + privilegio;
+
+                System.out.println(formattedLineMenu(set,"["+i+"]"));
+            }
+
+            System.out.println();
+            System.out.println("selecione um item para mais opções ou [-1] para sair");
+
+            // captura o item escolhido pelo usuario
+            boolean isEmployeeSelected = false;
+            do {
+                    int input = Integer.parseInt(getUserInput());
+
+                // todo [ICS] problemas ao capturar uma letra do usuario (especializar o metodo?)
+
+                // o usuário escolheu um item válido
+                if(input >= 0 && input <= list.size()){
+                    Intent selectedEmployee = list.get(input);
+
+                    isEmployeeSelected = true;
+
+                    System.out.println("Vocẽ selecionou: nome:" +
+                            selectedEmployee.getString(Intent.KEY_EMPLOYEE_NAME) +
+                            " cpf:" + selectedEmployee.getString(Intent.KEY_EMPLOYEE_CPF));
+
+                    System.out.println(formattedLineMenu("Remover", "[1]"));
+                    System.out.println(formattedLineMenu("Editar", "[2]"));
+                    System.out.println(formattedLineMenu("Cancelar", "[0]"));
+
+                    // captura o que o usuário deseja fazer com o item selecionado
+                    boolean isOptionSelected = false;
+                    do {
+                        System.out.println("captura o que o usuário deseja fazer com o item selecionado");
+                        ArrayList<Intent> intents = new ArrayList<>();
+                        intents.add(selectedEmployee);
+
+                        switch (getUserInput()){
+                            case "1": // remover usuário
+                                broadcastIntent = new Intent(Intent.ACTION_REMOVE_EMPLOYEE); // todo handler not created yet
+                                broadcastIntent.putFlag(Intent.FLAG_RESULT_SET);
+                                broadcastIntent.putList(Intent.KEY_RESULT_SET, intents);
+
+                                isOptionSelected = true;
+                                break;
+
+                            case "2": // editar usuário
+                                broadcastIntent = new Intent(Intent.ACTION_EDIT_EMPLOYEE); //todo handler not created yet
+                                broadcastIntent.putFlag(Intent.FLAG_RESULT_SET);
+                                broadcastIntent.putList(Intent.KEY_RESULT_SET, intents);
+
+                                isOptionSelected = true;
+                                break;
+
+                            case "0":// abrir tela de busca
+                                broadcastIntent = new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN);
+                                isOptionSelected = true;
+                                break;
+
+                            default:
+                                System.out.println("Entrada inválida!");
+                        }
+
+                    }while (!isOptionSelected);
+
+                }
+
+                //o usuário escolheu sair da tela de resultado
+                else if (input == -1) {
+                    broadcastIntent = new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN);
+                    isEmployeeSelected = true;
+                }
+            }while (!isEmployeeSelected);
+
+        }catch (Exception e){
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE) GesLogger.e(TAG,
+                    e.getMessage() + " " + e.getCause() + " " + Arrays.toString(e.getStackTrace()));
+
+            System.out.println(formattedTitle("ocorreu um erro"));
+            broadcastIntent = new Intent(Intent.ACTION_LAUNCH_MAIN_SCREEN);
+        }
+        return broadcastIntent;
     }
 
     /**
@@ -134,14 +163,14 @@ public class SearchEmployeeScreen extends GesTADSUI {
      *  retorna um Intent contendo informações sobre
      * a busca
      */
-    private Intent getSearchOptionIntent() {
+    private Intent getSearchDetailsIntent() {
         //[LAS]
 
         Intent broadcastIntent = null;
         boolean isOptionSelected = false;
         do {
             switch (getUserInput()){
-                case "1":
+                case "1": // busca por cpf
                     if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                         GesLogger.d(TAG, Thread.currentThread(), "busca por cpf");
 
@@ -154,7 +183,7 @@ public class SearchEmployeeScreen extends GesTADSUI {
                     isOptionSelected = true;
                     break;
 
-                case "0":
+                case "0": // cancelar
                     if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                         GesLogger.d(TAG, Thread.currentThread(), "cancel");
 

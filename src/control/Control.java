@@ -24,6 +24,9 @@ public class Control extends BroadcastReceiver {
 
         mRepository = Repository.getInstance();
         mUIManager = UIManager.getInstance();
+
+        // create other controls
+        //new EmployeeControl();
     }
 
     /**
@@ -38,10 +41,17 @@ public class Control extends BroadcastReceiver {
         mUIManager.startHomeUI(null);
     }
 
+    /**
+     * Esse é o método mais importante do controller
+     * ele recebe como parâmetro um Intent contendo
+     * dados que serão tratatos de acordo com os casos
+     * de uso
+     */
     @Override
     protected void onReceive(Intent intent) {
 
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, "onReceive");
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "onReceive action:" + intent.getAction());
         if(intent == null || intent.getAction() == null) return;
 
         //usecases

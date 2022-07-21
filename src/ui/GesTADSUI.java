@@ -1,5 +1,6 @@
 package src.ui;
 
+import src.util.tools.BroadcastReceiver;
 import src.util.tools.GesLogger;
 import src.util.tools.Intent;
 
@@ -18,7 +19,6 @@ public abstract class GesTADSUI {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG,Thread.currentThread(), "constructor");
         onCreate();
-        //newThread();
     }
 
     public GesTADSUI(Intent intent) {
@@ -27,7 +27,6 @@ public abstract class GesTADSUI {
 
         this.mContextIntent = intent;
         onCreate();
-        //newThread();
     }
 
     protected void onCreate() {
@@ -104,6 +103,7 @@ public abstract class GesTADSUI {
         }
     }
 
+    @Deprecated
     protected String getUserInput() {
         //[LAS]
 
@@ -115,5 +115,103 @@ public abstract class GesTADSUI {
             input = scanner.nextLine();
         }
         return input;
+    }
+
+    protected void showMessageDialog(String message){
+        //[LAS]
+
+        Intent intent = new Intent(Intent.ACTION_UI_FLAG);
+        intent.putString(Intent.KEY_MESSAGE_DIALOG, message);
+
+        BroadcastReceiver.sendBroadcast(intent);
+    }
+
+    @Deprecated
+    protected Integer getIntFromTheUser(){
+        //[LAS]
+
+        Integer integer = null;
+        try {
+            System.out.print("Digite um número inteiro: ");
+            integer = Integer.valueOf(getUserInput());
+        }catch (NumberFormatException e){
+//            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE) GesLogger.e(TAG,
+//                    "can't cast to int");
+
+            showMessageDialog("Você não digitou um inteiro");
+        }
+
+        return integer;
+    }
+
+    /**
+     * que deve ser usado como padrao em todas as UIs
+     * @return
+     */
+    protected Integer screenGetIntegerFromUser(){
+        //[LAS]
+
+        Scanner input = new Scanner(System.in);
+        Integer integerValue = null;
+        boolean gotInput = false;
+        do {
+
+            try {
+                System.out.println("Digite um número inteiro: ");
+
+                String value = input.nextLine();
+                if (!value.isEmpty()){
+                    integerValue = Integer.parseInt(value);
+                    gotInput = true;
+                }else {
+                    System.out.println("Digite alguma coisa!");
+                }
+
+
+            }catch (NumberFormatException e){
+                if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "screenGetIntFromUser: error parsing to Integer");
+
+                System.out.println("Você não digitou um número");
+
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }while (!gotInput);
+
+        return integerValue;
+    }
+
+    /**
+     * que deve ser usado como padrao em todas as UIs
+     * @return
+     */
+    protected String screenGetTextFromUser(){
+
+        Scanner input = new Scanner(System.in);
+        boolean gotInput = false;
+        String value = null;
+        do {
+
+            try {
+                System.out.println("Entre com o texto: ");
+                value = input.nextLine();
+
+                if (!value.isEmpty()){
+                    gotInput = true;
+                }else {
+                    System.out.println("Digite alguma coisa!");
+                }
+            } catch (Exception e){
+                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "screenGetTextFromUser:  unexpected error: " + e.getMessage());
+
+                System.out.println("Algo errado ocorreu");
+            }
+
+        }while (!gotInput);
+
+        return value;
     }
 }
