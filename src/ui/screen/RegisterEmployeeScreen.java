@@ -52,8 +52,6 @@ public class RegisterEmployeeScreen extends GesTADSUI {
         System.out.print("Please insert address: ");
         intent.putString(Intent.KEY_EMPLOYEE_ENDERECO, screenGetTextFromUser());
 
-        intent.putString(Intent.KEY_EMPLOYEE_CARGO, screenGetTextFromUser());
-
         System.out.print("Please insert admission date: ");
         intent.putString(Intent.KEY_EMPLOYEE_ADMISSAO, screenGetTextFromUser());
 
@@ -62,6 +60,10 @@ public class RegisterEmployeeScreen extends GesTADSUI {
 
         System.out.print("Please insert gender: ");
         intent.putString(Intent.KEY_EMPLOYEE_SEXO, screenGetTextFromUser());
+
+        System.out.println("Please insert the position: ");
+        System.out.println();
+        intent.putString(Intent.KEY_EMPLOYEE_SEXO, getCargo());
 
         BroadcastReceiver.sendBroadcast(intent);
 
@@ -97,7 +99,6 @@ public class RegisterEmployeeScreen extends GesTADSUI {
         boolean isPositionSet = false;
         String position = "";
         while (!isPositionSet) {
-            System.out.println("Please chose a position:\n");
 
             try {
                 List<String> positions = (List<String>) mContextIntent.getList(Intent.KEY_DATA_CARGOS);

@@ -157,8 +157,6 @@ public abstract class GesTADSUI {
         do {
 
             try {
-                System.out.println("Digite um número inteiro: ");
-
                 String value = input.nextLine();
                 if (!value.isEmpty()){
                     integerValue = Integer.parseInt(value);
@@ -195,7 +193,6 @@ public abstract class GesTADSUI {
         do {
 
             try {
-                System.out.println("Entre com o texto: ");
                 value = input.nextLine();
 
                 if (!value.isEmpty()){
