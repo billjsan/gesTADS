@@ -99,7 +99,6 @@ public class Control extends BroadcastReceiver {
     }
 
     private void searchEmployee(Intent intent) {
-
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG,Thread.currentThread(), "searchEmployee");
 
@@ -112,7 +111,6 @@ public class Control extends BroadcastReceiver {
         List<Integer> flags = intent.getFlags();
 
         if(flags.contains(Intent.FLAG_SEARCH_EMPLOYEE_BY_CPF)){
-
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                 GesLogger.d(TAG,Thread.currentThread(), "searchEmployee by cpf");
 
@@ -121,11 +119,9 @@ public class Control extends BroadcastReceiver {
             Employee employee = mRepository.getEmployeeByCPF(cpf);
 
             if (employee == null){
-
                 showDialogUI("Nenhum resultado encontrado");
 
                 mUIManager.startSearchEmployeeUI(new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN));
-
             }else {
                 ArrayList<Intent> intents = new ArrayList<>();
                 intents.add(populateIntentWithEmployee(Intent.ACTION_RESULT_SET, employee));
@@ -141,7 +137,6 @@ public class Control extends BroadcastReceiver {
     }
 
     private void launchSearchEmployeeScreen(Intent intent) {
-
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG,Thread.currentThread(), "launchSearchEmployeeScreen");
 
@@ -149,7 +144,6 @@ public class Control extends BroadcastReceiver {
     }
 
     private void _searchEmployee(Intent intent) {
-
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG,Thread.currentThread(), "_searchEmployee");
 
@@ -190,7 +184,6 @@ public class Control extends BroadcastReceiver {
     }
 
     private void launchRemoveScreen(Intent intent) {
-
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG,Thread.currentThread(), "launchRemoveScreen");
 
@@ -207,7 +200,6 @@ public class Control extends BroadcastReceiver {
     }
 
     private void logout() {
-
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "logout");
 
@@ -216,7 +208,6 @@ public class Control extends BroadcastReceiver {
     }
 
     private void validateNewUser(Intent intent) {
-
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "validateNewUser");
 
@@ -251,7 +242,6 @@ public class Control extends BroadcastReceiver {
 
     private void showDialogUI(String message){
 
-
         Intent dialogIntent = new Intent(Intent.ACTION_UI_FLAG);
         dialogIntent.putString(Intent.KEY_MESSAGE_DIALOG, message);
 
@@ -259,7 +249,6 @@ public class Control extends BroadcastReceiver {
     }
 
     private Employee populateEmployee(Intent intent) {
-
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "populateEmployee");
 
@@ -279,7 +268,6 @@ public class Control extends BroadcastReceiver {
     }
 
     private void checkCredentials(Intent intent) {
-
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "checkCredentials");
 
@@ -290,7 +278,6 @@ public class Control extends BroadcastReceiver {
             isLoggedIn = true;
             mUIManager.startMainUI(populateIntentWithEmployee(Intent.ACTION_UI_FLAG, mCurrentUser));
         }else {
-
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                 GesLogger.d(TAG, Thread.currentThread(), "credentials refused");
 
@@ -299,7 +286,6 @@ public class Control extends BroadcastReceiver {
     }
 
     private boolean isValidCredentials(Intent intent) {
-
         if(intent == null) return false;
 
         String login = intent.getString(Intent.KEY_EMPLOYEE_USERNAME);
@@ -353,7 +339,6 @@ public class Control extends BroadcastReceiver {
     }
 
     private Intent populateIntentWithEmployee(int action, Employee employee){
-
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG,Thread.currentThread(), "populateIntentWithEmployee");
 
@@ -382,7 +367,6 @@ public class Control extends BroadcastReceiver {
      * @param intent
      */
     private void launchRegisterScreen(Intent intent) {
-
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, "launchRegisterScreen");
 
