@@ -114,7 +114,7 @@ public class Control extends BroadcastReceiver {
         if(flags.contains(Intent.FLAG_SEARCH_EMPLOYEE_BY_CPF)){
 
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-                GesLogger.d(TAG,Thread.currentThread(), "flag_searchEmployee");
+                GesLogger.d(TAG,Thread.currentThread(), "searchEmployee by cpf");
 
 
             String cpf = intent.getString(Intent.KEY_EMPLOYEE_CPF);
