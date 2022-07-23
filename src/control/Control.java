@@ -79,6 +79,12 @@ public class Control extends BroadcastReceiver {
                 }
                 break;
 
+            case Intent.ACTION_LAUNCH_DIALOG_SCREEN:
+                if (isLoggedIn){
+                    mUIManager.startDialogUI(intent);
+                }
+                break;
+
             case Intent.ACTION_VALIDATE_NEW_USER:
                 validateNewUser(intent);
                 break;

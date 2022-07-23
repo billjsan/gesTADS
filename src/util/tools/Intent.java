@@ -30,6 +30,7 @@ public class Intent implements Serializable {
     public static final int LAUNCH_ALERT_SCREEN = 2003;
     public static final int ACTION_LAUNCH_REMOVE_USER_SCREEN = 2004;
     public static final int ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN = 2005;
+    public static final int ACTION_LAUNCH_DIALOG_SCREEN = 2006;
 
     //Keys [CDS]
     public static final String KEY_EMPLOYEE_USERNAME = "key_username";
@@ -56,6 +57,7 @@ public class Intent implements Serializable {
     public static final int FLAG_SEARCH_BY_MATRICULA = -5;
     public static final int FLAG_REMOVING_USER_IN_PROGRESS = -6;
     public static final int FLAG_RESULT_SET = -7;
+    public static final int FLAG_DIALOG_MESSAGE = -8;
 
     private final HashMap<String, Integer> mIntMap = new HashMap<>();
     private final HashMap<String, String> mStringMap = new HashMap<>();
