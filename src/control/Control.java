@@ -112,8 +112,8 @@ public class Control extends BroadcastReceiver {
         List<Integer> flags = intent.getFlags();
 
         if(flags.contains(Intent.FLAG_SEARCH_EMPLOYEE_BY_CPF)){
-            //duvida CPF É SENSIVEL?
-            if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                 GesLogger.d(TAG,Thread.currentThread(), "flag_searchEmployee");
 
 
@@ -207,6 +207,7 @@ public class Control extends BroadcastReceiver {
     }
 
     private void logout() {
+
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "logout");
 
@@ -215,6 +216,7 @@ public class Control extends BroadcastReceiver {
     }
 
     private void validateNewUser(Intent intent) {
+
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "validateNewUser");
 
@@ -257,8 +259,9 @@ public class Control extends BroadcastReceiver {
     }
 
     private Employee populateEmployee(Intent intent) {
+
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "populateUser");
+            GesLogger.d(TAG, Thread.currentThread(), "populateEmployee");
 
         return new Employee(
                 intent.getString(Intent.KEY_EMPLOYEE_NAME),
@@ -276,6 +279,7 @@ public class Control extends BroadcastReceiver {
     }
 
     private void checkCredentials(Intent intent) {
+
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "checkCredentials");
 
@@ -286,6 +290,7 @@ public class Control extends BroadcastReceiver {
             isLoggedIn = true;
             mUIManager.startMainUI(populateIntentWithEmployee(Intent.ACTION_UI_FLAG, mCurrentUser));
         }else {
+
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                 GesLogger.d(TAG, Thread.currentThread(), "credentials refused");
 
@@ -348,8 +353,8 @@ public class Control extends BroadcastReceiver {
     }
 
     private Intent populateIntentWithEmployee(int action, Employee employee){
-        // duvida: aqui existem varios dados sensíveis seria geslogger.Issafelogable?
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG,Thread.currentThread(), "populateIntentWithEmployee");
 
 
@@ -377,6 +382,7 @@ public class Control extends BroadcastReceiver {
      * @param intent
      */
     private void launchRegisterScreen(Intent intent) {
+
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, "launchRegisterScreen");
 
