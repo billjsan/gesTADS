@@ -33,7 +33,8 @@ public class Control extends BroadcastReceiver {
      * Entry point application
      */
     public void startApplication(){
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(),"startApplication");
 
         mRepository.startRepository();
         mUIManager.startUIManager();
@@ -52,6 +53,7 @@ public class Control extends BroadcastReceiver {
 
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, "onReceive action:" + intent.getAction());
+
         if(intent == null || intent.getAction() == null) return;
 
         //usecases
@@ -106,7 +108,8 @@ public class Control extends BroadcastReceiver {
     }
 
     private void searchEmployee(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG,Thread.currentThread(), "searchEmployee");
 
         if(!intent.hasExtras()) {
             showDialogUI("Erro na busca");
@@ -117,17 +120,17 @@ public class Control extends BroadcastReceiver {
         List<Integer> flags = intent.getFlags();
 
         if(flags.contains(Intent.FLAG_SEARCH_EMPLOYEE_BY_CPF)){
-            //[LAS]
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+                GesLogger.d(TAG,Thread.currentThread(), "searchEmployee by cpf");
+
 
             String cpf = intent.getString(Intent.KEY_EMPLOYEE_CPF);
             Employee employee = mRepository.getEmployeeByCPF(cpf);
 
             if (employee == null){
-
                 showDialogUI("Nenhum resultado encontrado");
 
                 mUIManager.startSearchEmployeeUI(new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN));
-
             }else {
                 ArrayList<Intent> intents = new ArrayList<>();
                 intents.add(populateIntentWithEmployee(Intent.ACTION_RESULT_SET, employee));
@@ -143,12 +146,16 @@ public class Control extends BroadcastReceiver {
     }
 
     private void launchSearchEmployeeScreen(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG,Thread.currentThread(), "launchSearchEmployeeScreen");
+
         mUIManager.startSearchEmployeeUI(intent);
     }
 
     private void _searchEmployee(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG,Thread.currentThread(), "_searchEmployee");
+
 
         if(intent == null || intent.getAction() != Intent.ACTION_SEARCH_EMPLOYEE) return; // redundant [MCS]
         List<Integer> flags = intent.getFlags();
@@ -186,7 +193,9 @@ public class Control extends BroadcastReceiver {
     }
 
     private void launchRemoveScreen(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG,Thread.currentThread(), "launchRemoveScreen");
+
 
         intent.putFlag(Intent.FLAG_REMOVING_USER_IN_PROGRESS);
         mUIManager.startRemoveUI(intent);
@@ -241,7 +250,6 @@ public class Control extends BroadcastReceiver {
     }
 
     private void showDialogUI(String message){
-        //[LAS]
 
         Intent dialogIntent = new Intent(Intent.ACTION_UI_FLAG);
         dialogIntent.putString(Intent.KEY_MESSAGE_DIALOG, message);
@@ -251,7 +259,7 @@ public class Control extends BroadcastReceiver {
 
     private Employee populateEmployee(Intent intent) {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "populateUser");
+            GesLogger.d(TAG, Thread.currentThread(), "populateEmployee");
 
         return new Employee(
                 intent.getString(Intent.KEY_EMPLOYEE_NAME),
@@ -287,7 +295,6 @@ public class Control extends BroadcastReceiver {
     }
 
     private boolean isValidCredentials(Intent intent) {
-
         if(intent == null) return false;
 
         String login = intent.getString(Intent.KEY_EMPLOYEE_USERNAME);
@@ -341,7 +348,9 @@ public class Control extends BroadcastReceiver {
     }
 
     private Intent populateIntentWithEmployee(int action, Employee employee){
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG,Thread.currentThread(), "populateIntentWithEmployee");
+
 
         Intent intent = new Intent(action);
         intent.putString(Intent.KEY_EMPLOYEE_NAME, employee.getNome());
