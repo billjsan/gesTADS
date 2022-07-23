@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+// [CDS] explicar o que a classe faz
 public class Repository {
 
     private static Repository sInstance;
@@ -18,8 +19,6 @@ public class Repository {
     private final String TAG = Repository.class.getSimpleName();
     private ExecutorService mExecutor = null;
     private List<String> mCargos = new ArrayList<>();
-
-    //private final List<String> teste = Collections.synchronizedList(new ArrayList<>());
 
     private Repository(){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, Thread.currentThread(),
@@ -45,7 +44,7 @@ public class Repository {
                 Employee root = new Employee();
                 root.setLogin("admin");
                 root.setSenha("admin");
-                root.setMatricula("admin");
+                root.setMatricula("admin"); // [ICS] remover chamada desnecessária
                 root.setPrivilegio(Employee.PRIVILEGE_ADMIN);
                 mDB.insertEmployee(root);
             }else {
@@ -69,7 +68,7 @@ public class Repository {
             mExecutor.awaitTermination(10, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                GesLogger.e(TAG, e.getMessage());
+                GesLogger.e(TAG,"can't awaitTermination " + e.getMessage());
         }
         finally {
                 mExecutor.shutdown();
@@ -114,20 +113,20 @@ public class Repository {
     }
 
     public List<String> getPositions() {
-        //[LAS]
+        // [LAS]
 
         this.mCargos = mDB.getCargo();
        return new ArrayList<>(mCargos);
     }
 
     public void setPosition(String position){
-        //[LAS]
+        // [LAS]
 
         this.mCargos.add(position);
     }
 
     public Employee getEmployeeByCPF(String cpf) {
-        //[LAS]
+        // [LAS]
 
         return this.mDB.getEmployeeByCPF(cpf);
     }

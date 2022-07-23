@@ -10,6 +10,7 @@ import src.util.tools.Intent;
 import java.util.ArrayList;
 import java.util.List;
 
+// [CDS] explicar o que a classe faz (Facade)
 public class Control extends BroadcastReceiver {
 
     private final Repository mRepository;
@@ -54,7 +55,7 @@ public class Control extends BroadcastReceiver {
             GesLogger.d(TAG, "onReceive action:" + intent.getAction());
         if(intent == null || intent.getAction() == null) return;
 
-        //usecases
+        //use-cases
         switch (intent.getAction()){
             case Intent.ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN:
                 launchRegisterScreen(intent);
@@ -340,6 +341,8 @@ public class Control extends BroadcastReceiver {
         mUIManager.startLoginUI(intent);
     }
 
+    // [MCS] talvez esse método possa ir
+    // para a classe Intent como metodo estático
     private Intent populateIntentWithEmployee(int action, Employee employee){
         //[LAS]
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
+// [CDS] explicar o que a classe faz
 public abstract class GesTADSUI {
 
     private final String TAG = GesTADSUI.class.getSimpleName();
@@ -49,7 +49,8 @@ public abstract class GesTADSUI {
 
     }
 
-    protected List<Integer> getFlags(){ // avaliar necessidade [ICS]
+    //[ICS] avaliar necessidade, mudar nome para getContextFlags()
+    protected List<Integer> getFlags(){
         //[LAS]
         if(mContextIntent != null && (mContextIntent.getAction() == Intent.ACTION_UI_FLAG)){
             return new ArrayList<>(mContextIntent.getFlags());
