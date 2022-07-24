@@ -49,8 +49,7 @@ public class GesTADSScreensImpl implements GesTADSSUIInterface {
     @Override
     public void searchEmployeeScreen(Intent intent) {
         //[LAS]
-        //new SearchEmployeeScreen(intent);
-        new PROCURAREMPREGADO(intent);
-    }
 
+        new SearchEmployeeScreen(intent);
+    }
 }
