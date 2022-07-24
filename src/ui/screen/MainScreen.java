@@ -38,7 +38,7 @@ public class MainScreen extends GesTADSUI {
         boolean match = false;
         Intent i = null;
         while (!match){
-            String input = scanner.nextLine();
+            String input = scanner.nextLine(); // [ICS] mudar a entrada de dados para screenGetIntegerFromUser()
 
             switch (input){
                 case "0":

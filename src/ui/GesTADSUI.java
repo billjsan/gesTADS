@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
+// [CDS] explicar o que a classe faz
 public abstract class GesTADSUI {
 
+    protected static int STATUS_FAIL = -1;
+    protected static int STATUS_SUCCESS = 0;
     private final String TAG = GesTADSUI.class.getSimpleName();
     public static int LINE_LENGTH = 80;
     protected Intent mContextIntent;
@@ -49,13 +51,21 @@ public abstract class GesTADSUI {
 
     }
 
-    protected List<Integer> getFlags(){ // avaliar necessidade [ICS]
+    //[ICS] avaliar necessidade, mudar nome para getContextFlags()
+    @Deprecated
+    protected List<Integer> getFlags(){
         //[LAS]
         if(mContextIntent != null && (mContextIntent.getAction() == Intent.ACTION_UI_FLAG)){
             return new ArrayList<>(mContextIntent.getFlags());
         }else {
             return null;
         }
+    }
+
+    protected List<Integer> getContextFlags(){
+        // [LAS]
+
+        return new ArrayList<>(mContextIntent.getFlags());
     }
 
     protected final String formattedLineMenu( String str1, String str2) {
@@ -117,6 +127,7 @@ public abstract class GesTADSUI {
         return input;
     }
 
+    @Deprecated
     protected void showMessageDialog(String message){
         //[LAS]
 
@@ -210,5 +221,16 @@ public abstract class GesTADSUI {
         }while (!gotInput);
 
         return value;
+    }
+
+    protected void showGesTADSUIDialogScreen(String message){
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "showGesTADSUIDialogScreen message: " +  message);
+
+        Intent intent = new Intent(Intent.ACTION_LAUNCH_DIALOG_SCREEN);
+        intent.putFlag(Intent.FLAG_DIALOG_MESSAGE);
+        intent.putString(Intent.KEY_MESSAGE_DIALOG, message);
+
+        BroadcastReceiver.sendBroadcast(intent);
     }
 }
