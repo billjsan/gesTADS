@@ -234,13 +234,13 @@ public class SearchEmployeeScreen extends GesTADSUI {
 
         switch (screenGetIntegerFromUser()) {
             case 1: // remover usuário
-                broadcastIntent = new Intent(Intent.ACTION_REMOVE_EMPLOYEE); // todo handler not created yet
+                broadcastIntent = new Intent(Intent.ACTION_REMOVE_EMPLOYEE);
                 broadcastIntent.putFlag(Intent.FLAG_RESULT_SET);
                 broadcastIntent.putList(Intent.KEY_RESULT_SET, intents);
                 break;
 
             case 2: // editar usuário
-                broadcastIntent = new Intent(Intent.ACTION_EDIT_EMPLOYEE); //todo handler not created yet
+                broadcastIntent = new Intent(Intent.ACTION_EDIT_EMPLOYEE); // [ICS] todo handler not created yet
                 broadcastIntent.putFlag(Intent.FLAG_RESULT_SET);
                 broadcastIntent.putList(Intent.KEY_RESULT_SET, intents);
                 break;

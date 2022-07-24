@@ -4,6 +4,7 @@ import src.model.model.Employee;
 import src.model.repository.database.GesTADSDataBaseInterface;
 import src.model.repository.database.VolatileDataBase;
 import src.util.tools.GesLogger;
+import src.util.tools.Intent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,5 +130,11 @@ public class Repository {
         // [LAS]
 
         return this.mDB.getEmployeeByCPF(cpf);
+    }
+
+    public void removeEmployee(Employee empregado) {
+        // [LAS] mostrar nome e cpf do empregado
+
+        mDB.removeEmployee(empregado);
     }
 }

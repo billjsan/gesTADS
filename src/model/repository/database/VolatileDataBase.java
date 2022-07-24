@@ -2,6 +2,7 @@ package src.model.repository.database;
 
 import src.model.model.Employee;
 import src.util.tools.GesLogger;
+import src.util.tools.Intent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,5 +129,12 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
         //[LAS]
 
         this.mPositions.add(position);
+    }
+
+    @Override
+    public void removeEmployee(Employee employee) {
+        // [LAS]
+
+        mEmployees.removeIf(storedEmployee -> storedEmployee.getCpf().equals(employee.getCpf()));
     }
 }

@@ -1,6 +1,7 @@
 package src.model.repository.database;
 
 import src.model.model.Employee;
+import src.util.tools.Intent;
 
 import java.util.List;
 
@@ -39,4 +40,6 @@ public interface GesTADSDataBaseInterface {
     List<String> getCargo();
 
     void setCargo(String position);
+
+    void removeEmployee(Employee employee);
 }

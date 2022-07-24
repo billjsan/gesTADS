@@ -87,6 +87,10 @@ public class Control extends BroadcastReceiver {
                 }
                 break;
 
+            case Intent.ACTION_REMOVE_EMPLOYEE:
+                removeEmployee(intent);
+                break;
+
             case Intent.ACTION_VALIDATE_NEW_USER:
                 validateNewUser(intent);
                 break;
@@ -111,6 +115,41 @@ public class Control extends BroadcastReceiver {
             case Intent.ACTION_CHECK_CREDENTIALS:
                 checkCredentials(intent);
                 break;
+        }
+    }
+
+    private void removeEmployee(Intent intent) {
+        //[LAS]
+
+        if (intent == null || !intent.hasExtras()){
+            if(isLoggedIn) mUIManager.startMainUI(null);
+            else mUIManager.startHomeUI(null);
+        }
+
+        try {
+            List<Integer> flags = intent.getFlags();
+
+            if (flags.contains(Intent.FLAG_RESULT_SET)){
+                List<Intent> list = (List<Intent>) intent.getList(Intent.KEY_RESULT_SET);
+                Intent empregado = list.get(0);
+
+                mRepository.removeEmployee(populateEmployeeWithIntent(empregado));
+                showDialogUI("Usuário removido com sucesso");
+                mUIManager.startSearchEmployeeUI(new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN));
+            }
+        }catch (NullPointerException e){
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "erro ao acessar um recurso: " + e.getMessage());
+
+            if(isLoggedIn) mUIManager.startMainUI(null);
+            else mUIManager.startHomeUI(null);
+
+        }catch (Exception e){
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "um erro desconhecido ocorreu: " + e.getMessage());
+
+            if(isLoggedIn) mUIManager.startMainUI(null);
+            else mUIManager.startHomeUI(null);
         }
     }
 
@@ -147,9 +186,7 @@ public class Control extends BroadcastReceiver {
 
                 mUIManager.startSearchEmployeeUI(resulSetIntent);
             }
-
         }
-
     }
 
     private void launchSearchEmployeeScreen(Intent intent) {
@@ -157,46 +194,6 @@ public class Control extends BroadcastReceiver {
             GesLogger.d(TAG,Thread.currentThread(), "launchSearchEmployeeScreen");
 
         mUIManager.startSearchEmployeeUI(intent);
-    }
-
-    private void _searchEmployee(Intent intent) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG,Thread.currentThread(), "_searchEmployee");
-
-
-        if(intent == null || intent.getAction() != Intent.ACTION_SEARCH_EMPLOYEE) return; // redundant [MCS]
-        List<Integer> flags = intent.getFlags();
-
-        if(flags.contains(Intent.FLAG_SEARCH_EMPLOYEE_BY_CPF)){
-
-            mUIManager.startSearchUI(intent);
-
-        } else if (flags.contains(Intent.FLAG_SEARCH_BY_MATRICULA)) {
-
-            if(intent.getString(Intent.KEY_EMPLOYEE_MATRICULA) != null){
-                Employee emp = mRepository.getEmployeeByMatricula(intent.getString(Intent.KEY_EMPLOYEE_MATRICULA));
-
-                if(emp != null){
-                    Intent populatedIntent = populateIntentWithEmployee(Intent.ACTION_SEARCH_EMPLOYEE, emp);
-                    if(flags.contains(Intent.FLAG_REMOVING_USER_IN_PROGRESS)){
-                        populatedIntent.putFlag(Intent.FLAG_REMOVING_USER_IN_PROGRESS);
-                        mUIManager.startRemoveUI(populatedIntent);
-                    }
-                    mUIManager.startSearchUI(populatedIntent);
-                }
-            }else {
-
-                //matricula nao encontrada
-                mUIManager.startSearchUI(intent);
-            }
-
-        } else if (flags.contains(Intent.FLAG_SEARCH_BY_NOME)) {
-
-            //outr o algo
-        }else {
-            //mais lele
-        }
-
     }
 
     private void launchRemoveScreen(Intent intent) {
@@ -229,7 +226,7 @@ public class Control extends BroadcastReceiver {
 
         if(mRepository.isDbReady()){
             List<Employee> employees = mRepository.getEmployees();
-            Employee newEmployee = populateEmployee(intent);
+            Employee newEmployee = populateEmployeeWithIntent(intent);
 
             for (Employee empl: employees) {
                 if(empl.getCpf().equals(newEmployee.getCpf())){
@@ -264,7 +261,7 @@ public class Control extends BroadcastReceiver {
         mUIManager.startDialogUI(dialogIntent);
     }
 
-    private Employee populateEmployee(Intent intent) {
+    private Employee populateEmployeeWithIntent(Intent intent) {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "populateEmployee");
 
@@ -356,10 +353,10 @@ public class Control extends BroadcastReceiver {
 
     // [MCS] talvez esse método possa ir
     // para a classe Intent como metodo estático
+    @Deprecated
     private Intent populateIntentWithEmployee(int action, Employee employee){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG,Thread.currentThread(), "populateIntentWithEmployee");
-
 
         Intent intent = new Intent(action);
         intent.putString(Intent.KEY_EMPLOYEE_NAME, employee.getNome());
