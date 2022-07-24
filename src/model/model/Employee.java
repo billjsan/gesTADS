@@ -1,5 +1,7 @@
 package src.model.model;
 
+import src.util.tools.GesLogger;
+
 public class Employee {
 
     private final String TAG = Employee.class.getSimpleName();
@@ -32,12 +34,16 @@ public class Employee {
     EmployeeBehavior  mEmployeeBehavior;
 
     public Employee(){
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "Employee");
+
     }
 
     public Employee(String nome, String login, String senha, String cargo, String admissao, String sexo,
                     String cpf, String rg, String endereco, String estadoCivil, String matricula) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, "Employee: nome, cpf, cargo, matricula");
+
         this.mNome = nome;
         this.mLogin = login;
         this.mSenha = senha;
@@ -54,42 +60,58 @@ public class Employee {
     }
 
     public EmployeeBehavior getEmployeeBehavior() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "EmployeeBehavior");
+
         return mEmployeeBehavior;
     }
 
     public void setEmployeeBehavior(EmployeeBehavior mEmployeeBehavior) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, " m Employeer Behavior");
+
         this.mEmployeeBehavior = mEmployeeBehavior;
     }
 
     public String getMatricula() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "getMatricula");
+
         return mMatricula;
     }
 
     public void setMatricula(String mMatricula) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "setMatricula");
+
         this.mMatricula = mMatricula;
     }
 
     public String getNome() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "getNome");
+
         return mNome;
     }
 
     public void setNome(String mNome) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "SetNome");
+
         this.mNome = mNome;
     }
 
     public String getSenha() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, "get senha");
+
         return mSenha;
     }
 
     public final void setSenha(String mSenha) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, "SET SENHA");
+
         this.mSenha = mSenha;
 //        MessageDigest md = null;
 //        try {
@@ -102,58 +124,80 @@ public class Employee {
     }
 
     public int getPrivilegio() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "get Privilegio");
+
         return mPrivilegio;
     }
 
     public String getCargo() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "get cargo");
+
         return mCargo;
     }
 
     public void setCargo(String mCargo) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "set Cargo");
+
         this.mCargo = mCargo;
         setPrivilege();
     }
 
     public String getAdmissao() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "get Adimissao");
+
         return mAdmissao;
     }
 
     public void setAdmissao(String mAdmissao) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "set Admissao");
+
         this.mAdmissao = mAdmissao;
     }
 
     public String getSexo() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "getSexo");
+
         return mSexo;
     }
 
     public void setSexo(String mSexo) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "set Sexo");
+
         this.mSexo = mSexo;
     }
 
     public String getCpf() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, "get Cpf");
+
         return mCpf;
     }
 
     public void setCpf(String mCpf) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, "set CPF");
+
         this.mCpf = mCpf;
     }
 
     public String getRg() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, "get RG");
+
         return mRg;
     }
 
     public void setRg(String mRg) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, "set RG");
+
     }
 
 //    protected String arrayToString(byte[] array){
@@ -168,42 +212,58 @@ public class Employee {
 //    }
 
     public String getEndereco() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, "get endereço");
+
         return mEndereco;
     }
 
     public void setEndereco(String mEndereco) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, "set endereço");
+
         this.mEndereco = mEndereco;
     }
 
     public String getEstadoCivil() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, "get Estado Civil");
+
         return mEstadoCivil;
     }
 
     public void setEstadoCivil(String mEstadoCivil) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, "set estado civil");
+
         this.mEstadoCivil = mEstadoCivil;
     }
 
     public String getLogin() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "Get Login");
+
         return mLogin;
     }
 
     public void setLogin(String login) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "set Login");
+
         this.mLogin = login;
     }
 
     public void setPrivilegio(int mPrivilegio) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "set Privilegio");
+
         this.mPrivilegio = mPrivilegio;
     }
 
     private void setPrivilege(){
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "Qualidade do Privilegio");
+
 
         if (mCargo == null || mCargo.isEmpty()){
             setPrivilegio(Employee.PRIVILEGE_OPERATOR);

@@ -30,7 +30,9 @@ public class UIManager {
     }
 
     public void startLoginUI(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "start loginUI");
+
         mInterface.loginScreen(intent);
 //        new LoginScreen();
 //        ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -43,7 +45,9 @@ public class UIManager {
     }
 
     public void startHomeUI(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "StartHomeUI");
+
 
         mInterface.homeScreen(intent);
     }
