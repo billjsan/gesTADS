@@ -46,24 +46,9 @@ public class RegisterEmployeeScreen extends GesTADSUI {
         System.out.print("Please insert password: ");
         intent.putString(Intent.KEY_EMPLOYEE_PASSWORD, getPassword());
 
-        System.out.print("Please insert RG: ");
-        intent.putString(Intent.KEY_EMPLOYEE_RG, screenGetTextFromUser());
-
-        System.out.print("Please insert address: ");
-        intent.putString(Intent.KEY_EMPLOYEE_ENDERECO, screenGetTextFromUser());
-
-        System.out.print("Please insert admission date: ");
-        intent.putString(Intent.KEY_EMPLOYEE_ADMISSAO, screenGetTextFromUser());
-
-        System.out.print("Please insert material status: ");
-        intent.putString(Intent.KEY_EMPLOYEE_ESTADO_CIVIL, screenGetTextFromUser());
-
-        System.out.print("Please insert gender: ");
-        intent.putString(Intent.KEY_EMPLOYEE_SEXO, screenGetTextFromUser());
-
         System.out.println("Please insert the position: ");
         System.out.println();
-        intent.putString(Intent.KEY_EMPLOYEE_SEXO, getCargo());
+        intent.putString(Intent.KEY_EMPLOYEE_CARGO, getCargo());
 
         BroadcastReceiver.sendBroadcast(intent);
 

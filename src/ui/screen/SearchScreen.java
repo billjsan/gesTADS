@@ -7,6 +7,7 @@ import src.util.tools.Intent;
 
 import java.util.List;
 
+// [ICS] remover essa classe no futuro
 public class SearchScreen extends GesTADSUI {
 
     private final String TAG = "SearchScreen";
@@ -34,32 +35,13 @@ public class SearchScreen extends GesTADSUI {
                 telaBuscaPorCPF();
             } else if (flags.contains(Intent.FLAG_SEARCH_BY_NOME)) {
                 telaBuscaPorNome();
-            } else if (flags.contains(Intent.FLAG_SEARCH_BY_MATRICULA)) {
-                telaBuscaPorMatricula();
             }
-
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG,
                     Thread.currentThread(), "no Flags found. flags in the intend: " + flags.size());
         }
 
 
         onDestroy();
-    }
-
-    private void telaBuscaPorMatricula() {
-        System.out.println(formattedTitle("BUSCA POR MATRÍCULA"));
-
-        Intent matIntent = mContextIntent;
-
-        if(matIntent.getString(Intent.KEY_EMPLOYEE_MATRICULA) == null){
-
-            System.out.print("Ente com a matricula para busca");
-            matIntent.putString(Intent.KEY_EMPLOYEE_MATRICULA, screenGetTextFromUser());
-        }else {
-            //recuperar os dados que tem la
-        }
-
-        BroadcastReceiver.sendBroadcast(matIntent);
     }
 
     private void telaBuscaPorNome() {
@@ -72,8 +54,6 @@ public class SearchScreen extends GesTADSUI {
     private void telaBuscaPorCPF() {
         System.out.println(formattedTitle("BUSCA POR CPF"));
         System.out.print("Ente com o CPF");
-
-
 
     }
 

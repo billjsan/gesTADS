@@ -7,6 +7,7 @@ import src.util.tools.Intent;
 
 import java.util.List;
 
+// [ICS] remover essa classe no futuro
 public class RemoveEmployeeScreen extends GesTADSUI {
     private static final String TAG = "RemoveScreen";
 
@@ -57,10 +58,7 @@ public class RemoveEmployeeScreen extends GesTADSUI {
                     break;
 
                 case "1":
-                    i = new Intent(Intent.ACTION_SEARCH_EMPLOYEE);
-                    i.putFlag(Intent.FLAG_SEARCH_BY_MATRICULA);
-                    BroadcastReceiver.sendBroadcast(i);
-                    shouldRun = false;
+
                     break;
 
                 case "2":

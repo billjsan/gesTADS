@@ -270,13 +270,7 @@ public class Control extends BroadcastReceiver {
                 intent.getString(Intent.KEY_EMPLOYEE_USERNAME),
                 intent.getString(Intent.KEY_EMPLOYEE_PASSWORD),
                 intent.getString(Intent.KEY_EMPLOYEE_CARGO),
-                intent.getString(Intent.KEY_EMPLOYEE_ADMISSAO),
-                intent.getString(Intent.KEY_EMPLOYEE_SEXO),
-                intent.getString(Intent.KEY_EMPLOYEE_CPF),
-                intent.getString(Intent.KEY_EMPLOYEE_RG),
-                intent.getString(Intent.KEY_EMPLOYEE_ENDERECO),
-                intent.getString(Intent.KEY_EMPLOYEE_ESTADO_CIVIL),
-                intent.getString(Intent.KEY_EMPLOYEE_MATRICULA)
+                intent.getString(Intent.KEY_EMPLOYEE_CPF)
         );
     }
 
@@ -362,13 +356,7 @@ public class Control extends BroadcastReceiver {
         intent.putString(Intent.KEY_EMPLOYEE_NAME, employee.getNome());
         intent.putString(Intent.KEY_EMPLOYEE_USERNAME, employee.getLogin());
         intent.putString(Intent.KEY_EMPLOYEE_CPF, employee.getCpf());
-        intent.putString(Intent.KEY_EMPLOYEE_RG, employee.getRg());
-        intent.putString(Intent.KEY_EMPLOYEE_SEXO, employee.getSexo());
-        intent.putString(Intent.KEY_EMPLOYEE_ENDERECO, employee.getEndereco());
-        intent.putString(Intent.KEY_EMPLOYEE_ESTADO_CIVIL, employee.getEstadoCivil());
-        intent.putString(Intent.KEY_EMPLOYEE_MATRICULA, employee.getMatricula());
         intent.putString(Intent.KEY_EMPLOYEE_CARGO, employee.getCargo());
-        intent.putString(Intent.KEY_EMPLOYEE_ADMISSAO, employee.getAdmissao());
         intent.putInt(Intent.KEY_EMPLOYEE_PRIVILEGE, employee.getPrivilegio());
 
         return intent;

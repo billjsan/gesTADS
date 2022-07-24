@@ -18,15 +18,9 @@ public class Employee {
     private String mSenha = "";
     protected int mPrivilegio = 0;
     private String mCargo = "";
-    private String mAdmissao = "";
 
     //Dados do usuario [CDS]
-    private String mSexo = "";
     private String mCpf = "";
-    private String mRg = "";
-    private String mEndereco = "";
-    private String mEstadoCivil = "";
-    private String mMatricula = "";
     private String mLogin;
 
     EmployeeBehavior  mEmployeeBehavior;
@@ -35,20 +29,13 @@ public class Employee {
         //[LAS]
     }
 
-    public Employee(String nome, String login, String senha, String cargo, String admissao, String sexo,
-                    String cpf, String rg, String endereco, String estadoCivil, String matricula) {
+    public Employee(String nome, String login, String senha, String cargo, String cpf) {
         //[LAS]
         this.mNome = nome;
         this.mLogin = login;
         this.mSenha = senha;
         this.mCargo = cargo;
-        this.mAdmissao = admissao;
-        this.mSexo = sexo;
         this.mCpf = cpf;
-        this.mRg = rg;
-        this.mEndereco = endereco;
-        this.mEstadoCivil = estadoCivil;
-        this.mMatricula = matricula;
 
         setPrivilege();
     }
@@ -61,16 +48,6 @@ public class Employee {
     public void setEmployeeBehavior(EmployeeBehavior mEmployeeBehavior) {
         //[LAS]
         this.mEmployeeBehavior = mEmployeeBehavior;
-    }
-
-    public String getMatricula() {
-        //[LAS]
-        return mMatricula;
-    }
-
-    public void setMatricula(String mMatricula) {
-        //[LAS]
-        this.mMatricula = mMatricula;
     }
 
     public String getNome() {
@@ -117,26 +94,6 @@ public class Employee {
         setPrivilege();
     }
 
-    public String getAdmissao() {
-        //[LAS]
-        return mAdmissao;
-    }
-
-    public void setAdmissao(String mAdmissao) {
-        //[LAS]
-        this.mAdmissao = mAdmissao;
-    }
-
-    public String getSexo() {
-        //[LAS]
-        return mSexo;
-    }
-
-    public void setSexo(String mSexo) {
-        //[LAS]
-        this.mSexo = mSexo;
-    }
-
     public String getCpf() {
         //[LAS]
         return mCpf;
@@ -147,44 +104,8 @@ public class Employee {
         this.mCpf = mCpf;
     }
 
-    public String getRg() {
-        //[LAS]
-        return mRg;
-    }
-
     public void setRg(String mRg) {
         //[LAS]
-    }
-
-//    protected String arrayToString(byte[] array){
-//        StringBuilder s = new StringBuilder();
-//        for (byte b : array) {
-//            int parteAlta = ((b >> 4) & 0xf) << 4;
-//            int parteBaixa = b & 0xf;
-//            if (parteAlta == 0) s.append('0');
-//            s.append(Integer.toHexString(parteAlta | parteBaixa));
-//        }
-//        return s.toString();
-//    }
-
-    public String getEndereco() {
-        //[LAS]
-        return mEndereco;
-    }
-
-    public void setEndereco(String mEndereco) {
-        //[LAS]
-        this.mEndereco = mEndereco;
-    }
-
-    public String getEstadoCivil() {
-        //[LAS]
-        return mEstadoCivil;
-    }
-
-    public void setEstadoCivil(String mEstadoCivil) {
-        //[LAS]
-        this.mEstadoCivil = mEstadoCivil;
     }
 
     public String getLogin() {

@@ -29,8 +29,6 @@ public interface GesTADSDataBaseInterface {
 
     Employee getEmployeeByCPF(String cpf);
 
-    Employee getEmployeeByMatricula(String matricula);
-
     void insertEmployee(Employee employee);
 
     boolean isEmptyDB();

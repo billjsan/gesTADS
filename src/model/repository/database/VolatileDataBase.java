@@ -89,21 +89,10 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     }
 
     @Override
-    public Employee getEmployeeByMatricula(String matricula) {
-        // [LAS]
-        for (Employee e: mEmployees){
-            if(e.getMatricula().equals(matricula)){
-                return e;
-            }
-        }
-        return null;
-    }
-
-    @Override
     public void insertEmployee(Employee employee) {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
             GesLogger.d(TAG, Thread.currentThread(),"insert employee: login " + employee.getLogin()
-            + " senha: " + employee.getSenha() + " matricula: " + employee.getMatricula());
+            + " senha: " + employee.getSenha() );
 
         mEmployees.add(employee);
     }

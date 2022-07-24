@@ -4,7 +4,6 @@ import src.model.model.Employee;
 import src.model.repository.database.GesTADSDataBaseInterface;
 import src.model.repository.database.VolatileDataBase;
 import src.util.tools.GesLogger;
-import src.util.tools.Intent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +20,8 @@ public class Repository {
     private ExecutorService mExecutor = null;
     private List<String> mCargos = new ArrayList<>();
 
-    private Repository(){
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, Thread.currentThread(),
+    private Repository() {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, Thread.currentThread(),
                 "Repository constructor");
 
         mExecutor = Executors.newSingleThreadExecutor();
@@ -32,35 +31,34 @@ public class Repository {
     }
 
     //[CDS]
-    public void startRepository(){
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+    public void startRepository() {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "startRepository");
 
         mExecutor.submit(() -> {
             mDB.startUpDadaBase();
-            if(mDB.getEmployees().isEmpty()){
-                if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            if (mDB.getEmployees().isEmpty()) {
+                if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                     GesLogger.d(TAG, Thread.currentThread(), "DB is empty");
 
                 Employee root = new Employee();
                 root.setLogin("admin");
                 root.setSenha("admin");
-                root.setMatricula("admin"); // [ICS] remover chamada desnecessária
                 root.setPrivilegio(Employee.PRIVILEGE_ADMIN);
                 mDB.insertEmployee(root);
-            }else {
-                if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            } else {
+                if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                     GesLogger.d(TAG, Thread.currentThread(), "DB is not empty");
             }
         });
     }
 
     public void closeDatabase() {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "closeDatabase");
 
-        if(mExecutor == null){
-            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+        if (mExecutor == null) {
+            if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
                 GesLogger.e(TAG, "executor is null");
             return;
         }
@@ -69,37 +67,27 @@ public class Repository {
             mExecutor.awaitTermination(10, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                GesLogger.e(TAG,"can't awaitTermination " + e.getMessage());
-        }
-        finally {
-                mExecutor.shutdown();
-                mExecutor.shutdownNow();
+                GesLogger.e(TAG, "can't awaitTermination " + e.getMessage());
+        } finally {
+            mExecutor.shutdown();
+            mExecutor.shutdownNow();
         }
     }
 
-    public static Repository getInstance(){
-        if(sInstance == null){
+    public static Repository getInstance() {
+        if (sInstance == null) {
             sInstance = new Repository();
         }
-        if(GesLogger.ISFULLLOGABLE) GesLogger.d("Repository", Thread.currentThread(),
+        if (GesLogger.ISFULLLOGABLE) GesLogger.d("Repository", Thread.currentThread(),
                 "getInstance");
         return sInstance;
     }
 
     public List<Employee> getEmployees() {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "getEmployees");
 
         return new ArrayList<>(mDB.getEmployees());
-    }
-
-    public Employee getEmployeeByMatricula(String matricula) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getEmployeeByMatricula matricula: " + matricula);
-        if(mDB.isDBInitialized()){
-            return mDB.getEmployeeByMatricula(matricula); //[refactor] pensar sobre abordagem em outra thread
-        }
-        return null;
     }
 
     public void addEmployee(Employee employee) {
@@ -108,7 +96,7 @@ public class Repository {
 
     public boolean isDbReady() {
         boolean response = mDB.isDBInitialized();
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "isDbReady: " + response);
         return response;
     }
@@ -117,10 +105,10 @@ public class Repository {
         // [LAS]
 
         this.mCargos = mDB.getCargo();
-       return new ArrayList<>(mCargos);
+        return new ArrayList<>(mCargos);
     }
 
-    public void setPosition(String position){
+    public void setPosition(String position) {
         // [LAS]
 
         this.mCargos.add(position);
