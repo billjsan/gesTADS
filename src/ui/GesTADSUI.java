@@ -4,6 +4,7 @@ import src.util.tools.BroadcastReceiver;
 import src.util.tools.GesLogger;
 import src.util.tools.Intent;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -49,6 +50,27 @@ public abstract class GesTADSUI {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "onDestroy");
 
+        try {
+            if (System.getProperty("os.name").contains("Windows")){
+
+                // [ICS] Código não testado em windows
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            }else {
+
+                // [MCS] não funciona no terminal da IDE
+                // procurar se existe outro jeito que funcione em
+                // qualquer lugar:
+                System.out.print("\033\143");
+            }
+        }catch (IOException e){
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "erro ao apagar a tela: " + e.getMessage());
+
+        }catch (InterruptedException e){
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "a operação de apagar a tela foi interrompida: " + e.getMessage());
+
+        }
     }
 
     //[ICS] avaliar necessidade, mudar nome para getContextFlags()
