@@ -66,6 +66,7 @@ public class UIManager {
         mInterface.dialogScreen(intent);
     }
 
+    @Deprecated
     public void startRemoveUI(Intent intent) {
         //[LAS]
         mInterface.removeScreen(intent);

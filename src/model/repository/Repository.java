@@ -44,8 +44,11 @@ public class Repository {
                 Employee root = new Employee();
                 root.setLogin("admin");
                 root.setSenha("admin");
+                root.setCpf("00000000000");
+                root.generateID();
                 root.setPrivilegio(Employee.PRIVILEGE_ADMIN);
                 mDB.insertEmployee(root);
+
             } else {
                 if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                     GesLogger.d(TAG, Thread.currentThread(), "DB is not empty");
@@ -91,6 +94,9 @@ public class Repository {
     }
 
     public void addEmployee(Employee employee) {
+        // [LAS]
+
+        employee.generateID();
         mDB.insertEmployee(employee);
     }
 
@@ -124,5 +130,11 @@ public class Repository {
         // [LAS] mostrar nome e cpf do empregado
 
         mDB.removeEmployee(empregado);
+    }
+
+    public void updateEmployee(Employee employee, Long id) {
+        // [LAS]
+
+        mDB.updateEmployee(employee, id);
     }
 }

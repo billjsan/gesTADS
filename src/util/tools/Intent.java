@@ -1,6 +1,8 @@
 package src.util.tools;
 
 
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +24,7 @@ public class Intent implements Serializable {
     public static final int ACTION_VALIDATE_NEW_USER = 1009;
     public static final int ACTION_RESULT_SET = 1010;
     public static final int ACTION_REMOVE_EMPLOYEE = 1011;
-    public static final int ACTION_EDIT_EMPLOYEE = 1012;
+    public static final int ACTION_UPDATE_EMPLOYEE = 1012;
 
     public static final int ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN = 2000;
     public static final int ACTION_LAUNCH_LOGIN_SCREEN = 2001;
@@ -31,9 +33,11 @@ public class Intent implements Serializable {
     public static final int ACTION_LAUNCH_REMOVE_USER_SCREEN = 2004;
     public static final int ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN = 2005;
     public static final int ACTION_LAUNCH_DIALOG_SCREEN = 2006;
+    public static final int ACTION_LAUNCH_EDIT_EMPLOYEE = 2007;
 
     //Keys [CDS]
     public static final String KEY_EMPLOYEE_USERNAME = "key_username";
+    public static final String KEY_EMPLOYEE_ID = "key_id";
     public static final String KEY_EMPLOYEE_PASSWORD = "key_password";
     public static final String KEY_EMPLOYEE_NAME = "key_name";
     public static final String KEY_EMPLOYEE_CPF = "key_cpf";
@@ -58,6 +62,7 @@ public class Intent implements Serializable {
     private final List<Integer> mFlagsList =  new ArrayList<>();
     private final int mAction;
     private boolean mHasExtras = false;
+    private HashMap<String, Long> mLongMap = new HashMap<>();
 
     public Intent(Integer action) {
         // [LAS]
@@ -126,5 +131,20 @@ public class Intent implements Serializable {
     final public boolean hasExtras(){
         //[LAS]
         return this.mHasExtras;
+    }
+
+    public void putLong(String key, Long id) {
+        // [LAS] imprimir a chave e o id
+
+        this.mLongMap.put(key, id);
+    }
+
+    public Long getLong(String key) {
+        // [LAS] imprimir a chave e o id
+
+        if (mLongMap.containsKey(key))
+            return mLongMap.get(key);
+
+        return null;
     }
 }

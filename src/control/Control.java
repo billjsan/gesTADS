@@ -67,10 +67,6 @@ public class Control extends BroadcastReceiver {
                 launchLoginScreen(intent);
                 break;
 
-            case Intent.ACTION_LAUNCH_REMOVE_USER_SCREEN:
-                launchRemoveScreen(intent);
-                break;
-
             case Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN:
                 launchSearchEmployeeScreen(intent);
                 break;
@@ -87,17 +83,20 @@ public class Control extends BroadcastReceiver {
                 }
                 break;
 
+            case Intent.ACTION_LAUNCH_EDIT_EMPLOYEE:
+                editEmployee(intent);
+                break;
+
+            case Intent.ACTION_UPDATE_EMPLOYEE:
+                updateEmployee(intent);
+                break;
+
             case Intent.ACTION_REMOVE_EMPLOYEE:
                 removeEmployee(intent);
                 break;
 
             case Intent.ACTION_VALIDATE_NEW_USER:
                 validateNewUser(intent);
-                break;
-
-            case Intent.ACTION_LOGIN:
-
-                System.out.println("erro, nao deveria rodar a tela de login por aqui");
                 break;
 
             case Intent.ACTION_SEARCH_EMPLOYEE:
@@ -116,6 +115,63 @@ public class Control extends BroadcastReceiver {
                 checkCredentials(intent);
                 break;
         }
+    }
+
+    private void updateEmployee(Intent intent) {
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "updateEmployee");
+
+        List<Integer> flags = intent.getFlags();
+
+        if(flags.contains(Intent.FLAG_RESULT_SET)){
+            if(mRepository.isDbReady()){
+
+                try {
+                    Intent employeeIntent = (Intent) intent.getList(Intent.KEY_RESULT_SET).get(0);
+
+                    Employee newEmployee = populateEmployeeWithIntent(employeeIntent);
+
+                    mRepository.updateEmployee(newEmployee, employeeIntent.getLong(Intent.KEY_EMPLOYEE_ID));
+
+                    showDialogUI("Usuário atualizado com sucesso");
+
+                    if(isLoggedIn) mUIManager.startMainUI(null);
+                    else mUIManager.startLoginUI(null);
+
+                }catch (NullPointerException e){
+                    if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                        GesLogger.e(TAG, "um erro ocorreu ao acessar o dado");
+
+                }catch (Exception e){
+                    if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                        GesLogger.e(TAG, "um erro desconhecido ocorreu: " + e.getMessage());
+                }
+
+            }else {
+
+                showDialogUI("banco de dados offline");
+                if(isLoggedIn) mUIManager.startMainUI(null);
+                else mUIManager.startLoginUI(null);
+            }
+        }else {
+            showDialogUI("Erro ao processa a solicitação ");
+            if(isLoggedIn) mUIManager.startMainUI(null);
+            else mUIManager.startLoginUI(null);
+        }
+    }
+
+    private void editEmployee(Intent intent) {
+        // [LAS]
+
+        if(intent == null || intent.getAction() != Intent.ACTION_LAUNCH_EDIT_EMPLOYEE){
+            intent = new Intent(Intent.ACTION_LAUNCH_EDIT_EMPLOYEE);
+        }
+
+        intent.putFlag(Intent.FLAG_POSITIONS_DATA);
+        intent.putList(Intent.KEY_DATA_CARGOS, mRepository.getPositions());
+
+        // reaproveita a tela de registro
+        mUIManager.startRegisterUI(intent);
     }
 
     private void removeEmployee(Intent intent) {
@@ -169,14 +225,15 @@ public class Control extends BroadcastReceiver {
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                 GesLogger.d(TAG,Thread.currentThread(), "searchEmployee by cpf");
 
-
             String cpf = intent.getString(Intent.KEY_EMPLOYEE_CPF);
             Employee employee = mRepository.getEmployeeByCPF(cpf);
 
             if (employee == null){
                 showDialogUI("Nenhum resultado encontrado");
 
-                mUIManager.startSearchEmployeeUI(new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN));
+                if(isLoggedIn)
+                    mUIManager.startSearchEmployeeUI(new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN));
+
             }else {
                 ArrayList<Intent> intents = new ArrayList<>();
                 intents.add(populateIntentWithEmployee(Intent.ACTION_RESULT_SET, employee));
@@ -184,7 +241,7 @@ public class Control extends BroadcastReceiver {
                 Intent resulSetIntent = new Intent(Intent.ACTION_RESULT_SET);
                 resulSetIntent.putList(Intent.KEY_RESULT_SET, intents);
 
-                mUIManager.startSearchEmployeeUI(resulSetIntent);
+                if(isLoggedIn) mUIManager.startSearchEmployeeUI(resulSetIntent);
             }
         }
     }
@@ -194,15 +251,6 @@ public class Control extends BroadcastReceiver {
             GesLogger.d(TAG,Thread.currentThread(), "launchSearchEmployeeScreen");
 
         mUIManager.startSearchEmployeeUI(intent);
-    }
-
-    private void launchRemoveScreen(Intent intent) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG,Thread.currentThread(), "launchRemoveScreen");
-
-
-        intent.putFlag(Intent.FLAG_REMOVING_USER_IN_PROGRESS);
-        mUIManager.startRemoveUI(intent);
     }
 
     private void launchLoginScreen(Intent intent) {
@@ -338,16 +386,8 @@ public class Control extends BroadcastReceiver {
         BroadcastReceiver.shutdownBroadcastExecutors();
     }
 
-    private void login(Intent intent) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "login");
-
-        mUIManager.startLoginUI(intent);
-    }
-
     // [MCS] talvez esse método possa ir
     // para a classe Intent como metodo estático
-    @Deprecated
     private Intent populateIntentWithEmployee(int action, Employee employee){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG,Thread.currentThread(), "populateIntentWithEmployee");
@@ -358,6 +398,7 @@ public class Control extends BroadcastReceiver {
         intent.putString(Intent.KEY_EMPLOYEE_CPF, employee.getCpf());
         intent.putString(Intent.KEY_EMPLOYEE_CARGO, employee.getCargo());
         intent.putInt(Intent.KEY_EMPLOYEE_PRIVILEGE, employee.getPrivilegio());
+        intent.putLong(Intent.KEY_EMPLOYEE_ID, employee.getId());
 
         return intent;
     }
@@ -373,13 +414,12 @@ public class Control extends BroadcastReceiver {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, "launchRegisterScreen");
 
-        if(intent == null || intent.getAction() != Intent.ACTION_UI_FLAG){
-            intent = new Intent(Intent.ACTION_UI_FLAG);
-
-            //lista de cargos
-            intent.putFlag(Intent.FLAG_POSITIONS_DATA);
-            intent.putList(Intent.KEY_DATA_CARGOS, mRepository.getPositions());
+        if(intent == null || intent.getAction() != Intent.ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN){
+            intent = new Intent(Intent.ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN);
         }
+
+        intent.putFlag(Intent.FLAG_POSITIONS_DATA);
+        intent.putList(Intent.KEY_DATA_CARGOS, mRepository.getPositions());
 
         mUIManager.startRegisterUI(intent);
     }

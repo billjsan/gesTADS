@@ -5,6 +5,7 @@ import src.util.tools.BroadcastReceiver;
 import src.util.tools.GesLogger;
 import src.util.tools.Intent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.MissingFormatArgumentException;
 
@@ -12,20 +13,81 @@ public class RegisterEmployeeScreen extends GesTADSUI {
 
 
     private final String TAG = "RegisterEmployeeScreen";
+    private String mContextFlag = "";
+    private final String PRIMARY_SCREEN = "primary-screen";
+    private final String EDIT_EMPLOYEE_SCREEN = "edit-employee-screen";
+
 
     public RegisterEmployeeScreen(Intent intent) {
+        // [LAS] imprimir a action do intent
+
         super(intent);
     }
 
+    /**
+     * Método é chamado no momento da criação da tela pela classe pai GesTADSUI. Ele configura o contexto
+     * em que a UI deve ser exibida (mContextFlag) a partir do intent de contexto (mContextIntent)
+     */
     @Override
     public void onCreate() {
+        // [LAS]
+
+        if (mContextIntent.getAction() == Intent.ACTION_LAUNCH_EDIT_EMPLOYEE &&
+                mContextIntent.hasExtras()) {
+            if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE) {
+                GesLogger.d(TAG, Thread.currentThread(), "ACTION_EDIT_EMPLOYEE");
+            }
+
+            mContextFlag = EDIT_EMPLOYEE_SCREEN;
+
+        }else if (mContextIntent.getAction() == Intent.ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN &&
+                mContextIntent.hasExtras()){
+            if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE) {
+                GesLogger.d(TAG, Thread.currentThread(), "ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN");
+            }
+
+            mContextFlag = PRIMARY_SCREEN;
+        }else {
+
+            mContextFlag = null;
+        }
         super.onCreate();
     }
 
+    /**
+     * Metodo chamado na criação da view. Tudo o que será exibido na tela é definido
+     * e panipulado aqui nesse método, que pode delegar ações para outros métodos dentro ou fora da tela
+     */
     @Override
     public void createView() {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, "createView");
+
+        switch (mContextFlag){
+            case PRIMARY_SCREEN:
+
+                registerEmployee();
+                break;
+
+            case EDIT_EMPLOYEE_SCREEN:
+
+                editEmployee();
+                break;
+
+            default:
+
+                unreachCase();
+        }
+
+        onDestroy();
+    }
+
+    private void unreachCase() {
+        BroadcastReceiver.sendBroadcast(new Intent(Intent.ACTION_LAUNCH_MAIN_SCREEN));
+    }
+
+    private void registerEmployee() {
+        // [LAS]
 
         System.out.println(formattedTitle("REGISTER"));
         System.out.println(formattedTitle("Bem vindo ao GesTADS"));
@@ -51,8 +113,105 @@ public class RegisterEmployeeScreen extends GesTADSUI {
         intent.putString(Intent.KEY_EMPLOYEE_CARGO, getCargo());
 
         BroadcastReceiver.sendBroadcast(intent);
+    }
 
-        onDestroy();
+    /**
+     * Esse método é chamado quando a ação dessa tela é editar um utilizador. Essa tela foi
+     * implementada na mesma classe da tela de cadastro para reutilizar metodos úteis como getCargo()
+     * e getPassword() e evitar boilet plate, talvez no futuro essa tela seja implementada na sua propria classe
+     */
+    private void editEmployee(){
+        // [LAS]
+
+        List<Integer> contextFlags = getContextFlags();
+        if(contextFlags.contains(Intent.FLAG_RESULT_SET)){
+            try {
+
+                List<Intent> list = (List<Intent>) mContextIntent.getList(Intent.KEY_RESULT_SET);
+                Intent employeeContentIntent = list.get(0);
+
+                System.out.println(formattedTitle("EDITAR USUÁRIO"));
+                System.out.println(formattedTitle("Bem vindo ao GesTADS"));
+                System.out.println(formattedTitle("Vocês está editando um usuário"));
+                System.out.println();
+                System.out.println("Select one item to edit it:");
+                System.out.println();
+                System.out.println(formattedLineMenu("Name: " +
+                        employeeContentIntent.getString(Intent.KEY_EMPLOYEE_NAME), "[1]"));
+                System.out.println(formattedLineMenu("CPF: " +
+                        employeeContentIntent.getString(Intent.KEY_EMPLOYEE_CPF), "[2]"));
+                System.out.println(formattedLineMenu("Username: " +
+                        employeeContentIntent.getString(Intent.KEY_EMPLOYEE_USERNAME), "[3]"));
+                System.out.println(formattedLineMenu("Position: " +
+                        employeeContentIntent.getString(Intent.KEY_EMPLOYEE_CARGO), "[4]"));
+                System.out.println();
+                System.out.println(formattedLineMenu("Cancel", "[0]"));
+                System.out.println(formattedLineMenu("Save changes", "[s]"));
+                System.out.println();
+                System.out.print("Chose one option bove:");
+
+                handleEditEmployeeOption(employeeContentIntent);
+
+            }catch (Exception e){
+                if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "Ocorreu um erro ao recuperar empregado: " + e.getMessage());
+
+                showGesTADSUIDialogScreen("Ocorreu um erro ao recuperar empregado!");
+                BroadcastReceiver.sendBroadcast(new Intent(Intent.ACTION_LAUNCH_MAIN_SCREEN));
+            }
+
+        }else {
+            showGesTADSUIDialogScreen("Essa etapa não foi prevista!");
+            BroadcastReceiver.sendBroadcast(new Intent(Intent.ACTION_LAUNCH_MAIN_SCREEN));
+        }
+    }
+
+    /**
+     * Esse método trata a escolha do usuário sobre quais campos deseja editar e direciona o fluxo
+     * da aplicação de acordo com a decisão. Recene como @param employeeContentIntent um intent contendo
+     * os dados do usuário que será editado.
+     */
+    private void handleEditEmployeeOption(Intent employeeContentIntent) {
+
+        String userInput = screenGetTextFromUser();
+
+        switch (userInput){
+            case "1":
+                System.out.print("Enter new name: ");
+                employeeContentIntent.putString(Intent.KEY_EMPLOYEE_NAME, screenGetTextFromUser());
+                break;
+
+            case "2":
+                System.out.print("Enter new CPF: ");
+                employeeContentIntent.putString(Intent.KEY_EMPLOYEE_CPF, screenGetTextFromUser());
+                break;
+
+            case "3":
+                System.out.print("Enter new username: ");
+                employeeContentIntent.putString(Intent.KEY_EMPLOYEE_USERNAME, screenGetTextFromUser());
+                break;
+
+            case "4":
+                System.out.println("Enter new position: ");
+                employeeContentIntent.putString(Intent.KEY_EMPLOYEE_CARGO, getCargo());
+                break;
+
+            case "0":
+                BroadcastReceiver.sendBroadcast(new Intent(Intent.ACTION_LAUNCH_MAIN_SCREEN));
+                return;
+
+            case "s":
+
+                mContextIntent = new Intent(Intent.ACTION_UPDATE_EMPLOYEE);
+                mContextIntent.putFlag(Intent.FLAG_RESULT_SET);
+                break;
+
+        }
+
+        List<Intent> intents = new ArrayList<>();
+        intents.add(employeeContentIntent);
+        mContextIntent.putList(Intent.KEY_RESULT_SET, intents);
+        BroadcastReceiver.sendBroadcast(mContextIntent);
     }
 
     private String getPassword() {

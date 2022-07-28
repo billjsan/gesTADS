@@ -37,13 +37,13 @@ public class GesTADSScreensImpl implements GesTADSSUIInterface {
     @Override
     public void removeScreen(Intent intent) {
         //[LAS]
-        new RemoveEmployeeScreen(intent);
+
     }
 
     @Override
     public void searchScreen(Intent intent) {
         //[LAS]
-        new SearchScreen(intent);
+
     }
 
     @Override

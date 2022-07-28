@@ -95,10 +95,10 @@ public class SearchEmployeeScreen extends GesTADSUI {
         System.out.println(formattedTitle("BUSCAR FUNCIONÁRIO"));
         System.out.println();
         System.out.println("Opções:");
-        System.out.println(formattedLineMenu("Buscar por CPF", "[1]")); //todo
-        System.out.println(formattedLineMenu("Buscar por Nome", "[não implementado]")); //todo
-        System.out.println(formattedLineMenu("Buscar por Cargo", "[não implementado]")); //todo
-        System.out.println(formattedLineMenu("Buscar por Matrícula", "[não implementado]")); //todo
+        System.out.println();
+        System.out.println(formattedLineMenu("Buscar por CPF", "[1]"));
+        System.out.println(formattedLineMenu("Buscar por Nome", "[não implementado]")); // [ICS] precisa implementar
+        System.out.println(formattedLineMenu("Buscar por Cargo", "[não implementado]")); // [ICS] precisa implementar
         System.out.println(formattedLineMenu("Cancelar", "[0]"));
 
         Intent broadcastIntent = null;
@@ -240,7 +240,7 @@ public class SearchEmployeeScreen extends GesTADSUI {
                 break;
 
             case 2: // editar usuário
-                broadcastIntent = new Intent(Intent.ACTION_EDIT_EMPLOYEE); // [ICS] todo handler not created yet
+                broadcastIntent = new Intent(Intent.ACTION_LAUNCH_EDIT_EMPLOYEE); // [ICS] todo handler not created yet
                 broadcastIntent.putFlag(Intent.FLAG_RESULT_SET);
                 broadcastIntent.putList(Intent.KEY_RESULT_SET, intents);
                 break;

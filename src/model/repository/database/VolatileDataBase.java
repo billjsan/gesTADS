@@ -6,8 +6,10 @@ import src.util.tools.Intent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class VolatileDataBase implements GesTADSDataBaseInterface {
+
     public final String TAG = VolatileDataBase.class.getSimpleName();
     private static VolatileDataBase instance;
     private volatile boolean isDBStarted;
@@ -91,8 +93,8 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     @Override
     public void insertEmployee(Employee employee) {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
-            GesLogger.d(TAG, Thread.currentThread(),"insert employee: login " + employee.getLogin()
-            + " senha: " + employee.getSenha() );
+            GesLogger.d(TAG, Thread.currentThread(),"insertEmployee: login: " + employee.getLogin()
+            + " senha: " + employee.getSenha() + " id: " + employee.getId());
 
         mEmployees.add(employee);
     }
@@ -125,5 +127,24 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
         // [LAS]
 
         mEmployees.removeIf(storedEmployee -> storedEmployee.getCpf().equals(employee.getCpf()));
+    }
+
+    @Override
+    public void updateEmployee(Employee editedEmployee, Long id) {
+        // [LAS]
+
+        for (Employee storedEmployee: mEmployees) {
+            if (Objects.equals(storedEmployee.getId(), id)){
+                storedEmployee.setNome(editedEmployee.getNome());
+                storedEmployee.setLogin(editedEmployee.getLogin());
+                storedEmployee.setCpf(editedEmployee.getCpf());
+                storedEmployee.setCargo(editedEmployee.getCargo());
+                storedEmployee.setSenha(editedEmployee.getSenha());
+
+            }else {
+                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "usuário não encontrado");
+            }
+        }
     }
 }

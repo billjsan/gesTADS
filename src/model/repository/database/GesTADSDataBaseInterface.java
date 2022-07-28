@@ -40,4 +40,6 @@ public interface GesTADSDataBaseInterface {
     void setCargo(String position);
 
     void removeEmployee(Employee employee);
+
+    void updateEmployee(Employee employee, Long id);
 }

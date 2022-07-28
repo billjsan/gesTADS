@@ -1,5 +1,7 @@
 package src.model.model;
 
+import src.util.tools.GesLogger;
+
 public class Employee {
 
     private final String TAG = Employee.class.getSimpleName();
@@ -23,6 +25,9 @@ public class Employee {
     private String mCpf = "";
     private String mLogin;
 
+    private static Long _id = 0L;
+    private Long id;
+
     EmployeeBehavior  mEmployeeBehavior;
 
     public Employee(){
@@ -38,6 +43,18 @@ public class Employee {
         this.mCpf = cpf;
 
         setPrivilege();
+    }
+
+    public void generateID(){
+        this.id = _id;
+        _id ++;
+    }
+
+    public Long getId(){
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getId id: " + id);
+
+        return this.id;
     }
 
     public EmployeeBehavior getEmployeeBehavior() {
