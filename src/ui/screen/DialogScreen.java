@@ -59,7 +59,14 @@ public class DialogScreen extends GesTADSUI {
     protected void onDestroy() {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(),"onDestroy");
-        super.onDestroy();
 
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException e) {
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro ao esperar dialog screen: " + e.getMessage());
+        }
+
+        super.onDestroy();
     }
 }
