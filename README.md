@@ -6,4 +6,8 @@
 
 * <h3>Arquitetura básica do projeto</h3>
 
-<img src="doc/img/architecture.jpeg" alt="basic architecture" height="425">
+<img src="doc/img/architecture.jpeg" alt="basic architecture" height="425" width="800">
+
+* <h3>Estratégia de branching</h3>
+<img src="doc/img/branchingStrategy.jpeg" alt="basic architecture" height="425" width="800">
+
