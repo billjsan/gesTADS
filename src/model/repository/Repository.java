@@ -73,7 +73,8 @@ public class Repository {
         }
 
         try {
-            mExecutor.awaitTermination(10, TimeUnit.SECONDS);
+            mDataBase.closeDataBase();
+            mExecutor.awaitTermination(5, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
                 GesLogger.e(TAG, "can't awaitTermination " + e.getMessage());

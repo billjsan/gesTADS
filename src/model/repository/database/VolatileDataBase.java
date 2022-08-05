@@ -1,6 +1,8 @@
 package src.model.repository.database;
 
 import src.model.model.Employee;
+import src.model.model.Product;
+import src.model.model.Transacao;
 import src.util.tools.GesLogger;
 
 import java.util.ArrayList;
@@ -48,6 +50,12 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
         if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG,
                 Thread.currentThread(),"closeDataBase");
 
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "erro fechando o banco de dados");
+        }
     }
 
     @Override
@@ -56,16 +64,6 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
             GesLogger.d(TAG, Thread.currentThread(), "isDBInitialized");
 
         return isDBStarted;
-    }
-
-    @Override
-    public void executeInsertQuery(String query) {
-        // [LAS]
-    }
-
-    @Override
-    public void allOtherMethods() {
-        // [LAS]
     }
 
     @Override
@@ -88,10 +86,7 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
         mEmployees.add(employee);
     }
 
-    @Override
-    public boolean isEmptyDB() {
-        return true; //mEmployees.isEmpty();
-    }
+
 
     @Override
     public List<Employee> getEmployees() {
@@ -136,5 +131,40 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
         }
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
             GesLogger.e(TAG, "usuário não encontrado");
+    }
+
+    @Override
+    public Product getProdutoPorId(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<Product> getProdutos() {
+        return null;
+    }
+
+    @Override
+    public void setProduto(Product produto) {
+
+    }
+
+    @Override
+    public void editProduto(Product produto, Long id) {
+
+    }
+
+    @Override
+    public void removeProduto(Product produto) {
+
+    }
+
+    @Override
+    public void setSaidaProduto(Transacao transacao) {
+
+    }
+
+    @Override
+    public void setEntradaProduto(Transacao transacao) {
+
     }
 }
