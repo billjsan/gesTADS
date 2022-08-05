@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class Repository {
 
     private static Repository sInstance;
-    private final GesTADSDataBaseInterface mDB;
+    private final GesTADSDataBaseInterface mDataBase;
     private final String TAG = Repository.class.getSimpleName();
     private ExecutorService mExecutor = null;
     private List<String> mCargos = new ArrayList<>();
@@ -26,7 +26,7 @@ public class Repository {
 
         mExecutor = Executors.newSingleThreadExecutor();
         // [ICS] - talvez usar uma factory recebendo uma flag pra cada impl do GesTADSDataBaseInterface
-        mDB = VolatileDataBase.getInstance();
+        mDataBase = VolatileDataBase.getInstance();
         // [LAS] melhoria do log
     }
 
@@ -36,18 +36,24 @@ public class Repository {
             GesLogger.d(TAG, Thread.currentThread(), "startRepository");
 
         mExecutor.submit(() -> {
-            mDB.startUpDadaBase();
-            if (mDB.getEmployees().isEmpty()) {
+            mDataBase.startUpDadaBase();
+            if (mDataBase.getEmployees().isEmpty()) {
                 if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                     GesLogger.d(TAG, Thread.currentThread(), "DB is empty");
 
+                //configura user root do sistema
                 Employee root = new Employee();
                 root.setLogin("admin");
                 root.setSenha("admin");
                 root.setCpf("00000000000");
                 root.generateID();
                 root.setPrivilegio(Employee.PRIVILEGE_ADMIN);
-                mDB.insertEmployee(root);
+                mDataBase.insertEmployee(root);
+
+                //define os cargos padrão
+                mDataBase.setCargo(Employee.POSITION_ADMIN);
+                mDataBase.setCargo(Employee.POSITION_SUPERVISOR);
+                mDataBase.setCargo(Employee.POSITION_OPERADOR);
 
             } else {
                 if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
@@ -90,27 +96,28 @@ public class Repository {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "getEmployees");
 
-        return new ArrayList<>(mDB.getEmployees());
+        return new ArrayList<>(mDataBase.getEmployees());
     }
 
     public void addEmployee(Employee employee) {
         // [LAS]
 
         employee.generateID();
-        mDB.insertEmployee(employee);
+        mDataBase.insertEmployee(employee);
     }
 
     public boolean isDbReady() {
-        boolean response = mDB.isDBInitialized();
+        boolean response = mDataBase.isDBInitialized();
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "isDbReady: " + response);
+
         return response;
     }
 
-    public List<String> getPositions() {
+    public List<String> getCargos() {
         // [LAS]
 
-        this.mCargos = mDB.getCargo();
+        this.mCargos = mDataBase.getCargos();
         return new ArrayList<>(mCargos);
     }
 
@@ -123,18 +130,17 @@ public class Repository {
     public Employee getEmployeeByCPF(String cpf) {
         // [LAS]
 
-        return this.mDB.getEmployeeByCPF(cpf);
+        return this.mDataBase.getEmployeeByCPF(cpf);
     }
 
     public void removeEmployee(Employee empregado) {
         // [LAS] mostrar nome e cpf do empregado
 
-        mDB.removeEmployee(empregado);
+        mDataBase.removeEmployee(empregado);
     }
 
     public void updateEmployee(Employee employee, Long id) {
-        // [LAS]
 
-        mDB.updateEmployee(employee, id);
+        mDataBase.updateEmployee(employee, id);
     }
 }

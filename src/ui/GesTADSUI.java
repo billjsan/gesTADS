@@ -111,7 +111,7 @@ public abstract class GesTADSUI {
     }
 
     protected String formattedTitle(String title){
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+        if (GesLogger.ISFULLLOGABLE)
             GesLogger.d(TAG,Thread.currentThread(),  "formattedTitle");
 
         if(title.length() > LINE_LENGTH){

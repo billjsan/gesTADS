@@ -42,7 +42,7 @@ public class Employee {
         this.mCargo = cargo;
         this.mCpf = cpf;
 
-        setPrivilege();
+        inferPrivilege();
     }
 
     public void generateID(){
@@ -108,7 +108,7 @@ public class Employee {
     public void setCargo(String mCargo) {
         //[LAS]
         this.mCargo = mCargo;
-        setPrivilege();
+        inferPrivilege();
     }
 
     public String getCpf() {
@@ -140,7 +140,7 @@ public class Employee {
         this.mPrivilegio = mPrivilegio;
     }
 
-    private void setPrivilege(){
+    private void inferPrivilege(){
         //[LAS]
 
         if (mCargo == null || mCargo.isEmpty()){
@@ -155,9 +155,9 @@ public class Employee {
                     setPrivilegio(Employee.PRIVILEGE_SUPERVISOR);
                     break;
 
-                case Employee.POSITION_OPERADOR:
+                default:
                     setPrivilegio(Employee.PRIVILEGE_OPERATOR);
-                    break;
+
             }
         }
     }

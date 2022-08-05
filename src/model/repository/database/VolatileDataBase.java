@@ -2,7 +2,6 @@ package src.model.repository.database;
 
 import src.model.model.Employee;
 import src.util.tools.GesLogger;
-import src.util.tools.Intent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     private static VolatileDataBase instance;
     private volatile boolean isDBStarted;
     private final List<Employee> mEmployees = new ArrayList<>();
-    private final List<String> mPositions = new ArrayList<>();
+    private final List<String> mCargos = new ArrayList<>();
     private VolatileDataBase(){
         // [LAS]
     }
@@ -33,7 +32,6 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
                 if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                     GesLogger.d(TAG, Thread.currentThread(),"startUpDadaBase");
 
-                populateDatabase();
                 Thread.sleep(3000);
                 if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                     GesLogger.d(TAG, Thread.currentThread(),"banco de dados inicializado");
@@ -43,15 +41,6 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
                 if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
                     GesLogger.e(TAG, e.getMessage());
             }
-    }
-
-    private void populateDatabase() {
-        if(GesLogger.ISFULLLOGABLE) GesLogger.d(TAG,
-                Thread.currentThread(),"populateDatabase");
-
-    setCargo(Employee.POSITION_ADMIN);
-    setCargo(Employee.POSITION_SUPERVISOR);
-    setCargo(Employee.POSITION_OPERADOR);
     }
 
     @Override
@@ -110,16 +99,16 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     }
 
     @Override
-    public List<String> getCargo() {
+    public List<String> getCargos() {
 
-        return new ArrayList<>(mPositions);
+        return new ArrayList<>(mCargos);
     }
 
     @Override
-    public void setCargo(String position) {
+    public void setCargo(String cargo) {
         //[LAS]
 
-        this.mPositions.add(position);
+        this.mCargos.add(cargo);
     }
 
     @Override
@@ -131,7 +120,9 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
 
     @Override
     public void updateEmployee(Employee editedEmployee, Long id) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "updateEmployee name: "
+                    + editedEmployee.getNome() + " id: " + id);
 
         for (Employee storedEmployee: mEmployees) {
             if (Objects.equals(storedEmployee.getId(), id)){
@@ -139,12 +130,11 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
                 storedEmployee.setLogin(editedEmployee.getLogin());
                 storedEmployee.setCpf(editedEmployee.getCpf());
                 storedEmployee.setCargo(editedEmployee.getCargo());
-                storedEmployee.setSenha(editedEmployee.getSenha());
 
-            }else {
-                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                    GesLogger.e(TAG, "usuário não encontrado");
+                return;
             }
         }
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+            GesLogger.e(TAG, "usuário não encontrado");
     }
 }

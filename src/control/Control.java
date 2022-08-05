@@ -168,7 +168,7 @@ public class Control extends BroadcastReceiver {
         }
 
         intent.putFlag(Intent.FLAG_POSITIONS_DATA);
-        intent.putList(Intent.KEY_DATA_CARGOS, mRepository.getPositions());
+        intent.putList(Intent.KEY_DATA_CARGOS, mRepository.getCargos());
 
         // reaproveita a tela de registro
         mUIManager.startRegisterUI(intent);
@@ -311,7 +311,7 @@ public class Control extends BroadcastReceiver {
 
     private Employee populateEmployeeWithIntent(Intent intent) {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "populateEmployee");
+            GesLogger.d(TAG, Thread.currentThread(), "populateEmployeeWithIntent");
 
         return new Employee(
                 intent.getString(Intent.KEY_EMPLOYEE_NAME),
@@ -367,6 +367,7 @@ public class Control extends BroadcastReceiver {
         return false;
     }
 
+    // [ICS] mudar para uma tela de dialogo
     private void awaitDatabase() {
         do {
             try {
@@ -419,7 +420,7 @@ public class Control extends BroadcastReceiver {
         }
 
         intent.putFlag(Intent.FLAG_POSITIONS_DATA);
-        intent.putList(Intent.KEY_DATA_CARGOS, mRepository.getPositions());
+        intent.putList(Intent.KEY_DATA_CARGOS, mRepository.getCargos());
 
         mUIManager.startRegisterUI(intent);
     }

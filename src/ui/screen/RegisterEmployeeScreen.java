@@ -83,6 +83,7 @@ public class RegisterEmployeeScreen extends GesTADSUI {
     }
 
     private void unreachCase() {
+        // [LAS]
         BroadcastReceiver.sendBroadcast(new Intent(Intent.ACTION_LAUNCH_MAIN_SCREEN));
     }
 
@@ -172,6 +173,8 @@ public class RegisterEmployeeScreen extends GesTADSUI {
      * os dados do usuário que será editado.
      */
     private void handleEditEmployeeOption(Intent employeeContentIntent) {
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "handleEditEmployeeOption");
 
         String userInput = screenGetTextFromUser();
 
@@ -210,6 +213,9 @@ public class RegisterEmployeeScreen extends GesTADSUI {
 
         List<Intent> intents = new ArrayList<>();
         intents.add(employeeContentIntent);
+
+        // nesse ponto o mContextIntent é configurado para chamar a tela de edição novamente, desta vez com os dados
+        //atualizados de acordo com a entrada do usuário. Em resumo essa tela chama a si propria com o campo editado
         mContextIntent.putList(Intent.KEY_RESULT_SET, intents);
         BroadcastReceiver.sendBroadcast(mContextIntent);
     }
@@ -241,24 +247,24 @@ public class RegisterEmployeeScreen extends GesTADSUI {
             GesLogger.d(TAG, "getCargo");
 
         boolean isPositionSet = false;
-        String position = "";
+        String cargo = "";
         while (!isPositionSet) {
 
             try {
-                List<String> positions = (List<String>) mContextIntent.getList(Intent.KEY_DATA_CARGOS);
+                List<String> cargos = (List<String>) mContextIntent.getList(Intent.KEY_DATA_CARGOS);
 
-                int listSize = positions.size();
-                for (int i = 0; i < positions.size(); i++) {
+                int listSize = cargos.size();
+                for (int i = 0; i < cargos.size(); i++) {
 
-                    System.out.println(formattedLineMenu(positions.get(i), "[" + i + "] "));
+                    System.out.println(formattedLineMenu(cargos.get(i), "[" + i + "] "));
                 }
 
-                System.out.print("position: ");
+                System.out.print("cargo: ");
                 int input = Integer.parseInt(screenGetTextFromUser());
 
                 if (input >= 0 && input < listSize) {
 
-                    position = positions.get(input);
+                    cargo = cargos.get(input);
                     isPositionSet = true;
                 } else {
                     throw new MissingFormatArgumentException("array out of boundary");
@@ -288,7 +294,7 @@ public class RegisterEmployeeScreen extends GesTADSUI {
             }
 
         }
-        return position;
+        return cargo;
     }
 
     @Override
