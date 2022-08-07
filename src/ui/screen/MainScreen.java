@@ -27,32 +27,37 @@ public class MainScreen extends GesTADSUI {
         System.out.println(formattedTitle("Escolha uma das opção abaixo"));
         System.out.println();
         System.out.println(formattedTitle("Menu"));
-        System.out.println(formattedLineMenu("* Logout", "[1]"));
-        System.out.println(formattedLineMenu("* Registrar usuário", "[2]"));
+        System.out.println(formattedLineMenu("* Registrar usuário", "[1]"));
+        System.out.println(formattedLineMenu("* Registrar produto", "[2]"));
         System.out.println(formattedLineMenu("* Busca de usuário", "[3]"));
-        System.out.println(formattedLineMenu("* Entrada de produto", "[4]"));
-        System.out.println(formattedLineMenu("* Saída de produto", "[5]"));
-        System.out.println(formattedLineMenu("* Remover usuário", "[6]"));
-        System.out.println(formattedLineMenu("* sair", "[0]"));
+        System.out.println(formattedLineMenu("* Busca de produto", "[4]"));
+        System.out.println(formattedLineMenu("* Entrada de produto", "[5]"));
+        System.out.println(formattedLineMenu("* Saída de produto", "[6]"));
+        System.out.println(formattedLineMenu("* Logout", "[l]"));
+        System.out.println(formattedLineMenu("* Encerrar app", "[quit]"));
 
         boolean match = false;
         Intent i = null;
         while (!match){
-            String input = scanner.nextLine(); // [ICS] mudar a entrada de dados para screenGetIntegerFromUser()
 
-            switch (input){
-                case "0":
+            switch (screenGetTextFromUser()){
+                case "quit":
                     i = new Intent(Intent.ACTION_QUIT);
                     match = true;
                     break;
 
-                case "1":
+                case "l":
                     i = new Intent(Intent.ACTION_LOGOUT);
                     match = true;
                     break;
 
-                case "2":
+                case "1":
                     i = new Intent(Intent.ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN);
+                    match = true;
+                    break;
+
+                case "2":
+                    i = new Intent(Intent.ACTION_LAUNCH_REGISTER_PRODUCT_SCREEN);
                     match = true;
                     break;
 
@@ -69,15 +74,13 @@ public class MainScreen extends GesTADSUI {
                     match = true;
                     break;
 
-                case "200":
-                    i = new Intent(Intent.ACTION_LAUNCH_REMOVE_USER_SCREEN);
+                case "6":
                     match = true;
                     break;
 
             }
         }
         BroadcastReceiver.sendBroadcast(i);
-        //GesTADSApp.infoThread();
         onDestroy();
     }
 

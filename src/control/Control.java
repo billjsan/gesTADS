@@ -1,6 +1,7 @@
 package src.control;
 
 import src.model.model.Employee;
+import src.model.model.Product;
 import src.model.repository.Repository;
 import src.ui.UIManager;
 import src.util.tools.BroadcastReceiver;
@@ -28,6 +29,7 @@ public class Control extends BroadcastReceiver {
 
         // create other controls
         //new EmployeeControl();
+        new ProductControl();
     }
 
     /**

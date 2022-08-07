@@ -1,6 +1,7 @@
 package src.model.repository;
 
 import src.model.model.Employee;
+import src.model.model.Product;
 import src.model.repository.database.GesTADSDataBaseInterface;
 import src.model.repository.database.VolatileDataBase;
 import src.util.tools.GesLogger;
@@ -143,5 +144,15 @@ public class Repository {
     public void updateEmployee(Employee employee, Long id) {
 
         mDataBase.updateEmployee(employee, id);
+    }
+
+    public List<Product> getProdutos() {
+
+        return mDataBase.getProdutos();
+    }
+
+    public void addProduct(Product product) {
+
+        mDataBase.setProduto(product);
     }
 }

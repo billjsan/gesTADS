@@ -28,9 +28,9 @@ public class Employee {
     private static Long _id = 0L;
     private Long id;
 
-    EmployeeBehavior  mEmployeeBehavior;
+    EmployeeBehavior mEmployeeBehavior;
 
-    public Employee(){
+    public Employee() {
         //[LAS]
     }
 
@@ -45,13 +45,13 @@ public class Employee {
         inferPrivilege();
     }
 
-    public void generateID(){
+    public void generateID() {
         this.id = _id;
-        _id ++;
+        _id++;
     }
 
-    public Long getId(){
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+    public Long getId() {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "getId id: " + id);
 
         return this.id;
@@ -85,14 +85,6 @@ public class Employee {
     public final void setSenha(String mSenha) {
         //[LAS]
         this.mSenha = mSenha;
-//        MessageDigest md = null;
-//        try {
-//            md = MessageDigest.getInstance("SHA-256");
-//            md.update(senha.getBytes());
-//            this.senha = arrayToString(md.digest());
-//        } catch (NoSuchAlgorithmException e) {
-//            if(GesLogger.ISLOGABLE) GesLogger.d(TAG, "error while encrypting the password");
-//        }
     }
 
     public int getPrivilegio() {
@@ -140,13 +132,13 @@ public class Employee {
         this.mPrivilegio = mPrivilegio;
     }
 
-    private void inferPrivilege(){
+    private void inferPrivilege() {
         //[LAS]
 
-        if (mCargo == null || mCargo.isEmpty()){
+        if (mCargo == null || mCargo.isEmpty()) {
             setPrivilegio(Employee.PRIVILEGE_OPERATOR);
-        }else {
-            switch (mCargo){
+        } else {
+            switch (mCargo) {
                 case Employee.POSITION_ADMIN:
                     setPrivilegio(Employee.PRIVILEGE_ADMIN);
                     break;

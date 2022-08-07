@@ -81,4 +81,9 @@ public class UIManager {
         //[LAS]
         mInterface.searchEmployeeScreen(intent);
     }
+
+    public void startRegisterProductScreen(Intent intent) {
+        //[LAS]
+        mInterface.registerProductScreen(intent);
+    }
 }

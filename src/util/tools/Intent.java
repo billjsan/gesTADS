@@ -25,6 +25,7 @@ public class Intent implements Serializable {
     public static final int ACTION_RESULT_SET = 1010;
     public static final int ACTION_REMOVE_EMPLOYEE = 1011;
     public static final int ACTION_UPDATE_EMPLOYEE = 1012;
+    public static final int ACTION_VALIDATE_NEW_PRODUCT = 1013;
 
     public static final int ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN = 2000;
     public static final int ACTION_LAUNCH_LOGIN_SCREEN = 2001;
@@ -34,6 +35,7 @@ public class Intent implements Serializable {
     public static final int ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN = 2005;
     public static final int ACTION_LAUNCH_DIALOG_SCREEN = 2006;
     public static final int ACTION_LAUNCH_EDIT_EMPLOYEE = 2007;
+    public static final int ACTION_LAUNCH_REGISTER_PRODUCT_SCREEN = 2008;
 
     //Keys [CDS]
     public static final String KEY_EMPLOYEE_USERNAME = "key_username";
@@ -46,6 +48,12 @@ public class Intent implements Serializable {
     public static final String KEY_DATA_CARGOS = "key_data_positions";
     public static final String KEY_MESSAGE_DIALOG = "key_message_dialog";
     public static final String KEY_RESULT_SET = "key_result_set";
+    public static final String KEY_PRODUCT_NAME = "key_product_name";
+    public static final String KEY_PRODUCT_SERIAL_NUMBER = "key_product_serial_numbers";
+    public static final String KEY_PRODUCT_FABRICANTE = "key_product_fabricante";
+    public static final String KEY_PRODUCT_DESCRICAO = "key_product_descricao";
+    public static final String KEY_PRODUCT_FABRICACAO = "key_product_fabricacao";
+    public static final String KEY_PRODUCT_VALIDADE = "key_product_validade";
 
     //Flags [CDS]
     public static final int FLAG_FIRST_LOGIN = -1;

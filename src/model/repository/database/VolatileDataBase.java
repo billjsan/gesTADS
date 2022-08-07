@@ -16,6 +16,8 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     private volatile boolean isDBStarted;
     private final List<Employee> mEmployees = new ArrayList<>();
     private final List<String> mCargos = new ArrayList<>();
+    private List<Product> mProdutos =  new ArrayList<>();
+
     private VolatileDataBase(){
         // [LAS]
     }
@@ -140,12 +142,14 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
 
     @Override
     public List<Product> getProdutos() {
-        return null;
+
+        return new ArrayList<>(mProdutos);
     }
 
     @Override
     public void setProduto(Product produto) {
 
+        mProdutos.add(produto);
     }
 
     @Override
