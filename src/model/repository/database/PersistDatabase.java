@@ -1,6 +1,8 @@
 package src.model.repository.database;
 
 import src.model.model.Employee;
+import src.model.model.Product;
+import src.model.model.Transacao;
 import src.util.tools.GesLogger;
 
 import java.sql.SQLException;
@@ -13,7 +15,7 @@ import java.util.concurrent.Executors;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class PersistDatabase {
+public class PersistDatabase implements GesTADSDataBaseInterface {
     private final String TAG = PersistDatabase.class.getSimpleName();
     private boolean isDBInitialized;
     private static PersistDatabase instance;
@@ -242,6 +244,45 @@ public class PersistDatabase {
         }
 
         return cargos;
+
+    }
+
+    public void setCargo(String position){
+
+    }
+
+    @Override
+    public Product getProdutoPorId(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<Product> getProdutos() {
+        return null;
+    }
+
+    @Override
+    public void setProduto(Product produto) {
+
+    }
+
+    @Override
+    public void editProduto(Product produto, Long id) {
+
+    }
+
+    @Override
+    public void removeProduto(Product produto) {
+
+    }
+
+    @Override
+    public void setSaidaProduto(Transacao transacao) {
+
+    }
+
+    @Override
+    public void setEntradaProduto(Transacao transacao) {
 
     }
 
