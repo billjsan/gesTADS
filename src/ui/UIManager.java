@@ -4,6 +4,7 @@ import src.ui.screen.RegisterEmployeeScreen;
 import src.util.tools.GesLogger;
 import src.util.tools.Intent;
 
+// [CDS] explicar o que a classe faz
 public class UIManager {
     private final String TAG = UIManager.class.getSimpleName();
 
@@ -16,6 +17,7 @@ public class UIManager {
     }
 
     public static UIManager getInstance(){
+        //[LAS]
         if(instance == null){
             instance = new UIManager();
         }
@@ -32,14 +34,6 @@ public class UIManager {
     public void startLoginUI(Intent intent) {
         //[LAS]
         mInterface.loginScreen(intent);
-//        new LoginScreen();
-//        ExecutorService executorService = Executors.newSingleThreadExecutor();
-//        executorService.submit(new Runnable() {
-//            @Override
-//            public void run() {
-//                new LoginScreen();
-//            }
-//        });
     }
 
     public void startHomeUI(Intent intent) {
@@ -58,26 +52,33 @@ public class UIManager {
     }
 
     public void startMainUI(Intent intent) {
+        //[LAS]
         mInterface.mainScreen(intent);
     }
 
     public void startRegisterUI(Intent intent) {
+        //[LAS]
         mInterface.registerScreen(intent);
     }
 
     public void startDialogUI(Intent intent) {
+        //[LAS]
         mInterface.dialogScreen(intent);
     }
 
+    @Deprecated
     public void startRemoveUI(Intent intent) {
+        //[LAS]
         mInterface.removeScreen(intent);
     }
 
     public void startSearchUI(Intent intent) {
+        //[LAS]
         mInterface.searchScreen(intent);
     }
 
     public void startSearchEmployeeUI(Intent intent) {
+        //[LAS]
         mInterface.searchEmployeeScreen(intent);
     }
 }

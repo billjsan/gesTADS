@@ -4,13 +4,16 @@ import src.util.tools.BroadcastReceiver;
 import src.util.tools.GesLogger;
 import src.util.tools.Intent;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
+// [CDS] explicar o que a classe faz
 public abstract class GesTADSUI {
 
+    protected static int STATUS_FAIL = -1;
+    protected static int STATUS_SUCCESS = 0;
     private final String TAG = GesTADSUI.class.getSimpleName();
     public static int LINE_LENGTH = 80;
     protected Intent mContextIntent;
@@ -47,15 +50,44 @@ public abstract class GesTADSUI {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "onDestroy");
 
+        try {
+            if (System.getProperty("os.name").contains("Windows")){
+
+                // [ICS] Código não testado em windows
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            }else {
+
+                // [MCS] não funciona no terminal da IDE
+                // procurar se existe outro jeito que funcione em
+                // qualquer lugar:
+                System.out.print("\033\143");
+            }
+        }catch (IOException e){
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "erro ao apagar a tela: " + e.getMessage());
+
+        }catch (InterruptedException e){
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "a operação de apagar a tela foi interrompida: " + e.getMessage());
+
+        }
     }
 
-    protected List<Integer> getFlags(){ // avaliar necessidade [ICS]
+    //[ICS] avaliar necessidade, mudar nome para getContextFlags()
+    @Deprecated
+    protected List<Integer> getFlags(){
         //[LAS]
         if(mContextIntent != null && (mContextIntent.getAction() == Intent.ACTION_UI_FLAG)){
             return new ArrayList<>(mContextIntent.getFlags());
         }else {
             return null;
         }
+    }
+
+    protected List<Integer> getContextFlags(){
+        // [LAS]
+
+        return new ArrayList<>(mContextIntent.getFlags());
     }
 
     protected final String formattedLineMenu( String str1, String str2) {
@@ -79,7 +111,7 @@ public abstract class GesTADSUI {
     }
 
     protected String formattedTitle(String title){
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+        if (GesLogger.ISFULLLOGABLE)
             GesLogger.d(TAG,Thread.currentThread(),  "formattedTitle");
 
         if(title.length() > LINE_LENGTH){
@@ -117,6 +149,7 @@ public abstract class GesTADSUI {
         return input;
     }
 
+    @Deprecated
     protected void showMessageDialog(String message){
         //[LAS]
 
@@ -210,5 +243,16 @@ public abstract class GesTADSUI {
         }while (!gotInput);
 
         return value;
+    }
+
+    protected void showGesTADSUIDialogScreen(String message){
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "showGesTADSUIDialogScreen message: " +  message);
+
+        Intent intent = new Intent(Intent.ACTION_LAUNCH_DIALOG_SCREEN);
+        intent.putFlag(Intent.FLAG_DIALOG_MESSAGE);
+        intent.putString(Intent.KEY_MESSAGE_DIALOG, message);
+
+        BroadcastReceiver.sendBroadcast(intent);
     }
 }

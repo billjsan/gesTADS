@@ -15,6 +15,7 @@ public class ScreenInputTest extends GesTADSUI {
         String textFromTheUser = screenGetTextFromUser();
         Integer integerFromTheUser = screenGetIntegerFromUser();
     }
+<<<<<<< HEAD
 
     @underTest
     public static void apagaScreen(){
@@ -42,4 +43,6 @@ public class ScreenInputTest extends GesTADSUI {
 
         }
     }
+=======
+>>>>>>> feature_banco_de_dados
 }

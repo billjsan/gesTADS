@@ -1,6 +1,8 @@
 package src.util.tools;
 
 
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +24,7 @@ public class Intent implements Serializable {
     public static final int ACTION_VALIDATE_NEW_USER = 1009;
     public static final int ACTION_RESULT_SET = 1010;
     public static final int ACTION_REMOVE_EMPLOYEE = 1011;
-    public static final int ACTION_EDIT_EMPLOYEE = 1012;
+    public static final int ACTION_UPDATE_EMPLOYEE = 1012;
 
     public static final int ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN = 2000;
     public static final int ACTION_LAUNCH_LOGIN_SCREEN = 2001;
@@ -30,20 +32,17 @@ public class Intent implements Serializable {
     public static final int LAUNCH_ALERT_SCREEN = 2003;
     public static final int ACTION_LAUNCH_REMOVE_USER_SCREEN = 2004;
     public static final int ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN = 2005;
+    public static final int ACTION_LAUNCH_DIALOG_SCREEN = 2006;
+    public static final int ACTION_LAUNCH_EDIT_EMPLOYEE = 2007;
 
     //Keys [CDS]
     public static final String KEY_EMPLOYEE_USERNAME = "key_username";
+    public static final String KEY_EMPLOYEE_ID = "key_id";
     public static final String KEY_EMPLOYEE_PASSWORD = "key_password";
-    public static final String KEY_EMPLOYEE_MATRICULA = "key_matricula";
     public static final String KEY_EMPLOYEE_NAME = "key_name";
     public static final String KEY_EMPLOYEE_CPF = "key_cpf";
     public static final String KEY_EMPLOYEE_PRIVILEGE = "key_privilege";
     public static final String KEY_EMPLOYEE_CARGO = "key_cargo";
-    public static final String KEY_EMPLOYEE_ADMISSAO = "key_admissao";
-    public static final String KEY_EMPLOYEE_SEXO = "key_sexo";
-    public static final String KEY_EMPLOYEE_RG = "key_rg";
-    public static final String KEY_EMPLOYEE_ENDERECO = "key_endereco";
-    public static final String KEY_EMPLOYEE_ESTADO_CIVIL = "key_estado_civil";
     public static final String KEY_DATA_CARGOS = "key_data_positions";
     public static final String KEY_MESSAGE_DIALOG = "key_message_dialog";
     public static final String KEY_RESULT_SET = "key_result_set";
@@ -53,9 +52,9 @@ public class Intent implements Serializable {
     public static final int FLAG_POSITIONS_DATA = -2;
     public static final int FLAG_SEARCH_EMPLOYEE_BY_CPF = -3;
     public static final int FLAG_SEARCH_BY_NOME = -4;
-    public static final int FLAG_SEARCH_BY_MATRICULA = -5;
     public static final int FLAG_REMOVING_USER_IN_PROGRESS = -6;
     public static final int FLAG_RESULT_SET = -7;
+    public static final int FLAG_DIALOG_MESSAGE = -8;
 
     private final HashMap<String, Integer> mIntMap = new HashMap<>();
     private final HashMap<String, String> mStringMap = new HashMap<>();
@@ -63,6 +62,7 @@ public class Intent implements Serializable {
     private final List<Integer> mFlagsList =  new ArrayList<>();
     private final int mAction;
     private boolean mHasExtras = false;
+    private HashMap<String, Long> mLongMap = new HashMap<>();
 
     public Intent(Integer action) {
         // [LAS]
@@ -131,5 +131,20 @@ public class Intent implements Serializable {
     final public boolean hasExtras(){
         //[LAS]
         return this.mHasExtras;
+    }
+
+    public void putLong(String key, Long id) {
+        // [LAS] imprimir a chave e o id
+
+        this.mLongMap.put(key, id);
+    }
+
+    public Long getLong(String key) {
+        // [LAS] imprimir a chave e o id
+
+        if (mLongMap.containsKey(key))
+            return mLongMap.get(key);
+
+        return null;
     }
 }

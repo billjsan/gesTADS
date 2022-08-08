@@ -11,124 +11,137 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+// [CDS] explicar o que a classe faz
 public class Repository {
 
     private static Repository sInstance;
-    private final GesTADSDataBaseInterface mDB;
+    private final GesTADSDataBaseInterface mDataBase;
     private final String TAG = Repository.class.getSimpleName();
     private ExecutorService mExecutor = null;
     private List<String> mCargos = new ArrayList<>();
 
-    //private final List<String> teste = Collections.synchronizedList(new ArrayList<>());
-
-    private Repository(){
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, Thread.currentThread(),
+    private Repository() {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, Thread.currentThread(),
                 "Repository constructor");
 
         mExecutor = Executors.newSingleThreadExecutor();
         // [ICS] - talvez usar uma factory recebendo uma flag pra cada impl do GesTADSDataBaseInterface
-        mDB = VolatileDataBase.getInstance();
+        mDataBase = VolatileDataBase.getInstance();
         // [LAS] melhoria do log
     }
 
     //[CDS]
-    public void startRepository(){
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+    public void startRepository() {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "startRepository");
 
         mExecutor.submit(() -> {
-            mDB.startUpDadaBase();
-            if(mDB.getEmployees().isEmpty()){
-                if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            mDataBase.startUpDadaBase();
+            if (mDataBase.getEmployees().isEmpty()) {
+                if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                     GesLogger.d(TAG, Thread.currentThread(), "DB is empty");
 
+                //configura user root do sistema
                 Employee root = new Employee();
                 root.setLogin("admin");
                 root.setSenha("admin");
-                root.setMatricula("admin");
+                root.setCpf("00000000000");
+                root.generateID();
                 root.setPrivilegio(Employee.PRIVILEGE_ADMIN);
-                mDB.insertEmployee(root);
-            }else {
-                if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+                mDataBase.insertEmployee(root);
+
+                //define os cargos padrão
+                mDataBase.setCargo(Employee.POSITION_ADMIN);
+                mDataBase.setCargo(Employee.POSITION_SUPERVISOR);
+                mDataBase.setCargo(Employee.POSITION_OPERADOR);
+
+            } else {
+                if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                     GesLogger.d(TAG, Thread.currentThread(), "DB is not empty");
             }
         });
     }
 
     public void closeDatabase() {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "closeDatabase");
 
-        if(mExecutor == null){
-            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+        if (mExecutor == null) {
+            if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
                 GesLogger.e(TAG, "executor is null");
             return;
         }
 
         try {
-            mExecutor.awaitTermination(10, TimeUnit.SECONDS);
+            mDataBase.closeDataBase();
+            mExecutor.awaitTermination(5, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                GesLogger.e(TAG, e.getMessage());
-        }
-        finally {
-                mExecutor.shutdown();
-                mExecutor.shutdownNow();
+                GesLogger.e(TAG, "can't awaitTermination " + e.getMessage());
+        } finally {
+            mExecutor.shutdown();
+            mExecutor.shutdownNow();
         }
     }
 
-    public static Repository getInstance(){
-        if(sInstance == null){
+    public static Repository getInstance() {
+        if (sInstance == null) {
             sInstance = new Repository();
         }
-        if(GesLogger.ISFULLLOGABLE) GesLogger.d("Repository", Thread.currentThread(),
+        if (GesLogger.ISFULLLOGABLE) GesLogger.d("Repository", Thread.currentThread(),
                 "getInstance");
         return sInstance;
     }
 
     public List<Employee> getEmployees() {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "getEmployees");
 
-        return new ArrayList<>(mDB.getEmployees());
-    }
-
-    public Employee getEmployeeByMatricula(String matricula) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getEmployeeByMatricula matricula: " + matricula);
-        if(mDB.isDBInitialized()){
-            return mDB.getEmployeeByMatricula(matricula); //[refactor] pensar sobre abordagem em outra thread
-        }
-        return null;
+        return new ArrayList<>(mDataBase.getEmployees());
     }
 
     public void addEmployee(Employee employee) {
-        mDB.insertEmployee(employee);
+        // [LAS]
+
+        employee.generateID();
+        mDataBase.insertEmployee(employee);
     }
 
     public boolean isDbReady() {
-        boolean response = mDB.isDBInitialized();
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+        boolean response = mDataBase.isDBInitialized();
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "isDbReady: " + response);
+
         return response;
     }
 
-    public List<String> getPositions() {
-        //[LAS]
+    public List<String> getCargos() {
+        // [LAS]
 
-        this.mCargos = mDB.getCargo();
-       return new ArrayList<>(mCargos);
+        this.mCargos = mDataBase.getCargos();
+        return new ArrayList<>(mCargos);
     }
 
-    public void setPosition(String position){
-        //[LAS]
+    public void setPosition(String position) {
+        // [LAS]
 
         this.mCargos.add(position);
     }
 
     public Employee getEmployeeByCPF(String cpf) {
-        //[LAS]
+        // [LAS]
 
-        return this.mDB.getEmployeeByCPF(cpf);
+        return this.mDataBase.getEmployeeByCPF(cpf);
+    }
+
+    public void removeEmployee(Employee empregado) {
+        // [LAS] mostrar nome e cpf do empregado
+
+        mDataBase.removeEmployee(empregado);
+    }
+
+    public void updateEmployee(Employee employee, Long id) {
+
+        mDataBase.updateEmployee(employee, id);
     }
 }

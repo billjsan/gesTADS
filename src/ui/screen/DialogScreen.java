@@ -4,10 +4,13 @@ import src.ui.GesTADSUI;
 import src.util.tools.GesLogger;
 import src.util.tools.Intent;
 
+import java.util.List;
+
 public class DialogScreen extends GesTADSUI {
 
     private final String TAG = "DialogScreen";
     public DialogScreen(Intent intent) {
+        // [LAS] mostrar a action do intent
         super(intent);
     }
 
@@ -16,19 +19,38 @@ public class DialogScreen extends GesTADSUI {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "createView");
 
-        if(mContextIntent == null || mContextIntent.getAction() != Intent.ACTION_UI_FLAG){
+        if(mContextIntent == null){
+            // [LAS]
 
             onDestroy();
             return;
         }
 
-        System.out.println();
-        System.out.println(formattedTitle("DIALOG"));
-        System.out.println();
-        System.out.println(formattedTitle(mContextIntent.getString(Intent.KEY_MESSAGE_DIALOG)).toUpperCase());
-        System.out.println();
-        System.out.println(formattedTitle(".."));
-        System.out.println();
+        if(mContextIntent.getAction() == Intent.ACTION_LAUNCH_DIALOG_SCREEN){
+
+            List<Integer> flags = getContextFlags();
+
+            if(flags.contains(Intent.FLAG_DIALOG_MESSAGE)){
+                String mensagem = mContextIntent.getString(Intent.KEY_MESSAGE_DIALOG);
+
+                System.out.println();
+                System.out.println(formattedTitle("DIALOG"));
+                System.out.println();
+                System.out.println(formattedTitle(mensagem).toUpperCase());
+                System.out.println();
+                System.out.println(formattedTitle(".."));
+                System.out.println();
+            }
+        }else {
+
+            System.out.println();
+            System.out.println(formattedTitle("DIALOG"));
+            System.out.println();
+            System.out.println(formattedTitle(mContextIntent.getString(Intent.KEY_MESSAGE_DIALOG)).toUpperCase());
+            System.out.println();
+            System.out.println(formattedTitle(".."));
+            System.out.println();
+        }
 
         onDestroy();
     }
@@ -37,7 +59,14 @@ public class DialogScreen extends GesTADSUI {
     protected void onDestroy() {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(),"onDestroy");
-        super.onDestroy();
 
+        try {
+            Thread.sleep(2500);
+        } catch (InterruptedException e) {
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro ao esperar dialog screen: " + e.getMessage());
+        }
+
+        super.onDestroy();
     }
 }

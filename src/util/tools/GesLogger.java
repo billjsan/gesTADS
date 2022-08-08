@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class GesLogger {
     public static final String TAG = "GesTADS";
-    public static final boolean ISFULLLOGABLE = false;
+    public static final boolean ISFULLLOGABLE = true;
     public static final boolean ISSENSITIVELOGABLE = false;
     public static final boolean ISSAFELOGGABLE = false;
     public static final boolean ISERRORLOGABLE = true;
