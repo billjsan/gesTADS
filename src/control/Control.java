@@ -1,7 +1,6 @@
 package src.control;
 
 import src.model.model.Employee;
-import src.model.model.Product;
 import src.model.repository.Repository;
 import src.ui.UIManager;
 import src.util.tools.BroadcastReceiver;
@@ -16,6 +15,7 @@ public class Control extends BroadcastReceiver {
 
     private final Repository mRepository;
     private final UIManager mUIManager;
+    @Deprecated
     private boolean isLoggedIn = false;
     private final String TAG = Control.class.getSimpleName();
     private volatile Employee mCurrentUser = null;
@@ -266,7 +266,9 @@ public class Control extends BroadcastReceiver {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "logout");
 
-        isLoggedIn = false;
+        isLoggedIn = false; //[ICS] remover essa estratégia
+        mRepository.isLoggedIn(false); //[ICS] usar essa estrategia
+        mRepository.setCurrentUser(null);
         mUIManager.startHomeUI(null);
     }
 
@@ -332,12 +334,14 @@ public class Control extends BroadcastReceiver {
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                 GesLogger.d(TAG, Thread.currentThread(), "credentials validated");
 
-            isLoggedIn = true;
+            isLoggedIn = true; //[ICS] remover essa estratégia
+            mRepository.isLoggedIn(true); //[ICS] usar essa estrategia
             mUIManager.startMainUI(populateIntentWithEmployee(Intent.ACTION_UI_FLAG, mCurrentUser));
         }else {
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                 GesLogger.d(TAG, Thread.currentThread(), "credentials refused");
 
+            showDialogUI("Credenciais inválidas");
             mUIManager.startLoginUI(intent);
         }
     }
@@ -362,6 +366,7 @@ public class Control extends BroadcastReceiver {
                 if(employee.getSenha().equals(pass) && employee.getLogin().equals(login)){
 
                     mCurrentUser = employee; //campo modificado aqui para evitar re-busca no aaray
+                    mRepository.setCurrentUser(employee);
                     return true;
                 }
             }

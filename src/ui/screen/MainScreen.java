@@ -34,14 +34,14 @@ public class MainScreen extends GesTADSUI {
         System.out.println(formattedLineMenu("* Entrada de produto", "[5]"));
         System.out.println(formattedLineMenu("* Saída de produto", "[6]"));
         System.out.println(formattedLineMenu("* Logout", "[l]"));
-        System.out.println(formattedLineMenu("* Encerrar app", "[quit]"));
+        System.out.println(formattedLineMenu("* Encerrar app", "[q]"));
 
         boolean match = false;
         Intent i = null;
         while (!match){
 
             switch (screenGetTextFromUser()){
-                case "quit":
+                case "q":
                     i = new Intent(Intent.ACTION_QUIT);
                     match = true;
                     break;

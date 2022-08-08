@@ -49,7 +49,7 @@ public class SearchEmployeeScreen extends GesTADSUI {
             mContextFlag = RESULT_SCREEN;
 
         } else {
-            if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE) {
+            if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) {
                 GesLogger.d(TAG, Thread.currentThread(), "unreached case");
             }
 
@@ -99,14 +99,14 @@ public class SearchEmployeeScreen extends GesTADSUI {
         System.out.println(formattedLineMenu("Buscar por CPF", "[1]"));
         System.out.println(formattedLineMenu("Buscar por Nome", "[não implementado]")); // [ICS] precisa implementar
         System.out.println(formattedLineMenu("Buscar por Cargo", "[não implementado]")); // [ICS] precisa implementar
-        System.out.println(formattedLineMenu("Cancelar", "[0]"));
+        System.out.println(formattedLineMenu("Cancelar", "[c]"));
 
         Intent broadcastIntent = null;
         boolean isOptionSelected = false;
         do {
 
-            switch (screenGetIntegerFromUser()) {
-                case 1: // busca por cpf
+            switch (screenGetTextFromUser()) {
+                case "1": // busca por cpf
                     if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                         GesLogger.d(TAG, Thread.currentThread(), "busca por cpf");
 
@@ -119,7 +119,7 @@ public class SearchEmployeeScreen extends GesTADSUI {
                     isOptionSelected = true;
                     break;
 
-                case 0: // cancelar
+                case "c": // cancelar
                     if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                         GesLogger.d(TAG, Thread.currentThread(), "cancel");
 

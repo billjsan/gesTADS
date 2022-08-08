@@ -86,4 +86,10 @@ public class UIManager {
         //[LAS]
         mInterface.registerProductScreen(intent);
     }
+
+    public void startSearchProductUI(Intent intent) {
+        //[LAS]
+
+        mInterface.searchProductScreen(intent);
+    }
 }

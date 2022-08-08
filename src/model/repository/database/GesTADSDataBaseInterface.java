@@ -32,4 +32,5 @@ public interface GesTADSDataBaseInterface {
     void setSaidaProduto(Transacao transacao);
     void setEntradaProduto(Transacao transacao);
 
+    Product getProdutoPorSerial(String serialNo);
 }

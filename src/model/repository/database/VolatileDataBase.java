@@ -76,6 +76,9 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
                 return e;
             }
         }
+
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+            GesLogger.e(TAG, "usuário não encontrado");
         return null;
     }
 
@@ -170,5 +173,21 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     @Override
     public void setEntradaProduto(Transacao transacao) {
 
+    }
+
+    @Override
+    public Product getProdutoPorSerial(String serialNo) {
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.e(TAG, "getProdutoPorSerial: " + serialNo);
+
+        for (Product p: mProdutos) {
+            if(p.getSerialN().equals(serialNo)){
+                return p;
+            }
+        }
+
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+            GesLogger.e(TAG, "produto não encontrado");
+        return null;
     }
 }

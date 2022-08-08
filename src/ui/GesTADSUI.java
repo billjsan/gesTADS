@@ -18,13 +18,13 @@ public abstract class GesTADSUI {
     public static int LINE_LENGTH = 80;
     protected Intent mContextIntent;
 
-    public GesTADSUI() {
+    protected GesTADSUI() {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG,Thread.currentThread(), "constructor");
         onCreate();
     }
 
-    public GesTADSUI(Intent intent) {
+    protected GesTADSUI(Intent intent) {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(),  "constructor with Intent");
 

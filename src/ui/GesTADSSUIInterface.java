@@ -20,4 +20,6 @@ public interface GesTADSSUIInterface {
     void searchEmployeeScreen(Intent intent);
 
     void registerProductScreen(Intent intent);
+
+    void searchProductScreen(Intent intent);
 }

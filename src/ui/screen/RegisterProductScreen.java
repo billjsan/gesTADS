@@ -24,7 +24,6 @@ public class RegisterProductScreen extends GesTADSUI {
             GesLogger.d(TAG, Thread.currentThread(), "createView");
         }
 
-
         registerProduct();
     }
 

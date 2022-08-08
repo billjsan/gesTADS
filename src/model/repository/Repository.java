@@ -18,8 +18,10 @@ public class Repository {
     private static Repository sInstance;
     private final GesTADSDataBaseInterface mDataBase;
     private final String TAG = Repository.class.getSimpleName();
+    private Employee currentUser;
     private ExecutorService mExecutor = null;
     private List<String> mCargos = new ArrayList<>();
+    private boolean mIsLoggedIn = false;
 
     private Repository() {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, Thread.currentThread(),
@@ -152,7 +154,46 @@ public class Repository {
     }
 
     public void addProduct(Product product) {
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "addProduct: " + product.getNome());
 
         mDataBase.setProduto(product);
+    }
+
+    public Employee getCurrentUser(){
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getCurrentUser: " + currentUser.getNome());
+
+        return currentUser;
+    }
+
+    public void setCurrentUser(Employee employee) {
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setCurrentUser: " + employee.getNome());
+
+        currentUser = employee;
+    }
+
+    public boolean isLoggedIn() {
+        //[LAS]
+
+        return mIsLoggedIn;
+    }
+
+    /**
+     * não é a coisa mais inteligente do mundo mas resolve o problema de armazenar o status da sessão
+     * para ser acessador por todos os controladores
+     * define o @param status da sessão
+     */
+    public void isLoggedIn(boolean status) {
+        //[LAS]
+
+        this.mIsLoggedIn = status;
+    }
+
+    public Product getProductBySerial(String serialNo) {
+        //[LAS]
+
+        return this.mDataBase.getProdutoPorSerial(serialNo);
     }
 }

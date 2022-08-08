@@ -26,6 +26,7 @@ public class Intent implements Serializable {
     public static final int ACTION_REMOVE_EMPLOYEE = 1011;
     public static final int ACTION_UPDATE_EMPLOYEE = 1012;
     public static final int ACTION_VALIDATE_NEW_PRODUCT = 1013;
+    public static final int ACTION_SEARCH_PRODUCT = 1014;
 
     public static final int ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN = 2000;
     public static final int ACTION_LAUNCH_LOGIN_SCREEN = 2001;
@@ -36,6 +37,7 @@ public class Intent implements Serializable {
     public static final int ACTION_LAUNCH_DIALOG_SCREEN = 2006;
     public static final int ACTION_LAUNCH_EDIT_EMPLOYEE = 2007;
     public static final int ACTION_LAUNCH_REGISTER_PRODUCT_SCREEN = 2008;
+    public static final int ACTION_LAUNCH_SEARCH_PRODUCT_SCREEN = 2009;
 
     //Keys [CDS]
     public static final String KEY_EMPLOYEE_USERNAME = "key_username";
@@ -54,6 +56,7 @@ public class Intent implements Serializable {
     public static final String KEY_PRODUCT_DESCRICAO = "key_product_descricao";
     public static final String KEY_PRODUCT_FABRICACAO = "key_product_fabricacao";
     public static final String KEY_PRODUCT_VALIDADE = "key_product_validade";
+    public static final String KEY_PRODUCT_ID = "key_product_id";
 
     //Flags [CDS]
     public static final int FLAG_FIRST_LOGIN = -1;
@@ -63,6 +66,7 @@ public class Intent implements Serializable {
     public static final int FLAG_REMOVING_USER_IN_PROGRESS = -6;
     public static final int FLAG_RESULT_SET = -7;
     public static final int FLAG_DIALOG_MESSAGE = -8;
+    public static final int FLAG_SEARCH_PRODUCT_BY_SERIAL_NUMBER = -9;
 
     private final HashMap<String, Integer> mIntMap = new HashMap<>();
     private final HashMap<String, String> mStringMap = new HashMap<>();
