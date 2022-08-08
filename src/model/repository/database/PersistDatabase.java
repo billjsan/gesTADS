@@ -1,6 +1,8 @@
 package src.model.repository.database;
 
 import src.model.model.Employee;
+import src.util.tools.GesLogger;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +12,6 @@ import java.util.concurrent.Executors;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-import static src.model.repository.database.ConnectionDataBase.getConnection;
-import static src.model.repository.database.ConnectionDataBase.getCurrentConnection;
-
 
 public class PersistDatabase {
     private final String TAG = PersistDatabase.class.getSimpleName();
@@ -31,10 +29,25 @@ public class PersistDatabase {
         }
         return instance;
     }
-    public void startUpDadaBase() throws SQLException, ClassNotFoundException {
+
+    public void startUpDadaBase()  {
         if (isDBInitialized == false) {
-            getCurrentConnection();
-            getConnection();
+            try {
+                ConnectionDataBase.getCurrentConnection();
+            } catch (SQLException e) {
+                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "erro de inserção de SQL: " + e.getMessage());
+
+            } catch (ClassNotFoundException e) {
+                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "erro de recurso solicitado por um cliente não foi encontrado no servidor.: " + e.getMessage());
+            }
+            try {
+                ConnectionDataBase.getConnection();
+            } catch (SQLException e) {
+                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "erro de inserção de SQL: " + e.getMessage());
+            }
         }
         isDBInitialized = true;
     }
@@ -43,123 +56,137 @@ public class PersistDatabase {
         return isDBInitialized;
     }
 
-    public void closeDataBase() throws SQLException, ClassNotFoundException {
+    public void closeDataBase()  {
         if (isDBInitialized == true) {
-            getCurrentConnection().close();
-            getConnection().close();
+            try {
+                ConnectionDataBase.getCurrentConnection().close();
+            } catch (SQLException e) {
+                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "erro de inserção de SQL: " + e.getMessage());
+
+            } catch (ClassNotFoundException e) {
+                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "erro de recurso solicitado por um cliente não foi encontrado no servidor.: " + e.getMessage());
+            }
+            try {
+                ConnectionDataBase.getConnection().close();
+            } catch (SQLException e) {
+                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "erro de inserção de SQL: " + e.getMessage());
+            }
         }
         isDBInitialized = false;
     }
 
-   public void insertEmployee(Employee employee){
-       String sql = "insert into employee(nome, login, senha, cargo, cpf) values (?,?,?,?,?)";
+    public void insertEmployee(Employee employee){
+        String sql = "insert into employee(nome, login, senha, cargo, cpf) values (?,?,?,?,?)";
 
-       try {
-           PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
+        try {
+            PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
 
-           pstm.setString(1,employee.getNome());
-           pstm.setString(2,employee.getLogin());
-           pstm.setString(3,employee.getSenha());
-           pstm.setString(4,employee.getCargo());
-           pstm.setString(5,employee.getCpf());
+            pstm.setString(1,employee.getNome());
+            pstm.setString(2,employee.getLogin());
+            pstm.setString(3,employee.getSenha());
+            pstm.setString(4,employee.getCargo());
+            pstm.setString(5,employee.getCpf());
 
-           pstm.execute();
-       } catch (ClassNotFoundException e) {
-           // TODO Auto-generated catch block
-           e.printStackTrace();
-       } catch (SQLException e) {
-           throw new RuntimeException(e);
-       }
-
-   }
-
-  public  List<Employee> getEmployees(){
-      String sql = "select * from employee";
-      List<Employee> employees = new ArrayList<>();
-
-      try {
-          PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
-
-          ResultSet rs = pstm.executeQuery();
-
-          while(rs.next()) {
-
-              Employee e = new Employee();
-
-              e.setNome(rs.getString("nome"));
-              e.setLogin(rs.getString("login"));
-              e.setSenha(rs.getString("senha"));
-              e.setCargo(rs.getString("cargo"));
-              e.setCpf(rs.getString("cpf"));
-
-              employees.add(e);
-          }
-
-
-      } catch (ClassNotFoundException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-      } catch (SQLException e) {
-          throw new RuntimeException(e);
-      }
-
-      return employees;
-    }
-  public Employee getEmployeeByCPF(String cpf) {
-      String sql = "select * from employee where cpf = ?";
-
-      try {
-          PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
-
-          pstm.setString(1, cpf);
-
-          ResultSet rs = pstm.executeQuery();
-
-          Employee e = null;
-
-          if(rs.next()) {
-              e = new Employee();
-              e.setNome(rs.getString("nome"));
-              e.setLogin(rs.getString("login"));
-              e.setSenha(rs.getString("senha"));
-              e.setCargo(rs.getString("cargo"));
-              e.setCpf(cpf);
-          }
-
-          return e;
-
-      } catch (ClassNotFoundException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-      } catch (SQLException e) {
-          throw new RuntimeException(e);
-      }
-      return null;
+            pstm.execute();
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
-  public void removeEmployee(Employee employee) {
+    public  List<Employee> getEmployees(){
+        String sql = "select * from employee";
+        List<Employee> employees = new ArrayList<>();
+
+        try {
+            PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
+
+            ResultSet rs = pstm.executeQuery();
+
+            while(rs.next()) {
+
+                Employee e = new Employee();
+
+                e.setNome(rs.getString("nome"));
+                e.setLogin(rs.getString("login"));
+                e.setSenha(rs.getString("senha"));
+                e.setCargo(rs.getString("cargo"));
+                e.setCpf(rs.getString("cpf"));
+
+                employees.add(e);
+            }
+
+
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return employees;
+    }
+    public Employee getEmployeeByCPF(String cpf) {
+        String sql = "select * from employee where cpf = ?";
+
+        try {
+            PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
+
+            pstm.setString(1, cpf);
+
+            ResultSet rs = pstm.executeQuery();
+
+            Employee e = null;
+
+            if(rs.next()) {
+                e = new Employee();
+                e.setNome(rs.getString("nome"));
+                e.setLogin(rs.getString("login"));
+                e.setSenha(rs.getString("senha"));
+                e.setCargo(rs.getString("cargo"));
+                e.setCpf(cpf);
+            }
+
+            return e;
+
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+
+    }
+
+    public void removeEmployee(Employee employee) {
 
         long id = employee.getId();
 
-      String sql = "delete from employee where id = ?";
+        String sql = "delete from employee where id = ?";
 
-      try {
+        try {
 
-          PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
+            PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
 
-          pstm.setLong(1, id);
+            pstm.setLong(1, id);
 
-          pstm.execute();
+            pstm.execute();
 
 
-      } catch (ClassNotFoundException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
-      } catch (SQLException e) {
-          throw new RuntimeException(e);
-      }
-  }
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void updateEmployee(Employee employee, Long id){
 
@@ -187,35 +214,35 @@ public class PersistDatabase {
         }
     }
 
-   public List<String> getCargos() {
+    public List<String> getCargos() {
 
-       String sql = "select cargo from employee";
+        String sql = "select cargo from employee";
 
-       List<String> cargos = new ArrayList<>();
+        List<String> cargos = new ArrayList<>();
 
-       try {
-           PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
+        try {
+            PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
 
-           ResultSet rs = pstm.executeQuery();
+            ResultSet rs = pstm.executeQuery();
 
-           while(rs.next()) {
+            while(rs.next()) {
 
-               Employee e = new Employee();
+                Employee e = new Employee();
 
-               e.setCargo(rs.getString("cargo"));
+                e.setCargo(rs.getString("cargo"));
 
-               cargos.add(String.valueOf(e));
-           }
+                cargos.add(String.valueOf(e));
+            }
 
-       } catch (ClassNotFoundException e) {
-           // TODO Auto-generated catch block
-           e.printStackTrace();
-       } catch (SQLException e) {
-           throw new RuntimeException(e);
-       }
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
-       return cargos;
+        return cargos;
 
-   }
+    }
 
 }
