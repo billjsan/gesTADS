@@ -6,19 +6,19 @@ public class GesTADSTest {
 
         //ScreenInputTest inputTest = new ScreenInputTest();
 
-        sujaATela();
-
-        esperaEmSeg(1);
-
-        ScreenInputTest.apagaScreen();
-
-        esperaEmSeg(1);
-
-        sujaATela();
-
-        esperaEmSeg(1);
-
-        ScreenInputTest.apagaScreen();
+//        sujaATela();
+//
+//        esperaEmSeg(1);
+//
+//        ScreenInputTest.apagaScreen();
+//
+//        esperaEmSeg(1);
+//
+//        sujaATela();
+//
+//        esperaEmSeg(1);
+//
+//        ScreenInputTest.apagaScreen();
     }
 
     private static void sujaATela() {
