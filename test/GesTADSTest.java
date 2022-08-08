@@ -1,5 +1,8 @@
 package test;
 
+import src.model.model.Employee;
+import src.model.repository.Repository;
+
 public class GesTADSTest {
 
     public static void main(String[] args) {
@@ -19,6 +22,20 @@ public class GesTADSTest {
 //        esperaEmSeg(1);
 //
 //        ScreenInputTest.apagaScreen();
+
+        /**
+         * testes do banco de dados
+         */
+
+        Repository instance = Repository.getInstance();
+        instance.startRepository();
+
+        //se o banco estiver ok....
+        if(instance.isDbReady()){
+            instance.addEmployee(new Employee(/* colocar aqui os campos do employee*/));
+
+            // mais testes aqui +
+        }
     }
 
     private static void sujaATela() {

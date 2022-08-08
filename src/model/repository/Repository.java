@@ -2,6 +2,7 @@ package src.model.repository;
 
 import src.model.model.Employee;
 import src.model.repository.database.GesTADSDataBaseInterface;
+import src.model.repository.database.PersistDatabase;
 import src.model.repository.database.VolatileDataBase;
 import src.util.tools.GesLogger;
 
@@ -26,7 +27,7 @@ public class Repository {
 
         mExecutor = Executors.newSingleThreadExecutor();
         // [ICS] - talvez usar uma factory recebendo uma flag pra cada impl do GesTADSDataBaseInterface
-        mDataBase = VolatileDataBase.getInstance();
+        mDataBase = PersistDatabase.getInstance();
         // [LAS] melhoria do log
     }
 
