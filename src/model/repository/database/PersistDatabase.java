@@ -33,23 +33,12 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
     }
 
     public void startUpDadaBase()  {
-        if (isDBInitialized == false) {
-            try {
-                ConnectionDataBase.getCurrentConnection();
-            } catch (SQLException e) {
-                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                    GesLogger.e(TAG, "erro de inserção de SQL: " + e.getMessage());
 
-            } catch (ClassNotFoundException e) {
-                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                    GesLogger.e(TAG, "erro de recurso solicitado por um cliente não foi encontrado no servidor.: " + e.getMessage());
-            }
-            try {
-                ConnectionDataBase.getConnection();
-            } catch (SQLException e) {
-                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                    GesLogger.e(TAG, "erro de inserção de SQL: " + e.getMessage());
-            }
+        if (isDBInitialized == false) {
+
+            ConnectionDataBase.getCurrentConnection();
+            ConnectionDataBase.getConnection();
+
         }
         isDBInitialized = true;
     }
@@ -59,23 +48,22 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
     }
 
     public void closeDataBase()  {
+
         if (isDBInitialized == true) {
+
             try {
                 ConnectionDataBase.getCurrentConnection().close();
-            } catch (SQLException e) {
-                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                    GesLogger.e(TAG, "erro de inserção de SQL: " + e.getMessage());
-
-            } catch (ClassNotFoundException e) {
-                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                    GesLogger.e(TAG, "erro de recurso solicitado por um cliente não foi encontrado no servidor.: " + e.getMessage());
-            }
-            try {
                 ConnectionDataBase.getConnection().close();
+
             } catch (SQLException e) {
                 if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                    GesLogger.e(TAG, "erro de inserção de SQL: " + e.getMessage());
+                    GesLogger.e(TAG, "getCurrentConnection error: " + e.getMessage());
+
+            } catch (NullPointerException e){
+                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "getConnection error: " + e.getMessage());
             }
+
         }
         isDBInitialized = false;
     }
@@ -93,13 +81,11 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
             pstm.setString(5,employee.getCpf());
 
             pstm.execute();
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
 
+        } catch (SQLException e) {
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro ao inserir employee: " + e.getMessage());
+        }
     }
 
     public  List<Employee> getEmployees(){
@@ -125,11 +111,10 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
             }
 
 
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro ao listar employee: " + e.getMessage());
         }
 
         return employees;
@@ -157,14 +142,11 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
             return e;
 
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro ao buscar employee por cpf: " + e.getMessage());
         }
         return null;
-
     }
 
     public void removeEmployee(Employee employee) {
@@ -181,12 +163,9 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
             pstm.execute();
 
-
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro ao remover employee: " + e.getMessage());
         }
     }
 
@@ -208,11 +187,9 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
             pstm.execute();
 
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro ao atualizar employee: " + e.getMessage());
         }
     }
 
@@ -236,15 +213,12 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
                 cargos.add(String.valueOf(e));
             }
 
-        } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro ao inserir cargo: " + e.getMessage());
         }
 
         return cargos;
-
     }
 
     public void setCargo(String position){
@@ -284,6 +258,11 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
     @Override
     public void setEntradaProduto(Transacao transacao) {
 
+    }
+
+    @Override
+    public Product getProdutoPorSerial(String serialNo) {
+        return null;
     }
 
 }
