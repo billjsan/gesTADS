@@ -29,9 +29,7 @@ public class Repository {
                 "Repository constructor");
 
         mExecutor = Executors.newSingleThreadExecutor();
-        // [ICS] - talvez usar uma factory recebendo uma flag pra cada impl do GesTADSDataBaseInterface
-        mDataBase = PersistDatabase.getInstance();
-        // [LAS] melhoria do log
+        mDataBase = DBFactory.getDatabase(DBFactory.VOLATILE_DB);
     }
 
     //[CDS]

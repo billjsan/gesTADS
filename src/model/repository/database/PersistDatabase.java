@@ -286,4 +286,9 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
     }
 
+    @Override
+    public Product getProdutoPorSerial(String serialNo) {
+        return null;
+    }
+
 }

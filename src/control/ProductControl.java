@@ -51,8 +51,19 @@ public class ProductControl extends BroadcastReceiver {
                 searchProduct(intent);
                 break;
 
+            case Intent.ACTION_LAUNCH_SEARCH_PRODUCT_SCREEN:
+
+                launchSearchProductScreen(intent);
+                break;
+
         }
 
+    }
+
+    private void launchSearchProductScreen(Intent intent) {
+        //[LAS]
+
+        mUIManager.startSearchProductUI(intent);
     }
 
     private void searchProduct(Intent intent) {
@@ -106,7 +117,9 @@ public class ProductControl extends BroadcastReceiver {
             }
         }
 
-        mRepository.addProduct(populateProductWithIntent(intent));
+        Product product = populateProductWithIntent(intent);
+        product.generateId();
+        mRepository.addProduct(product);
         showDialogUI("Produto cadastrado com sucesso");
         mUIManager.startMainUI(intent);
     }

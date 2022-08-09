@@ -278,8 +278,10 @@ public class SearchEmployeeScreen extends GesTADSUI {
                 String cpf = resultSet.get(i).getString(Intent.KEY_EMPLOYEE_CPF);
                 String cargo = resultSet.get(i).getString(Intent.KEY_EMPLOYEE_CARGO);
                 int privilegio = resultSet.get(i).getInt(Intent.KEY_EMPLOYEE_PRIVILEGE);
+                Long id = resultSet.get(i).getLong(Intent.KEY_EMPLOYEE_ID);
 
-                String set = "nome:" + nome + " cpf:" + cpf + " cargo:" + cargo + " privilégio:" + privilegio;
+                String set = "nome:" + nome + " cpf:" + cpf + " cargo:" + cargo
+                        + " privilégio:" + privilegio + " id: " + id;
 
                 System.out.println(formattedLineMenu(set, "[" + i + "]"));
 

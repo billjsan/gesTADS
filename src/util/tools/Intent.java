@@ -27,6 +27,7 @@ public class Intent implements Serializable {
     public static final int ACTION_UPDATE_EMPLOYEE = 1012;
     public static final int ACTION_VALIDATE_NEW_PRODUCT = 1013;
     public static final int ACTION_SEARCH_PRODUCT = 1014;
+    public static final int ACTION_REMOVE_PRODUCT = 1015;
 
     public static final int ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN = 2000;
     public static final int ACTION_LAUNCH_LOGIN_SCREEN = 2001;
@@ -38,6 +39,7 @@ public class Intent implements Serializable {
     public static final int ACTION_LAUNCH_EDIT_EMPLOYEE = 2007;
     public static final int ACTION_LAUNCH_REGISTER_PRODUCT_SCREEN = 2008;
     public static final int ACTION_LAUNCH_SEARCH_PRODUCT_SCREEN = 2009;
+    public static final int ACTION_LAUNCH_EDIT_PRODUCT = 2010;
 
     //Keys [CDS]
     public static final String KEY_EMPLOYEE_USERNAME = "key_username";

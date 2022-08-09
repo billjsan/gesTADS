@@ -294,6 +294,7 @@ public class Control extends BroadcastReceiver {
                 }
             }
 
+            newEmployee.generateID();
             mRepository.addEmployee(newEmployee);
 
             showDialogUI("Usuário cadastrado com sucesso");
@@ -416,7 +417,7 @@ public class Control extends BroadcastReceiver {
      * cadastro de novo usuário caso a intent recebida
      * possua a Intent.ACTION_UI_FLAG E NÃO possua os
      * cargos para mostrar na tela
-     * @param intent
+     * @param intentq
      */
     private void launchRegisterScreen(Intent intent) {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)

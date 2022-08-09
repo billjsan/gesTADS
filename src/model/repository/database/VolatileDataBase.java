@@ -178,7 +178,7 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     @Override
     public Product getProdutoPorSerial(String serialNo) {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.e(TAG, "getProdutoPorSerial: " + serialNo);
+            GesLogger.d(TAG, Thread.currentThread(),"getProdutoPorSerial: " + serialNo);
 
         for (Product p: mProdutos) {
             if(p.getSerialN().equals(serialNo)){

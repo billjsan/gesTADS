@@ -67,6 +67,7 @@ public class MainScreen extends GesTADSUI {
                     break;
 
                 case "4":
+                    i = new Intent(Intent.ACTION_LAUNCH_SEARCH_PRODUCT_SCREEN);
                     match = true;
                     break;
 
