@@ -86,7 +86,8 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
                 GesLogger.e(TAG, "Erro ao inserir employee: " + e.getMessage());
         } catch (Exception e){
-            System.out.println(e);
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro de exceção ao inserir employee: " + e.getMessage());
         }
     }
 
@@ -166,7 +167,8 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
             if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
                 GesLogger.e(TAG, "Erro ao remover employee: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println(e);
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro de exceção ao excluir employee: " + e.getMessage());
         }
     }
 
@@ -218,6 +220,7 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
     }
 
     public void setCargo(String position){
+
        String sql = "insert into cargo(nome) values (?)";
 
         try {
@@ -239,7 +242,6 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
         try {
             PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
-
             pstm.setLong(1, id);
 
             ResultSet rs = pstm.executeQuery();
@@ -353,18 +355,16 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
         String sql = "delete from produto where id = ?";
 
         try {
-
             PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
-
             pstm.setLong(1, produto.getId());
-
             pstm.execute();
 
         } catch (SQLException e) {
             if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
                 GesLogger.e(TAG, "Erro ao remover produto: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println(e);
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro de exceção ao excluir produto: " + e.getMessage());
         }
 
     }
@@ -386,7 +386,6 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
         try {
             PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
-
             pstm.setString(1, serialNo);
 
             ResultSet rs = pstm.executeQuery();
