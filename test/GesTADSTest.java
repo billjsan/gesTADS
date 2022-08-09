@@ -27,15 +27,7 @@ public class GesTADSTest {
          * testes do banco de dados
          */
 
-        Repository instance = Repository.getInstance();
-        instance.startRepository();
-
-        //se o banco estiver ok....
-        if(instance.isDbReady()){
-            instance.addEmployee(new Employee(/* colocar aqui os campos do employee*/));
-
-            // mais testes aqui +
-        }
+        DataBaseTest.testeConexao();
     }
 
     private static void sujaATela() {
