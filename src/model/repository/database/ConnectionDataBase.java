@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionDataBase {
+
     private static final String URL = "jdbc:mysql://localhost/gesTADS?serverTimezone=UTC";
     private static final String USER = "root";
     private static final String PASSWORD = "";
