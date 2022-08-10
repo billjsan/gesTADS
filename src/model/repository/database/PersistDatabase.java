@@ -156,11 +156,9 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
         String sql = "delete from employee where id = ?";
 
         try {
-
             PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
 
             pstm.setLong(1, employee.getId());
-
             pstm.execute();
 
         } catch (SQLException e) {
@@ -192,7 +190,8 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
                 GesLogger.e(TAG, "Erro ao atualizar employee: " + e.getMessage());
         } catch (Exception e){
-            System.out.println(e);
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro de exceção ao atualizar employee: " + e.getMessage());
         }
     }
 
@@ -345,7 +344,8 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
                 GesLogger.e(TAG, "Erro ao atualizar produto: " + e.getMessage());
         } catch (Exception e){
-            System.out.println(e);
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro de exceção ao atualizar produto: " + e.getMessage());
         }
     }
 
