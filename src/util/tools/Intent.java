@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static src.util.tools.GesLogger.TAG;
+
 public class Intent implements Serializable {
 
     //CONSTANTS [CDS]
@@ -79,23 +81,27 @@ public class Intent implements Serializable {
     private HashMap<String, Long> mLongMap = new HashMap<>();
 
     public Intent(Integer action) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "intent "+ action);
         this.mAction = action;
     }
 
     final public Integer getAction() {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getAction "+ mAction);
         return mAction;
     }
 
     final public void putList(String key, List<?> list){
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "putList");
         this.mListMap.put(key, list);
         this.mHasExtras = true;
     }
 
     final public List<?> getList(String key){
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getList");
         if (mListMap.containsKey(key)) {
             return new ArrayList<>(mListMap.get(key));
         }
@@ -103,13 +109,15 @@ public class Intent implements Serializable {
     }
 
     final public void putInt(String key, Integer integer) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "putInt"+ key + integer);
         this.mIntMap.put(key, integer);
         this.mHasExtras = true;
     }
 
     final public int getInt(String key) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getInt "+ key);
         if (mIntMap.containsKey(key)) {
             return mIntMap.get(key);
         }
@@ -117,7 +125,8 @@ public class Intent implements Serializable {
     }
 
     final public String getString(String key) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getString" + key);
         if (mStringMap.containsKey(key)) {
             return mStringMap.get(key);
         }
@@ -125,36 +134,43 @@ public class Intent implements Serializable {
     }
 
     final public void putString(String key, String value) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "puString " + key + value );
         this.mStringMap.put(key, value);
         this.mHasExtras = true;
     }
 
     final public void putFlag(Integer flag) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "putFlag "+ flag);
 
         mFlagsList.add(flag);
         this.mHasExtras = true;
     }
 
     final public List<Integer> getFlags(){
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), " list <interger> getFlags");
         return new ArrayList<>(mFlagsList);
     }
 
     final public boolean hasExtras(){
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "hasExtras");
         return this.mHasExtras;
     }
 
     public void putLong(String key, Long id) {
-        // [LAS] imprimir a chave e o id
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "putLong: "+ key + id);
 
         this.mLongMap.put(key, id);
     }
 
     public Long getLong(String key) {
-        // [LAS] imprimir a chave e o id
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getLong chave "+ key);
+        // [LAS] imprimir a chave e o id como?
 
         if (mLongMap.containsKey(key))
             return mLongMap.get(key);

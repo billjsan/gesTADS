@@ -30,7 +30,8 @@ public class SearchEmployeeScreen extends GesTADSUI {
      */
     @Override
     protected void onCreate() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "onCreat tela");
 
         //rotina de tratamento do context intent
         if (mContextIntent.getAction() == Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN &&
@@ -65,7 +66,8 @@ public class SearchEmployeeScreen extends GesTADSUI {
      */
     @Override
     protected void createView() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "creatView");
 
         switch (mContextFlag) {
             case PRIMARY_SCREEN:
@@ -90,7 +92,8 @@ public class SearchEmployeeScreen extends GesTADSUI {
      * a tela sem nenhuma alteração. Uma tela "limpa"
      */
     private void primaryScreen() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "primaryScreen");
 
         System.out.println(formattedTitle("BUSCAR FUNCIONÁRIO"));
         System.out.println();
@@ -144,7 +147,8 @@ public class SearchEmployeeScreen extends GesTADSUI {
      * o que fazer com o resultado da busca
      */
     private void resultScreen() {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "resultScreen");
 
         System.out.println(formattedTitle("BUSCAR FUNCIONÁRIO"));
         System.out.println();
@@ -180,7 +184,8 @@ public class SearchEmployeeScreen extends GesTADSUI {
      * que ele selecionou e @return um valor que define o status da operação
      */
     private int getHandleSelectedResultItemStatus() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getHandleSelectedResultItemStatus");
 
         do {
             List<Intent> resultSet = getResultSet();
@@ -217,7 +222,8 @@ public class SearchEmployeeScreen extends GesTADSUI {
      * @return um valor de status sobre a operação.
      */
     private int getHandleSelectedActionStatus(Intent selectedEmployee) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getHandSelectedActionsStatus "+ selectedEmployee);
 
         if (selectedEmployee == null) return STATUS_FAIL;
 
@@ -265,7 +271,8 @@ public class SearchEmployeeScreen extends GesTADSUI {
      * @return o status da tentativa
      */
     private int getShowResultSetStatus() {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getShowResultSetStatus");
 
         try {
             List<Intent> resultSet = getResultSet();
