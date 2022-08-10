@@ -16,7 +16,7 @@ public abstract class BroadcastReceiver {
 
         receivers.add(this);
         if (mExecutor == null) {
-            mExecutor = Executors.newFixedThreadPool(1);
+            mExecutor = Executors.newFixedThreadPool(3);
         }
     }
 
@@ -41,7 +41,6 @@ public abstract class BroadcastReceiver {
 
         mExecutor.submit(() -> {
             for (BroadcastReceiver bv : receivers) {
-                System.out.println("BroadcastReceiver: size" + receivers.size());
                 bv.onReceive(intent);
             }
         });

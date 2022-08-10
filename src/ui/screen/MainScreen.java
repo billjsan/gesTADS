@@ -77,6 +77,9 @@ public class MainScreen extends GesTADSUI {
                     match = true;
                     break;
 
+                default:
+                    System.out.println("Entrada inválida");
+
             }
         }
         BroadcastReceiver.sendBroadcast(i);
