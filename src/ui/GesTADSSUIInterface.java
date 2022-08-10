@@ -22,4 +22,6 @@ public interface GesTADSSUIInterface {
     void registerProductScreen(Intent intent);
 
     void searchProductScreen(Intent intent);
+
+    void transactionScreen(Intent intent);
 }

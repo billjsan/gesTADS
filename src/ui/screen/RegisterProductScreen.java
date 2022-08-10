@@ -40,23 +40,8 @@ public class RegisterProductScreen extends GesTADSUI {
         System.out.print("Nome: ");
         intent.putString(Intent.KEY_PRODUCT_NAME, screenGetTextFromUser());
 
-        System.out.print("Número Serial: ");
-        intent.putString(Intent.KEY_PRODUCT_SERIAL_NUMBER, screenGetTextFromUser());
-
         System.out.print("Fabricante: ");
         intent.putString(Intent.KEY_PRODUCT_FABRICANTE, screenGetTextFromUser());
-
-        System.out.print("Descrição: ");
-        intent.putString(Intent.KEY_PRODUCT_DESCRICAO, screenGetTextFromUser());
-
-        System.out.print("Fabricação: ");
-        intent.putString(Intent.KEY_PRODUCT_FABRICACAO, screenGetTextFromUser());
-
-        System.out.print("Descrição: ");
-        intent.putString(Intent.KEY_PRODUCT_DESCRICAO, screenGetTextFromUser());
-
-        System.out.print("Validade: ");
-        intent.putString(Intent.KEY_PRODUCT_VALIDADE, screenGetTextFromUser());
 
         BroadcastReceiver.sendBroadcast(intent);
     }

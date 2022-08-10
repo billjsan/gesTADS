@@ -32,15 +32,7 @@ public class ProductControl extends BroadcastReceiver {
         switch (intent.getAction()) {
             case Intent.ACTION_LAUNCH_REGISTER_PRODUCT_SCREEN:
 
-                if(mRepository.getCurrentUser() != null &&
-                        mRepository.getCurrentUser().getPrivilegio() == Employee.PRIVILEGE_ADMIN ){
-
                     launchRegisterProductScreen(intent);
-                }else {
-
-                    showDialogUI("Você não tem permissão para isso!");
-                    BroadcastReceiver.sendBroadcast(new Intent(Intent.ACTION_LAUNCH_MAIN_SCREEN));
-                }
                 break;
 
             case Intent.ACTION_VALIDATE_NEW_PRODUCT:
@@ -104,12 +96,12 @@ public class ProductControl extends BroadcastReceiver {
     }
 
     private void validateProduct(Intent intent) {
-        //[LAS]
+        // [LAS]
 
         List<Product> produtos = mRepository.getProdutos();
 
         for (Product p : produtos) {
-            if (p.getSerialN().equals(intent.getString(Intent.KEY_PRODUCT_SERIAL_NUMBER))) {
+            if (p.getId() == intent.getLong(Intent.KEY_PRODUCT_ID)) { // todo checar se isso dá certo
                 showDialogUI("produto ja cadastrado");
 
                 mUIManager.startMainUI(intent);
@@ -119,6 +111,14 @@ public class ProductControl extends BroadcastReceiver {
 
         Product product = populateProductWithIntent(intent);
         product.generateId();
+
+        System.out.println("product control: salvando produto no repo: ");
+        System.out.println(product.getId());
+        System.out.println(product.getNome());
+        System.out.println(product.getFabricante());
+        System.out.println(product.getQtdEstoque());
+
+
         mRepository.addProduct(product);
         showDialogUI("Produto cadastrado com sucesso");
         mUIManager.startMainUI(intent);
@@ -130,17 +130,20 @@ public class ProductControl extends BroadcastReceiver {
 
         return new Product(
                 intent.getString(Intent.KEY_PRODUCT_NAME),
-                intent.getString(Intent.KEY_PRODUCT_SERIAL_NUMBER),
-                intent.getString(Intent.KEY_PRODUCT_FABRICANTE),
-                intent.getString(Intent.KEY_PRODUCT_DESCRICAO),
-                intent.getString(Intent.KEY_PRODUCT_FABRICACAO),
-                intent.getString(Intent.KEY_PRODUCT_VALIDADE));
+                intent.getString(Intent.KEY_PRODUCT_FABRICANTE));
     }
 
     private void launchRegisterProductScreen(Intent intent) {
         //[LAS]
 
-        mUIManager.startRegisterProductScreen(intent);
+        if(mRepository.getCurrentUser().getPrivilegio() != Employee.PRIVILEGE_ADMIN){
+
+            showDialogUI("Acesso negado!");
+            mUIManager.startMainUI(null);
+        }else{
+
+            mUIManager.startRegisterProductScreen(intent);
+        }
     }
 
     private void showDialogUI(String message) {
@@ -157,13 +160,11 @@ public class ProductControl extends BroadcastReceiver {
 
         Intent intent = new Intent(action);
         intent.putString(Intent.KEY_PRODUCT_NAME, product.getNome());
-        intent.putString(Intent.KEY_PRODUCT_SERIAL_NUMBER, product.getSerialN());
-        intent.putString(Intent.KEY_PRODUCT_DESCRICAO, product.getDescricao());
-        intent.putString(Intent.KEY_PRODUCT_FABRICACAO, product.getFabricacao());
-        intent.putString(Intent.KEY_PRODUCT_VALIDADE, product.getValidade());
         intent.putString(Intent.KEY_PRODUCT_FABRICANTE, product.getFabricante());
         intent.putLong(Intent.KEY_PRODUCT_ID, product.getId());
 
         return intent;
     }
+
+
 }

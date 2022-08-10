@@ -66,4 +66,10 @@ public class GesTADSScreensImpl implements GesTADSSUIInterface {
 
         new SearchProductScreen(intent);
     }
+
+    @Override
+    public void transactionScreen(Intent intent) {
+
+        new TransactionScreen(intent);
+    }
 }

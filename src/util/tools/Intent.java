@@ -28,6 +28,8 @@ public class Intent implements Serializable {
     public static final int ACTION_VALIDATE_NEW_PRODUCT = 1013;
     public static final int ACTION_SEARCH_PRODUCT = 1014;
     public static final int ACTION_REMOVE_PRODUCT = 1015;
+    public static final int ACTION_ENTRADA_PRODUTO = 1016;
+    public static final int ACTION_SAIDA_PRODUTO = 1017;
 
     public static final int ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN = 2000;
     public static final int ACTION_LAUNCH_LOGIN_SCREEN = 2001;
@@ -40,6 +42,7 @@ public class Intent implements Serializable {
     public static final int ACTION_LAUNCH_REGISTER_PRODUCT_SCREEN = 2008;
     public static final int ACTION_LAUNCH_SEARCH_PRODUCT_SCREEN = 2009;
     public static final int ACTION_LAUNCH_EDIT_PRODUCT = 2010;
+    public static final int ACTION_LAUNCH_TRANSACTION_SCREEN = 2011;
 
     //Keys [CDS]
     public static final String KEY_EMPLOYEE_USERNAME = "key_username";
@@ -59,6 +62,9 @@ public class Intent implements Serializable {
     public static final String KEY_PRODUCT_FABRICACAO = "key_product_fabricacao";
     public static final String KEY_PRODUCT_VALIDADE = "key_product_validade";
     public static final String KEY_PRODUCT_ID = "key_product_id";
+    public static final String KEY_PRODUCT_QTD_ESTOQUE = "key-product-qtd-estoque";
+    public static final String KEY_PRODUCT = "key-product";
+    public static final String KEY_PRODUCT_QTD_RECEBIDA = "key_product_qtd_recebida";
 
     //Flags [CDS]
     public static final int FLAG_FIRST_LOGIN = -1;
@@ -77,6 +83,7 @@ public class Intent implements Serializable {
     private final int mAction;
     private boolean mHasExtras = false;
     private HashMap<String, Long> mLongMap = new HashMap<>();
+    private HashMap<String, Intent> mIntentMap = new HashMap<>();
 
     public Intent(Integer action) {
         // [LAS]
@@ -160,5 +167,15 @@ public class Intent implements Serializable {
             return mLongMap.get(key);
 
         return null;
+    }
+
+    public void putIntent(String key, Intent inent) {
+
+        this.mIntentMap.put(key, inent);
+    }
+
+    public Intent getIntent(String key) {
+
+       return this.mIntentMap.get(key);
     }
 }

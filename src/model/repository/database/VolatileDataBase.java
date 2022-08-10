@@ -3,6 +3,7 @@ package src.model.repository.database;
 import src.model.model.Employee;
 import src.model.model.Product;
 import src.model.model.Transacao;
+import src.model.model.Transaction;
 import src.util.tools.GesLogger;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     private final List<Employee> mEmployees = new ArrayList<>();
     private final List<String> mCargos = new ArrayList<>();
     private List<Product> mProdutos =  new ArrayList<>();
+    private List<Transaction> mTransactions = new ArrayList<>();
 
     private VolatileDataBase(){
         // [LAS]
@@ -140,6 +142,18 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
 
     @Override
     public Product getProdutoPorId(Long id) {
+
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(),"getProdutoPorSerial: " + id);
+
+        for (Product p: mProdutos) {
+            if(p.getId().equals(id)){
+                return p;
+            }
+        }
+
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+            GesLogger.e(TAG, "produto não encontrado");
         return null;
     }
 
@@ -178,16 +192,37 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     @Override
     public Product getProdutoPorSerial(String serialNo) {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(),"getProdutoPorSerial: " + serialNo);
+            GesLogger.d(TAG, Thread.currentThread(),"getProdutoPorSerial: metodo está " +
+                    "deprecado deve ser removido " + serialNo);
 
-        for (Product p: mProdutos) {
-            if(p.getSerialN().equals(serialNo)){
-                return p;
-            }
-        }
+//        for (Product p: mProdutos) {
+//            if(p.getSerialN().equals(serialNo)){
+//                return p;
+//            }
+//        }
 
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-            GesLogger.e(TAG, "produto não encontrado");
+            GesLogger.e(TAG, "getProdutoPorSerial: metodo está deprecado deve ser removido ");
         return null;
+    }
+
+    @Override
+    public void updateProduto(Product product, Long id) {
+
+        for (Product p: mProdutos) {
+            if(p.getId().equals(id)){
+                p.setQtdEsqoque(product.getQtdEstoque());
+                p.setNome(product.getNome());
+                p.setFabricante(product.getFabricante());
+            }
+        }
+    }
+
+    @Override
+    public void setTransaction(Transaction transaction) {
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setTransaction");
+
+        this.mTransactions.add(transaction);
     }
 }

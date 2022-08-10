@@ -2,9 +2,8 @@ package src.model.repository;
 
 import src.model.model.Employee;
 import src.model.model.Product;
+import src.model.model.Transaction;
 import src.model.repository.database.GesTADSDataBaseInterface;
-import src.model.repository.database.PersistDatabase;
-import src.model.repository.database.VolatileDataBase;
 import src.util.tools.GesLogger;
 
 import java.util.ArrayList;
@@ -103,7 +102,11 @@ public class Repository {
     }
 
     public void addEmployee(Employee employee) {
-        // [LAS]
+        String info = "id: " + employee.getId() + " nome: " + employee.getNome() + " cpf: "
+                + employee.getCpf() + " cargo: " + employee.getCargo() + " priv: " + employee.getPrivilegio() ;
+
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "addEmployee: " + info);
 
         employee.generateID();
         mDataBase.insertEmployee(employee);
@@ -153,8 +156,11 @@ public class Repository {
     }
 
     public void addProduct(Product product) {
+        String info = "id: " + product.getId() + " nome: " + product.getNome() + " fab: "
+                + product.getFabricante() + " qtdEst.: " + product.getQtdEstoque();
+
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "addProduct: " + product.getNome());
+            GesLogger.d(TAG, Thread.currentThread(), "addProduct: " + info);
 
         mDataBase.setProduto(product);
     }
@@ -194,5 +200,25 @@ public class Repository {
         //[LAS]
 
         return this.mDataBase.getProdutoPorSerial(serialNo);
+    }
+
+    public void updateProduto(Product product, Long id) {
+        String info = "id: " + id + " nome: " + product.getNome() +
+                " fab: " + product.getFabricante() + " qtdEst: " + product.getQtdEstoque();
+
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "updateProduto: " + info);
+        mDataBase.updateProduto(product, id);
+    }
+
+    public void addTransaction(Transaction transaction) {
+        String info = "id: " + transaction.getId() + " sol.id: " + transaction.getSolicitanteId() +
+                "prod.id: " + transaction.getProdutoId() + " qtd: " + transaction.getQuantidade() +
+                " tipo: " + transaction.getTipo();
+
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "addTransaction: " + info);
+
+        mDataBase.setTransaction(transaction);
     }
 }

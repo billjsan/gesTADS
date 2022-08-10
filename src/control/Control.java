@@ -16,20 +16,18 @@ public class Control extends BroadcastReceiver {
     private final Repository mRepository;
     private final UIManager mUIManager;
     @Deprecated
-    private boolean isLoggedIn = false;
+    //private boolean isLoggedIn = false;
     private final String TAG = Control.class.getSimpleName();
-    private volatile Employee mCurrentUser = null;
 
     public Control(){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(),"Control constructor");
 
+        new ProductControl();
+        new TransactionControl();
+
         mRepository = Repository.getInstance();
         mUIManager = UIManager.getInstance();
-
-        // create other controls
-        //new EmployeeControl();
-        new ProductControl();
     }
 
     /**
@@ -62,7 +60,8 @@ public class Control extends BroadcastReceiver {
         //use-cases
         switch (intent.getAction()){
             case Intent.ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN:
-                launchRegisterScreen(intent);
+
+                    launchRegisterScreen(intent);
                 break;
 
             case Intent.ACTION_LAUNCH_LOGIN_SCREEN:
@@ -74,15 +73,14 @@ public class Control extends BroadcastReceiver {
                 break;
 
             case Intent.ACTION_LAUNCH_MAIN_SCREEN:
-                if (isLoggedIn){
+
                     mUIManager.startMainUI(intent);
-                }
+
                 break;
 
             case Intent.ACTION_LAUNCH_DIALOG_SCREEN:
-                if (isLoggedIn){
+
                     mUIManager.startDialogUI(intent);
-                }
                 break;
 
             case Intent.ACTION_LAUNCH_EDIT_EMPLOYEE:
@@ -137,8 +135,7 @@ public class Control extends BroadcastReceiver {
 
                     showDialogUI("Usuário atualizado com sucesso");
 
-                    if(isLoggedIn) mUIManager.startMainUI(null);
-                    else mUIManager.startLoginUI(null);
+                    mUIManager.startMainUI(null);
 
                 }catch (NullPointerException e){
                     if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
@@ -152,62 +149,71 @@ public class Control extends BroadcastReceiver {
             }else {
 
                 showDialogUI("banco de dados offline");
-                if(isLoggedIn) mUIManager.startMainUI(null);
-                else mUIManager.startLoginUI(null);
+                mUIManager.startMainUI(null);
             }
         }else {
             showDialogUI("Erro ao processa a solicitação ");
-            if(isLoggedIn) mUIManager.startMainUI(null);
-            else mUIManager.startLoginUI(null);
+            mUIManager.startMainUI(null);
         }
     }
 
     private void editEmployee(Intent intent) {
         // [LAS]
 
-        if(intent == null || intent.getAction() != Intent.ACTION_LAUNCH_EDIT_EMPLOYEE){
-            intent = new Intent(Intent.ACTION_LAUNCH_EDIT_EMPLOYEE);
+        if(mRepository.getCurrentUser().getPrivilegio() != Employee.PRIVILEGE_ADMIN){
+
+            showDialogUI("Acesso negado!");
+            mUIManager.startMainUI(null);
+        }else {
+
+            if(intent == null || intent.getAction() != Intent.ACTION_LAUNCH_EDIT_EMPLOYEE){
+                intent = new Intent(Intent.ACTION_LAUNCH_EDIT_EMPLOYEE);
+            }
+
+            intent.putFlag(Intent.FLAG_POSITIONS_DATA);
+            intent.putList(Intent.KEY_DATA_CARGOS, mRepository.getCargos());
+
+            // reaproveita a tela de registro
+            mUIManager.startRegisterUI(intent);
         }
-
-        intent.putFlag(Intent.FLAG_POSITIONS_DATA);
-        intent.putList(Intent.KEY_DATA_CARGOS, mRepository.getCargos());
-
-        // reaproveita a tela de registro
-        mUIManager.startRegisterUI(intent);
     }
 
     private void removeEmployee(Intent intent) {
         //[LAS]
 
-        if (intent == null || !intent.hasExtras()){
-            if(isLoggedIn) mUIManager.startMainUI(null);
-            else mUIManager.startHomeUI(null);
-        }
+        if(mRepository.getCurrentUser().getPrivilegio() != Employee.PRIVILEGE_ADMIN){
 
-        try {
-            List<Integer> flags = intent.getFlags();
+            showDialogUI("Acesso negado!");
+            mUIManager.startMainUI(null);
+        }else{
 
-            if (flags.contains(Intent.FLAG_RESULT_SET)){
-                List<Intent> list = (List<Intent>) intent.getList(Intent.KEY_RESULT_SET);
-                Intent empregado = list.get(0);
-
-                mRepository.removeEmployee(populateEmployeeWithIntent(empregado));
-                showDialogUI("Usuário removido com sucesso");
-                mUIManager.startSearchEmployeeUI(new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN));
+            if (intent == null || !intent.hasExtras()){
+               mUIManager.startMainUI(null);
             }
-        }catch (NullPointerException e){
-            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                GesLogger.e(TAG, "erro ao acessar um recurso: " + e.getMessage());
 
-            if(isLoggedIn) mUIManager.startMainUI(null);
-            else mUIManager.startHomeUI(null);
+            try {
+                List<Integer> flags = intent.getFlags();
 
-        }catch (Exception e){
-            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                GesLogger.e(TAG, "um erro desconhecido ocorreu: " + e.getMessage());
+                if (flags.contains(Intent.FLAG_RESULT_SET)){
+                    List<Intent> list = (List<Intent>) intent.getList(Intent.KEY_RESULT_SET);
+                    Intent empregado = list.get(0);
 
-            if(isLoggedIn) mUIManager.startMainUI(null);
-            else mUIManager.startHomeUI(null);
+                    mRepository.removeEmployee(populateEmployeeWithIntent(empregado));
+                    showDialogUI("Usuário removido com sucesso");
+                    mUIManager.startSearchEmployeeUI(new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN));
+                }
+            }catch (NullPointerException e){
+                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "erro ao acessar um recurso: " + e.getMessage());
+
+                mUIManager.startMainUI(null);
+
+            }catch (Exception e){
+                if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "um erro desconhecido ocorreu: " + e.getMessage());
+
+                mUIManager.startMainUI(null);
+            }
         }
     }
 
@@ -217,8 +223,7 @@ public class Control extends BroadcastReceiver {
 
         if(!intent.hasExtras()) {
             showDialogUI("Erro na busca");
-            if (isLoggedIn) mUIManager.startMainUI(null);
-            else mUIManager.startHomeUI(null);
+            mUIManager.startMainUI(null);
         }
 
         List<Integer> flags = intent.getFlags();
@@ -231,10 +236,9 @@ public class Control extends BroadcastReceiver {
             Employee employee = mRepository.getEmployeeByCPF(cpf);
 
             if (employee == null){
-                showDialogUI("Nenhum resultado encontrado");
 
-                if(isLoggedIn)
-                    mUIManager.startSearchEmployeeUI(new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN));
+                showDialogUI("Nenhum resultado encontrado");
+                mUIManager.startSearchEmployeeUI(new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN));
 
             }else {
                 ArrayList<Intent> intents = new ArrayList<>();
@@ -243,7 +247,7 @@ public class Control extends BroadcastReceiver {
                 Intent resulSetIntent = new Intent(Intent.ACTION_RESULT_SET);
                 resulSetIntent.putList(Intent.KEY_RESULT_SET, intents);
 
-                if(isLoggedIn) mUIManager.startSearchEmployeeUI(resulSetIntent);
+                mUIManager.startSearchEmployeeUI(resulSetIntent);
             }
         }
     }
@@ -266,9 +270,8 @@ public class Control extends BroadcastReceiver {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "logout");
 
-        isLoggedIn = false; //[ICS] remover essa estratégia
         mRepository.isLoggedIn(false); //[ICS] usar essa estrategia
-        mRepository.setCurrentUser(null);
+        //mRepository.setCurrentUser(null);
         mUIManager.startHomeUI(null);
     }
 
@@ -284,12 +287,7 @@ public class Control extends BroadcastReceiver {
                 if(empl.getCpf().equals(newEmployee.getCpf())){
 
                     showDialogUI("Usuário ja cadastrado");
-
-                    if(isLoggedIn){
-                        mUIManager.startMainUI(intent);
-                    }else {
-                        mUIManager.startHomeUI(intent);
-                    }
+                    mUIManager.startMainUI(intent);
                     return;
                 }
             }
@@ -335,9 +333,8 @@ public class Control extends BroadcastReceiver {
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                 GesLogger.d(TAG, Thread.currentThread(), "credentials validated");
 
-            isLoggedIn = true; //[ICS] remover essa estratégia
-            mRepository.isLoggedIn(true); //[ICS] usar essa estrategia
-            mUIManager.startMainUI(populateIntentWithEmployee(Intent.ACTION_UI_FLAG, mCurrentUser));
+            mRepository.isLoggedIn(true);
+            mUIManager.startMainUI(populateIntentWithEmployee(Intent.ACTION_UI_FLAG, mRepository.getCurrentUser()));
         }else {
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
                 GesLogger.d(TAG, Thread.currentThread(), "credentials refused");
@@ -366,7 +363,6 @@ public class Control extends BroadcastReceiver {
             if(employee.getLogin().equals(login)){
                 if(employee.getSenha().equals(pass) && employee.getLogin().equals(login)){
 
-                    mCurrentUser = employee; //campo modificado aqui para evitar re-busca no aaray
                     mRepository.setCurrentUser(employee);
                     return true;
                 }
@@ -417,19 +413,26 @@ public class Control extends BroadcastReceiver {
      * cadastro de novo usuário caso a intent recebida
      * possua a Intent.ACTION_UI_FLAG E NÃO possua os
      * cargos para mostrar na tela
-     * @param intentq
+     * @param intent
      */
     private void launchRegisterScreen(Intent intent) {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, "launchRegisterScreen");
 
-        if(intent == null || intent.getAction() != Intent.ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN){
-            intent = new Intent(Intent.ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN);
+        if(mRepository.getCurrentUser().getPrivilegio() != Employee.PRIVILEGE_ADMIN){
+
+            showDialogUI("Acesso negado!");
+            mUIManager.startMainUI(null);
+        }else {
+
+            if(intent == null || intent.getAction() != Intent.ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN){
+                intent = new Intent(Intent.ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN);
+            }
+
+            intent.putFlag(Intent.FLAG_POSITIONS_DATA);
+            intent.putList(Intent.KEY_DATA_CARGOS, mRepository.getCargos());
+
+            mUIManager.startRegisterUI(intent);
         }
-
-        intent.putFlag(Intent.FLAG_POSITIONS_DATA);
-        intent.putList(Intent.KEY_DATA_CARGOS, mRepository.getCargos());
-
-        mUIManager.startRegisterUI(intent);
     }
 }

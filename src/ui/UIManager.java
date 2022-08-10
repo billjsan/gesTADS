@@ -92,4 +92,9 @@ public class UIManager {
 
         mInterface.searchProductScreen(intent);
     }
+
+    public void startTransactionUI(Intent intent) {
+
+        mInterface.transactionScreen(intent);
+    }
 }

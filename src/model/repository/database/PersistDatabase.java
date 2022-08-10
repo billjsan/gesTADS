@@ -3,6 +3,7 @@ package src.model.repository.database;
 import src.model.model.Employee;
 import src.model.model.Product;
 import src.model.model.Transacao;
+import src.model.model.Transaction;
 import src.util.tools.GesLogger;
 
 import java.sql.SQLException;
@@ -289,6 +290,16 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
     @Override
     public Product getProdutoPorSerial(String serialNo) {
         return null;
+    }
+
+    @Override
+    public void updateProduto(Product product, Long id) {
+
+    }
+
+    @Override
+    public void setTransaction(Transaction transaction) {
+
     }
 
 }

@@ -20,8 +20,6 @@ public class MainScreen extends GesTADSUI {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(),"createView");
 
-        Scanner scanner = new Scanner(System.in);
-
         System.out.println(formattedTitle("PÁGINA PRINCIPAL"));
         System.out.println(formattedTitle("Bem vindo ao GesTADS"));
         System.out.println(formattedTitle("Escolha uma das opção abaixo"));
@@ -31,8 +29,7 @@ public class MainScreen extends GesTADSUI {
         System.out.println(formattedLineMenu("* Registrar produto", "[2]"));
         System.out.println(formattedLineMenu("* Busca de usuário", "[3]"));
         System.out.println(formattedLineMenu("* Busca de produto", "[4]"));
-        System.out.println(formattedLineMenu("* Entrada de produto", "[5]"));
-        System.out.println(formattedLineMenu("* Saída de produto", "[6]"));
+        System.out.println(formattedLineMenu("* Transação de produto", "[5]"));
         System.out.println(formattedLineMenu("* Logout", "[l]"));
         System.out.println(formattedLineMenu("* Encerrar app", "[q]"));
 
@@ -72,6 +69,7 @@ public class MainScreen extends GesTADSUI {
                     break;
 
                 case "5":
+                    i = new Intent(Intent.ACTION_LAUNCH_TRANSACTION_SCREEN);
                     match = true;
                     break;
 

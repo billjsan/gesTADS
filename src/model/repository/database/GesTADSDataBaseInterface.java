@@ -3,6 +3,7 @@ package src.model.repository.database;
 import src.model.model.Employee;
 import src.model.model.Product;
 import src.model.model.Transacao;
+import src.model.model.Transaction;
 
 import java.util.List;
 public interface GesTADSDataBaseInterface {
@@ -32,5 +33,10 @@ public interface GesTADSDataBaseInterface {
     void setSaidaProduto(Transacao transacao);
     void setEntradaProduto(Transacao transacao);
 
+    @Deprecated
     Product getProdutoPorSerial(String serialNo);
+
+    void updateProduto(Product product, Long id);
+
+    void setTransaction(Transaction transaction);
 }

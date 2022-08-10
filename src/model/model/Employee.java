@@ -24,11 +24,10 @@ public class Employee {
     //Dados do usuario [CDS]
     private String mCpf = "";
     private String mLogin;
-
     private static Long _id = 0L;
     private Long id;
 
-    EmployeeBehavior mEmployeeBehavior;
+    private EmployeeBehavior mEmployeeBehavior;
 
     public Employee() {
         //[LAS]
