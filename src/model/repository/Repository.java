@@ -28,7 +28,7 @@ public class Repository {
                 "Repository constructor");
 
         mExecutor = Executors.newSingleThreadExecutor();
-        mDataBase = DBFactory.getDatabase(DBFactory.PERSIST_DB);
+        mDataBase = DBFactory.getDatabase(DBFactory.VOLATILE_DB);
     }
 
     //[CDS]
