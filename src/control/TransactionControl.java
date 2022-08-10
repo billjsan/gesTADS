@@ -5,9 +5,9 @@ import src.model.model.Product;
 import src.model.model.Transaction;
 import src.model.repository.Repository;
 import src.ui.UIManager;
-import src.util.tools.BroadcastReceiver;
-import src.util.tools.GesLogger;
-import src.util.tools.Intent;
+import src.util.BroadcastReceiver;
+import src.util.GesLogger;
+import src.util.Intent;
 
 import java.util.ArrayList;
 import java.util.List;

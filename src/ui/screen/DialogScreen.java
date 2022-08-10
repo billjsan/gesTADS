@@ -1,8 +1,8 @@
 package src.ui.screen;
 
 import src.ui.GesTADSUI;
-import src.util.tools.GesLogger;
-import src.util.tools.Intent;
+import src.util.GesLogger;
+import src.util.Intent;
 
 import java.util.List;
 

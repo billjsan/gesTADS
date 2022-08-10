@@ -2,9 +2,8 @@ package src.model.repository.database;
 
 import src.model.model.Employee;
 import src.model.model.Product;
-import src.model.model.Transacao;
 import src.model.model.Transaction;
-import src.util.tools.GesLogger;
+import src.util.GesLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,15 +21,17 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
 
     private VolatileDataBase(){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "VolatileDataBase");
+            GesLogger.d(TAG, Thread.currentThread(), "constructor");
     }
 
     public static VolatileDataBase getInstance(){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "VolatileDataBase getInstance");
+            GesLogger.d(TAG, Thread.currentThread(), "getInstance");
+
         if(instance == null){
             instance = new VolatileDataBase();
         }
+
         return instance;
     }
     @Override

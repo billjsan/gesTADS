@@ -1,6 +1,6 @@
 package src.model.model;
 
-import src.util.tools.GesLogger;
+import src.util.GesLogger;
 
 public class Product {
 

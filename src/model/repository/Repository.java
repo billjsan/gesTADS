@@ -4,7 +4,7 @@ import src.model.model.Employee;
 import src.model.model.Product;
 import src.model.model.Transaction;
 import src.model.repository.database.GesTADSDataBaseInterface;
-import src.util.tools.GesLogger;
+import src.util.GesLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Repository {
 
     private static Repository sInstance;
     private final GesTADSDataBaseInterface mDataBase;
-    private final String TAG = Repository.class.getSimpleName();
+    private static final String TAG = Repository.class.getSimpleName();
     private Employee currentUser;
     private ExecutorService mExecutor = null;
     private List<String> mCargos = new ArrayList<>();
@@ -90,8 +90,8 @@ public class Repository {
         if (sInstance == null) {
             sInstance = new Repository();
         }
-        if (GesLogger.ISFULLLOGABLE) GesLogger.d("Repository", Thread.currentThread(),
-                "getInstance - novo repositorio");
+
+        if (GesLogger.ISFULLLOGABLE) GesLogger.d(TAG, Thread.currentThread(), "getInstance");
         return sInstance;
     }
 

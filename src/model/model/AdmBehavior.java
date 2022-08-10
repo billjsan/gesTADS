@@ -1,11 +1,12 @@
 package src.model.model;
 
-import src.util.tools.GesLogger;
+import src.util.GesLogger;
 
-import static src.util.tools.GesLogger.TAG;
 
 //[CDS]
 public class AdmBehavior implements EmployeeBehavior{
+
+    private static final String TAG = AdmBehavior.class.getSimpleName();
     @Override
     public void solicitaProduto() {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)

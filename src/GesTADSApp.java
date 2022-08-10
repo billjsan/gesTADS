@@ -1,8 +1,6 @@
 package src;
 
 import src.control.Control;
-import src.util.tools.BroadcastReceiver;
-import src.util.tools.Intent;
 
 // melhoria de codigo = [ICS]
 // adicao de logs no futuro = [LAS]

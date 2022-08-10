@@ -3,7 +3,7 @@ package src.model.repository;
 import src.model.repository.database.GesTADSDataBaseInterface;
 import src.model.repository.database.PersistDatabase;
 import src.model.repository.database.VolatileDataBase;
-import src.util.tools.GesLogger;
+import src.util.GesLogger;
 
 
 public class DBFactory {
@@ -16,7 +16,7 @@ public class DBFactory {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "getDatabase");
 
-        return db == VOLATILE_DB ? getVolatileDB() : getPersistDB();
+        return db == PERSIST_DB ? getPersistDB() : getVolatileDB();
     }
 
     private static GesTADSDataBaseInterface getVolatileDB() {

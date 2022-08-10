@@ -1,6 +1,6 @@
 package src.ui;
 
-import src.util.tools.Intent;
+import src.util.Intent;
 
 public interface GesTADSSUIInterface {
     void loginScreen(Intent intent);
@@ -12,11 +12,6 @@ public interface GesTADSSUIInterface {
     void registerScreen(Intent intent);
 
     void dialogScreen(Intent intent);
-
-    void removeScreen(Intent intent);
-
-    void searchScreen(Intent intent);
-
     void searchEmployeeScreen(Intent intent);
 
     void registerProductScreen(Intent intent);

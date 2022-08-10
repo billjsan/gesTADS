@@ -1,6 +1,6 @@
 package src.model.model;
 
-import src.util.tools.GesLogger;
+import src.util.GesLogger;
 
 public class Employee {
 
@@ -25,17 +25,18 @@ public class Employee {
     private String mCpf = "";
     private String mLogin;
     private static Long _id = 0L;
-    private Long id;
+    private Long mId;
 
-    private EmployeeBehavior mEmployeeBehavior;
 
     public Employee() {
-
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "construtor vazio");
     }
 
     public Employee(String nome, String login, String senha, String cargo, String cpf) {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "Employee Dados cadastrais");
+            GesLogger.d(TAG, Thread.currentThread(), "construtor com parametro");
+
         this.mNome = nome;
         this.mLogin = login;
         this.mSenha = senha;
@@ -46,113 +47,112 @@ public class Employee {
     }
 
     public void generateID() {
-        this.id = _id;
+        this.mId = _id;
         _id++;
     }
 
     public Long getId() {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getId id: " + id);
+            GesLogger.d(TAG, Thread.currentThread(), "getId id: " + mId);
 
-        return this.id;
-    }
-
-    public EmployeeBehavior getEmployeeBehavior() {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "employeeBehavior getEmployeeBehavior");
-        return mEmployeeBehavior;
-    }
-
-    public void setEmployeeBehavior(EmployeeBehavior mEmployeeBehavior) {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "setEmployeeBehavior");
-        this.mEmployeeBehavior = mEmployeeBehavior;
+        return this.mId;
     }
 
     public String getNome() {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getNome");
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getNome: " + mNome);
+
         return mNome;
     }
 
-    public void setNome(String mNome) {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "setNome");
-        this.mNome = mNome;
+    public void setNome(String nome) {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setNome: " + nome);
+
+        this.mNome = nome;
     }
 
     public String getSenha() {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "getSenha");
+
         return mSenha;
     }
 
     public final void setSenha(String mSenha) {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "setSenha");
+
         this.mSenha = mSenha;
     }
 
     public int getPrivilegio() {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getPrivilegio");
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getPrivilegio: " + mPrivilegio);
+
         return mPrivilegio;
     }
 
     public String getCargo() {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getCargo");
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getCargo: " + mCargo);
+
         return mCargo;
     }
 
-    public void setCargo(String mCargo) {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "setCargo" + mCargo);
-        this.mCargo = mCargo;
+    public void setCargo(String cargo) {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setCargo: " + cargo);
+
+        this.mCargo = cargo;
         inferPrivilege();
     }
 
-    public void setId(Long id){
-        this.id = id;
+    public void setId(Long id) {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getId: " + id);
+
+        this.mId = id;
     }
 
     public String getCpf() {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getCpf");
+            GesLogger.d(TAG, Thread.currentThread(), "getCpf: " + mCpf);
+
         return mCpf;
     }
 
-    public void setCpf(String mCpf) {
+    public void setCpf(String cpf) {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "setCpf");
-        this.mCpf = mCpf;
+            GesLogger.d(TAG, Thread.currentThread(), "setCpf: " + cpf);
+
+        this.mCpf = cpf;
     }
 
-    public void setRg(String mRg) {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "setRg");
-    }
 
     public String getLogin() {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getLogin");
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getLogin: " + mLogin);
+
         return mLogin;
     }
 
     public void setLogin(String login) {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "setLogin" + mLogin);
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setLogin: " + login);
+
         this.mLogin = login;
     }
 
-    public void setPrivilegio(int mPrivilegio) {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "setPrivilegio" + mPrivilegio);
-        this.mPrivilegio = mPrivilegio;
+    public void setPrivilegio(int privilegio) {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setPrivilegio: " + privilegio);
+
+        this.mPrivilegio = privilegio;
     }
 
     private void inferPrivilege() {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "inferPrivilege");
 
         if (mCargo == null || mCargo.isEmpty()) {
@@ -160,10 +160,12 @@ public class Employee {
         } else {
             switch (mCargo) {
                 case Employee.POSITION_ADMIN:
+
                     setPrivilegio(Employee.PRIVILEGE_ADMIN);
                     break;
 
                 case Employee.POSITION_SUPERVISOR:
+
                     setPrivilegio(Employee.PRIVILEGE_SUPERVISOR);
                     break;
 

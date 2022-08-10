@@ -1,27 +1,23 @@
-package src.util.tools;
+package src.util;
 
-
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static src.util.tools.GesLogger.TAG;
 
 public class Intent implements Serializable {
+
+    private static final String TAG = Intent.class.getSimpleName();
 
     //CONSTANTS [CDS]
 
     //Actions [CDS]
-    public final static int ACTION_LOGIN = 1001;
     public final static int ACTION_LOGOUT = 1002;
-    public static final int ACTION_REGISTER = 1003;
     public static final int ACTION_UI_FLAG = 1004;
     public static final int ACTION_SEARCH_EMPLOYEE = 1005;
-    public static final int ACTION_INSERT = 1006;
-    public static final int ACTION_QUIT = 1007 ;
+    public static final int ACTION_QUIT = 1007;
     public static final int ACTION_CHECK_CREDENTIALS = 1008;
     public static final int ACTION_VALIDATE_NEW_USER = 1009;
     public static final int ACTION_RESULT_SET = 1010;
@@ -36,8 +32,6 @@ public class Intent implements Serializable {
     public static final int ACTION_LAUNCH_REGISTER_EMPLOYEE_SCREEN = 2000;
     public static final int ACTION_LAUNCH_LOGIN_SCREEN = 2001;
     public static final int ACTION_LAUNCH_MAIN_SCREEN = 2002;
-    public static final int LAUNCH_ALERT_SCREEN = 2003;
-    public static final int ACTION_LAUNCH_REMOVE_USER_SCREEN = 2004;
     public static final int ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN = 2005;
     public static final int ACTION_LAUNCH_DIALOG_SCREEN = 2006;
     public static final int ACTION_LAUNCH_EDIT_EMPLOYEE = 2007;
@@ -69,11 +63,9 @@ public class Intent implements Serializable {
     public static final String KEY_PRODUCT_QTD_RECEBIDA = "key_product_qtd_recebida";
 
     //Flags [CDS]
-    public static final int FLAG_FIRST_LOGIN = -1;
     public static final int FLAG_POSITIONS_DATA = -2;
     public static final int FLAG_SEARCH_EMPLOYEE_BY_CPF = -3;
     public static final int FLAG_SEARCH_BY_NOME = -4;
-    public static final int FLAG_REMOVING_USER_IN_PROGRESS = -6;
     public static final int FLAG_RESULT_SET = -7;
     public static final int FLAG_DIALOG_MESSAGE = -8;
     public static final int FLAG_SEARCH_PRODUCT_BY_SERIAL_NUMBER = -9;
@@ -81,103 +73,116 @@ public class Intent implements Serializable {
     private final HashMap<String, Integer> mIntMap = new HashMap<>();
     private final HashMap<String, String> mStringMap = new HashMap<>();
     private final HashMap<String, List<?>> mListMap = new HashMap<>();
-    private final List<Integer> mFlagsList =  new ArrayList<>();
+    private final List<Integer> mFlagsList = new ArrayList<>();
     private final int mAction;
     private boolean mHasExtras = false;
-    private HashMap<String, Long> mLongMap = new HashMap<>();
-    private HashMap<String, Intent> mIntentMap = new HashMap<>();
+    private final HashMap<String, Long> mLongMap = new HashMap<>();
+    private final HashMap<String, Intent> mIntentMap = new HashMap<>();
 
     public Intent(Integer action) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "intent "+ action);
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "constructor: action: " + action);
+
         this.mAction = action;
     }
 
     final public Integer getAction() {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getAction "+ mAction);
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getAction: " + mAction);
+
         return mAction;
     }
 
-    final public void putList(String key, List<?> list){
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+    final public void putList(String key, List<?> list) {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "putList");
+
         this.mListMap.put(key, list);
         this.mHasExtras = true;
     }
 
-    final public List<?> getList(String key){
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+    final public List<?> getList(String key) {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "getList");
+
         if (mListMap.containsKey(key)) {
             return new ArrayList<>(mListMap.get(key));
         }
+
         return null;
     }
 
     final public void putInt(String key, Integer integer) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "putInt"+ key + integer);
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "putInt: key: " + key + " int: " + integer);
+
         this.mIntMap.put(key, integer);
         this.mHasExtras = true;
     }
 
     final public int getInt(String key) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getInt "+ key);
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getInt: key: " + key);
+
         if (mIntMap.containsKey(key)) {
             return mIntMap.get(key);
         }
+
         return -1;
     }
 
     final public String getString(String key) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getString" + key);
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getString key: " + key);
+
         if (mStringMap.containsKey(key)) {
             return mStringMap.get(key);
         }
+
         return null;
     }
 
     final public void putString(String key, String value) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "puString " + key + value );
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "puString: key:  " + key + " string: " + value);
+
         this.mStringMap.put(key, value);
         this.mHasExtras = true;
     }
 
     final public void putFlag(Integer flag) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "putFlag "+ flag);
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "putFlag: " + flag);
 
         mFlagsList.add(flag);
         this.mHasExtras = true;
     }
 
-    final public List<Integer> getFlags(){
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), " list <interger> getFlags");
+    final public List<Integer> getFlags() {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getFlags: size: " + mFlagsList.size());
+
         return new ArrayList<>(mFlagsList);
     }
 
-    final public boolean hasExtras(){
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "hasExtras");
+    final public boolean hasExtras() {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "hasExtras: " + mHasExtras);
+
         return this.mHasExtras;
     }
 
-    public void putLong(String key, Long id) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "putLong: "+ key + id);
+    public void putLong(String key, Long value) {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "putLong: key: " + key + " long: " + value);
 
-        this.mLongMap.put(key, id);
+        this.mLongMap.put(key, value);
+        this.mHasExtras = true;
     }
 
     public Long getLong(String key) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getLong chave "+ key);
-        // [LAS] imprimir a chave e o id como?
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getLong: key: " + key);
 
         if (mLongMap.containsKey(key))
             return mLongMap.get(key);
@@ -186,12 +191,17 @@ public class Intent implements Serializable {
     }
 
     public void putIntent(String key, Intent inent) {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "putIntent: key: " + key);
 
         this.mIntentMap.put(key, inent);
+        this.mHasExtras = true;
     }
 
     public Intent getIntent(String key) {
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getIntent:");
 
-       return this.mIntentMap.get(key);
+        return this.mIntentMap.get(key);
     }
 }

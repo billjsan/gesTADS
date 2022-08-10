@@ -1,7 +1,8 @@
 package src.ui;
 
-import src.util.tools.GesLogger;
-import src.util.tools.Intent;
+import src.ui.screen.GesTADSScreensImpl;
+import src.util.GesLogger;
+import src.util.Intent;
 
 // [CDS] explicar o que a classe faz
 public class UIManager {
@@ -11,7 +12,9 @@ public class UIManager {
     private final GesTADSSUIInterface mInterface;
 
     private UIManager() {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) GesLogger.d(TAG, "UIManager constructor");
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "UIManager constructor");
+
         mInterface = UIFactory.getInterface(UIFactory.NO_UI);
     }
 
@@ -111,39 +114,6 @@ public class UIManager {
         mInterface.dialogScreen(intent);
     }
 
-    @Deprecated
-    public void startRemoveUI(Intent intent) {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) {
-
-            int action = 0;
-            boolean extra = false;
-            if (intent != null) {
-                action = intent.getAction();
-                extra = intent.hasExtras();
-            }
-
-            GesLogger.d(TAG, "startRemoveUI: intent action: " + action + " has extras: " + extra);
-        }
-
-        mInterface.removeScreen(intent);
-    }
-
-    public void startSearchUI(Intent intent) {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) {
-
-            int action = 0;
-            boolean extra = false;
-            if (intent != null) {
-                action = intent.getAction();
-                extra = intent.hasExtras();
-            }
-
-            GesLogger.d(TAG, "startSearchUI: intent action: " + action + " has extras: " + extra);
-        }
-
-        mInterface.searchScreen(intent);
-    }
-
     public void startSearchEmployeeUI(Intent intent) {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE) {
 
@@ -206,5 +176,33 @@ public class UIManager {
         }
 
         mInterface.transactionScreen(intent);
+    }
+
+    // [CDS] explicar o que a classe faz
+    private static class UIFactory {
+
+        private static final String TAG = "UIFactory";
+        static final int NO_UI = 1;
+        static final int SWING_UI = 2;
+
+        static GesTADSSUIInterface getInterface(int ui) {
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+                GesLogger.d(TAG, Thread.currentThread(), "getInterface");
+
+            return ui == SWING_UI ? getSwingUI() : getNoUI();
+
+        }
+
+        private static GesTADSSUIInterface getSwingUI() {
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+                GesLogger.d(TAG, Thread.currentThread(), "getSingUI");
+            return null;
+        }
+
+        private static GesTADSSUIInterface getNoUI() {
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+                GesLogger.d(TAG, Thread.currentThread(), "getNoUI");
+            return new GesTADSScreensImpl();
+        }
     }
 }

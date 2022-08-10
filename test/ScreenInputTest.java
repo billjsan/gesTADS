@@ -1,7 +1,7 @@
 package test;
 
 import src.ui.GesTADSUI;
-import src.util.tools.GesLogger;
+import src.util.GesLogger;
 
 import java.io.IOException;
 

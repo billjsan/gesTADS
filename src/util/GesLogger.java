@@ -1,25 +1,25 @@
-package src.util.tools;
+package src.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class GesLogger {
-    public static final String TAG = "GesTADS";
+    public static final String TAG = "GesTADSApp";
     public static final boolean ISFULLLOGABLE = true;
     public static final boolean ISSENSITIVELOGABLE = false;
     public static final boolean ISSAFELOGGABLE = false;
     public static final boolean ISERRORLOGABLE = false;
 
-    private static boolean shoutPrintHeader = false;
+    private static boolean shoutPrintHeader = true;
     private static void printHeader(){
-        System.out.println("[Date and time] [Application] [Class] [Current thread] [Message log]");
+        System.out.println("[Date and time] [Application] [type] [Class] [Current thread] [Message log]");
     }
     public static void d(String subtag, String message){
         if(shoutPrintHeader) {
             printHeader();
             shoutPrintHeader = false;
         }
-        System.out.println(getCurrentTimeFormatted() + " [" + TAG + "] [" + subtag + "] " + message);
+        System.out.println("[" + getCurrentTimeFormatted() + "] [" + TAG + "] [D] [" + subtag + "] " + message);
     }
 
     public static void d(String subtag, Thread thread, String message) {
@@ -27,7 +27,7 @@ public class GesLogger {
             printHeader();
             shoutPrintHeader = false;
         }
-        System.out.println(getCurrentTimeFormatted() + " [" + TAG + "] [" + subtag + "] [Thread: "
+        System.out.println("[" + getCurrentTimeFormatted() + "] [" + TAG + "] [D] [" + subtag + "] ["
                 + thread.getName() + "] " + message);
     }
     public static void e(String subtag, String message){
@@ -35,7 +35,7 @@ public class GesLogger {
             printHeader();
             shoutPrintHeader = false;
         }
-        System.err.println(getCurrentTimeFormatted() + " [" + TAG + "] [" + subtag + "] " + message);
+        System.err.println("[" + getCurrentTimeFormatted() + "] [" + TAG + "] [E] [" + subtag + "] " + message);
     }
 
     private static String getCurrentTimeFormatted() {

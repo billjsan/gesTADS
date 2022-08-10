@@ -1,8 +1,8 @@
 package src.ui;
 
-import src.util.tools.BroadcastReceiver;
-import src.util.tools.GesLogger;
-import src.util.tools.Intent;
+import src.util.BroadcastReceiver;
+import src.util.GesLogger;
+import src.util.Intent;
 
 import java.io.IOException;
 import java.util.ArrayList;

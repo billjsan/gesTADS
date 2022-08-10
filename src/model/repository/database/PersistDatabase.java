@@ -3,7 +3,7 @@ package src.model.repository.database;
 import src.model.model.Employee;
 import src.model.model.Product;
 import src.model.model.Transaction;
-import src.util.tools.GesLogger;
+import src.util.GesLogger;
 
 import java.sql.*;
 import java.util.ArrayList;
