@@ -259,6 +259,13 @@ public class Control extends BroadcastReceiver {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG,Thread.currentThread(), "launchSearchEmployeeScreen");
 
+        if(mRepository.getCurrentUser().getPrivilegio() == Employee.PRIVILEGE_OPERATOR){
+
+            showDialogUI("Acesso negado!");
+            mUIManager.startMainUI(null);
+            return;
+        }
+
         mUIManager.startSearchEmployeeUI(intent);
     }
 

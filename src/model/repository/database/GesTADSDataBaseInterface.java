@@ -15,6 +15,7 @@ public interface GesTADSDataBaseInterface {
 
     //metodos do employee
     Employee getEmployeeByCPF(String cpf);
+    Employee getEmployeeByNome(String nome);
     List<Employee> getEmployees();
     void insertEmployee(Employee employee);
     List<String> getCargos();
@@ -28,14 +29,21 @@ public interface GesTADSDataBaseInterface {
     void setProduto(Product produto);
     @Deprecated
     void editProduto(Product produto, Long id);
+
+    @Deprecated
     void removeProduto(Product produto);
 
     //metodos das transações
+    @Deprecated
     void setSaidaProduto(Transacao transacao);
+    @Deprecated
     void setEntradaProduto(Transacao transacao);
 
     @Deprecated
     Product getProdutoPorSerial(String serialNo);
+
+    public Product getProdutoPorNome(String nome);
+    public void removeProdutoById(Long id);
 
     void updateProduto(Product product, Long id);
 

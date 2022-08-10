@@ -88,6 +88,11 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     }
 
     @Override
+    public Employee getEmployeeByNome(String nome) {
+        return null;
+    }
+
+    @Override
     public void insertEmployee(Employee employee) {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
             GesLogger.d(TAG, Thread.currentThread(),"insertEmployee: login: " + employee.getLogin()
@@ -195,9 +200,9 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
 
     @Override
     public Product getProdutoPorSerial(String serialNo) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(),"getProdutoPorSerial: metodo está " +
-                    "deprecado deve ser removido " + serialNo);
+//        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+//            GesLogger.d(TAG, Thread.currentThread(),"getProdutoPorSerial: metodo está " +
+//                    "deprecado deve ser removido " + serialNo);
 
 //        for (Product p: mProdutos) {
 //            if(p.getSerialN().equals(serialNo)){
@@ -205,9 +210,19 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
 //            }
 //        }
 
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-            GesLogger.e(TAG, "getProdutoPorSerial: metodo está deprecado deve ser removido ");
+//        if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+//            GesLogger.e(TAG, "getProdutoPorSerial: metodo está deprecado deve ser removido ");
         return null;
+    }
+
+    @Override
+    public Product getProdutoPorNome(String nome) {
+        return null;
+    }
+
+    @Override
+    public void removeProdutoById(Long id) {
+
     }
 
     @Override

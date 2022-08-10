@@ -28,7 +28,7 @@ public class Repository {
                 "Repository constructor");
 
         mExecutor = Executors.newSingleThreadExecutor();
-        mDataBase = DBFactory.getDatabase(DBFactory.VOLATILE_DB);
+        mDataBase = DBFactory.getDatabase(DBFactory.PERSIST_DB);
     }
 
     //[CDS]
@@ -205,10 +205,11 @@ public class Repository {
     }
 
     public Product getProductBySerial(String serialNo) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+     /*   if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "getProductBYSerial");
 
-        return this.mDataBase.getProdutoPorSerial(serialNo);
+        return this.mDataBase.getProdutoPorSerial(serialNo);*/
+        return null;
     }
 
     public void updateProduto(Product product, Long id) {
