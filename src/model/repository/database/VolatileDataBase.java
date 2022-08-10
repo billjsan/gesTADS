@@ -179,50 +179,13 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     }
 
     @Override
-    public void editProduto(Product produto, Long id) {
-
-    }
-
-    @Override
-    public void removeProduto(Product produto) {
-
-    }
-
-    @Override
-    public void setSaidaProduto(Transacao transacao) {
-
-    }
-
-    @Override
-    public void setEntradaProduto(Transacao transacao) {
-
-    }
-
-    @Override
-    public Product getProdutoPorSerial(String serialNo) {
-//        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-//            GesLogger.d(TAG, Thread.currentThread(),"getProdutoPorSerial: metodo está " +
-//                    "deprecado deve ser removido " + serialNo);
-
-//        for (Product p: mProdutos) {
-//            if(p.getSerialN().equals(serialNo)){
-//                return p;
-//            }
-//        }
-
-//        if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-//            GesLogger.e(TAG, "getProdutoPorSerial: metodo está deprecado deve ser removido ");
-        return null;
-    }
-
-    @Override
-    public Product getProdutoPorNome(String nome) {
-        return null;
-    }
-
-    @Override
     public void removeProdutoById(Long id) {
 
+    }
+
+    @Override
+    public List<Product> getProdutosPorNome(String nome) {
+        return null;
     }
 
     @Override

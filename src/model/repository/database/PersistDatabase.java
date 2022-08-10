@@ -2,7 +2,6 @@ package src.model.repository.database;
 
 import src.model.model.Employee;
 import src.model.model.Product;
-import src.model.model.Transacao;
 import src.model.model.Transaction;
 import src.util.tools.GesLogger;
 
@@ -360,28 +359,6 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
         }
     }
 
-    @Override
-    public void editProduto(Product produto, Long id) {
-//        String sql = "update produto set nome = ?, "
-//                + "fabricante = ? where id = ?";
-//
-//        try {
-//            PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
-//
-//            pstm.setString(1, produto.getNome());
-//            pstm.setString(2, produto.getFabricante());
-//            pstm.setLong(3, id);
-//            pstm.execute();
-//
-//        } catch (SQLException e) {
-//            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-//                GesLogger.e(TAG, "Erro ao atualizar produto: " + e.getMessage());
-//        } catch (Exception e){
-//            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-//                GesLogger.e(TAG, "Erro de exceção ao atualizar produto: " + e.getMessage());
-//        }
-    }
-
     public void removeProdutoById(Long id){
         String sql = "delete from produto where id = ?";
 
@@ -402,72 +379,48 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
         }
     }
 
+    /**
+     * o metodo como está retorna apenas um produto por nome,
+     * mas nós podemos ter mais de um produto com o mesmo nome.
+     * Então precisa retornar uma lista.
+     *
+     * exemplo de busca: "xicara"
+     *
+     * resultados: "xicara", "xicara grande", "xicara pequena", etc.
+     *
+     * todos os produtos que CONTÉM aquele @param nome devem ser incluidos no resultado
+     */
     @Override
-    public void removeProduto(Product produto) {
+    public List<Product> getProdutosPorNome(String nome) {
 
-      /*  String sql = "delete from produto where id = ?";
 
-        try {
-            PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
-            pstm.setLong(1, produto.getId());
-            pstm.execute();
-
-        } catch (SQLException e) {
-            if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                GesLogger.e(TAG, "Erro ao remover produto: " + e.getMessage());
-        } catch (Exception e) {
-            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                GesLogger.e(TAG, "Erro de exceção ao excluir produto: " + e.getMessage());
-        }*/
-
-    }
-
-    @Override
-    public void setSaidaProduto(Transacao transacao) {
-
-    }
-
-    @Override
-    public void setEntradaProduto(Transacao transacao) {
-
-    }
-
-    @Override
-    public Product getProdutoPorSerial(String serialNo) {
-
-        return null;
-    }
-
-    @Override
-    public Product getProdutoPorNome(String nome) {
-
-        String sql = "select * from produto where nome = ?";
-
-        try {
-            PreparedStatement pstm = src.model.repository.database.ConnectionDataBase
-                    .getCurrentConnection().prepareStatement(sql);
-
-            pstm.setString(1, nome);
-
-            ResultSet rs = pstm.executeQuery();
-
-            Product p = null;
-
-            if(rs.next()) {
-                p = new Product();
-                p.setId(rs.getLong("id"));
-                p.setNome(rs.getString("nome"));
-                p.setFabricante(rs.getString("fabricante"));
-                p.setFabricante(rs.getString("quantidade"));
-            }
-
-            return p;
-
-        } catch (SQLException e) {
-            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                GesLogger.e(TAG, "Erro ao buscar produto por id: " + e.getMessage());
-        }
-
+//        String sql = "select * from produto where nome = ?";
+//
+//        try {
+//            PreparedStatement pstm = src.model.repository.database.ConnectionDataBase
+//                    .getCurrentConnection().prepareStatement(sql);
+//
+//            pstm.setString(1, nome);
+//
+//            ResultSet rs = pstm.executeQuery();
+//
+//            Product p = null;
+//
+//            if(rs.next()) {
+//                p = new Product();
+//                p.setId(rs.getLong("id"));
+//                p.setNome(rs.getString("nome"));
+//                p.setFabricante(rs.getString("fabricante"));
+//                p.setFabricante(rs.getString("quantidade"));
+//            }
+//
+//            return p;
+//
+//        } catch (SQLException e) {
+//            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+//                GesLogger.e(TAG, "Erro ao buscar produto por id: " + e.getMessage());
+//        }
+//
         return null;
     }
 
