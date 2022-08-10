@@ -10,7 +10,9 @@ public class DialogScreen extends GesTADSUI {
 
     private final String TAG = "DialogScreen";
     public DialogScreen(Intent intent) {
-        // [LAS] mostrar a action do intent
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "DialogScreen "+ intent );
+        // [LAS] mostrar a action do intent - nao entendi o que seria a action
         super(intent);
     }
 
@@ -20,7 +22,8 @@ public class DialogScreen extends GesTADSUI {
             GesLogger.d(TAG, Thread.currentThread(), "createView");
 
         if(mContextIntent == null){
-            // [LAS]
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+                GesLogger.d(TAG, " mContextIntent nulo");
 
             onDestroy();
             return;

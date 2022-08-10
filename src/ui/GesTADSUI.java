@@ -86,7 +86,8 @@ public abstract class GesTADSUI {
     }
 
     protected List<Integer> getContextFlags(){
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "getContextFlags");
 
         return new ArrayList<>(mContextIntent.getFlags());
     }

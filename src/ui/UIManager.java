@@ -6,7 +6,7 @@ import src.util.tools.Intent;
 
 // [CDS] explicar o que a classe faz
 public class UIManager {
-    private final String TAG = UIManager.class.getSimpleName();
+    private static final String TAG = UIManager.class.getSimpleName();
 
     private static UIManager instance;
     private final GesTADSSUIInterface mInterface;
@@ -17,7 +17,8 @@ public class UIManager {
     }
 
     public static UIManager getInstance(){
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "UIManager getInstance");
         if(instance == null){
             instance = new UIManager();
         }
@@ -32,12 +33,14 @@ public class UIManager {
     }
 
     public void startLoginUI(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "startLoginUI");
         mInterface.loginScreen(intent);
     }
 
     public void startHomeUI(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "startHomeUI "+ intent);
 
         mInterface.homeScreen(intent);
     }
@@ -52,43 +55,51 @@ public class UIManager {
     }
 
     public void startMainUI(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "startMainUI "+ intent);
         mInterface.mainScreen(intent);
     }
 
     public void startRegisterUI(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "startRegisterUI "+ intent);
         mInterface.registerScreen(intent);
     }
 
     public void startDialogUI(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "startDialogUI "+ intent);
         mInterface.dialogScreen(intent);
     }
 
     @Deprecated
     public void startRemoveUI(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "startRemoveUI "+ intent);
         mInterface.removeScreen(intent);
     }
 
     public void startSearchUI(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "StartSearchUI "+ intent);
         mInterface.searchScreen(intent);
     }
 
     public void startSearchEmployeeUI(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "startSearchEmployeeUI "+ intent);
         mInterface.searchEmployeeScreen(intent);
     }
 
     public void startRegisterProductScreen(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "startRegisterProductScreen "+ intent);
         mInterface.registerProductScreen(intent);
     }
 
     public void startSearchProductUI(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "startSearchProductUI "+ intent);
 
         mInterface.searchProductScreen(intent);
     }
