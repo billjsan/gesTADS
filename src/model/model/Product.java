@@ -1,5 +1,7 @@
 package src.model.model;
 
+import src.util.tools.GesLogger;
+
 public class Product {
 
     private final String TAG = Product.class.getSimpleName();
@@ -14,12 +16,14 @@ public class Product {
     private String validade;
 
     public Product() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "Product construtor");
     }
 
     public Product(String nome, String serialN, String fabricante, String descricao,
                    String fabricacao, String validade) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "Product cadastro");
         this.nome = nome;
         this.serialN = serialN;
         this.fabricante = fabricante;
@@ -32,7 +36,9 @@ public class Product {
         return id;
     }
     public void generateId(){
-        //[LAS] imprimir o id
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "generateId:"+ id);
+
         this.id = _id;
         _id ++;
     }

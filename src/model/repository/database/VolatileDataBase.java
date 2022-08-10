@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class VolatileDataBase implements GesTADSDataBaseInterface {
 
-    public final String TAG = VolatileDataBase.class.getSimpleName();
+    public static final String TAG = VolatileDataBase.class.getSimpleName();
     private static VolatileDataBase instance;
     private volatile boolean isDBStarted;
     private final List<Employee> mEmployees = new ArrayList<>();
@@ -19,11 +19,13 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     private List<Product> mProdutos =  new ArrayList<>();
 
     private VolatileDataBase(){
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "VolatileDataBase");
     }
 
     public static VolatileDataBase getInstance(){
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "VolatileDataBase getInstance");
         if(instance == null){
             instance = new VolatileDataBase();
         }
@@ -70,7 +72,8 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
 
     @Override
     public Employee getEmployeeByCPF(String cpf) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getEmployeeByCPF "+ cpf);
         for (Employee e: mEmployees){
             if(e.getCpf().equals(cpf)){
                 return e;
@@ -106,14 +109,16 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
 
     @Override
     public void setCargo(String cargo) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setCargo "+ cargo);
 
         this.mCargos.add(cargo);
     }
 
     @Override
     public void removeEmployee(Employee employee) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "removeEmployee "+ employee);
 
         mEmployees.removeIf(storedEmployee -> storedEmployee.getCpf().equals(employee.getCpf()));
     }

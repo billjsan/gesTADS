@@ -103,7 +103,8 @@ public class Repository {
     }
 
     public void addEmployee(Employee employee) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "addEmployee" + employee);
 
         employee.generateID();
         mDataBase.insertEmployee(employee);
@@ -118,26 +119,31 @@ public class Repository {
     }
 
     public List<String> getCargos() {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getCargos");
 
         this.mCargos = mDataBase.getCargos();
         return new ArrayList<>(mCargos);
     }
 
     public void setPosition(String position) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setPositions "+ position);
 
         this.mCargos.add(position);
     }
 
     public Employee getEmployeeByCPF(String cpf) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getEmployeeByCPF"+ cpf);
 
         return this.mDataBase.getEmployeeByCPF(cpf);
     }
 
     public void removeEmployee(Employee empregado) {
-        // [LAS] mostrar nome e cpf do empregado
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "removeEmployee "+ empregado );
+        // LAS - falta pegar cpf
 
         mDataBase.removeEmployee(empregado);
     }
@@ -174,7 +180,8 @@ public class Repository {
     }
 
     public boolean isLoggedIn() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "isLoggedIn");
 
         return mIsLoggedIn;
     }
@@ -185,13 +192,15 @@ public class Repository {
      * define o @param status da sessão
      */
     public void isLoggedIn(boolean status) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "isLoggedIn status "+ status);
 
         this.mIsLoggedIn = status;
     }
 
     public Product getProductBySerial(String serialNo) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getProductBYSerial");
 
         return this.mDataBase.getProdutoPorSerial(serialNo);
     }

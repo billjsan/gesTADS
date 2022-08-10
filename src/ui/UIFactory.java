@@ -1,13 +1,18 @@
 package src.ui;
 
 import src.ui.screen.GesTADSScreensImpl;
+import src.util.tools.GesLogger;
+
+import static src.util.tools.GesLogger.TAG;
+
 // [CDS] explicar o que a classe faz
 public class UIFactory {
     static final int NO_UI = 1;
     static final int SWING_UI = 2;
 
     static GesTADSSUIInterface getInterface(int ui) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getInterface: "+ ui);
 
         if (ui == SWING_UI) {
             return getSingUI();
@@ -17,12 +22,14 @@ public class UIFactory {
     }
 
     private static GesTADSSUIInterface getSingUI() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getSingUI");
         return null;
     }
 
     private static GesTADSSUIInterface getNoUI() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getNoUI");
         return new GesTADSScreensImpl();
     }
 }
