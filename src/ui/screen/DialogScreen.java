@@ -10,9 +10,7 @@ public class DialogScreen extends GesTADSUI {
 
     private final String TAG = "DialogScreen";
     public DialogScreen(Intent intent) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, "DialogScreen "+ intent );
-        // [LAS] mostrar a action do intent - nao entendi o que seria a action
+        //[LAS] mostrar a action do intent - não entendi o que seria essa ação
         super(intent);
     }
 
