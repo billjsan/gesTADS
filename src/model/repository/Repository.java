@@ -91,15 +91,18 @@ public class Repository {
             sInstance = new Repository();
         }
         if (GesLogger.ISFULLLOGABLE) GesLogger.d("Repository", Thread.currentThread(),
-                "getInstance");
+                "getInstance - novo repositorio");
         return sInstance;
     }
 
     public List<Employee> getEmployees() {
-        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getEmployees");
 
-        return new ArrayList<>(mDataBase.getEmployees());
+        ArrayList<Employee> employees = new ArrayList<>(mDataBase.getEmployees());
+
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getEmployees size: " + employees.size());
+
+        return employees;
     }
 
     public void addEmployee(Employee employee) {
@@ -124,11 +127,14 @@ public class Repository {
     }
 
     public List<String> getCargos() {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getCargos");
 
         this.mCargos = mDataBase.getCargos();
-        return new ArrayList<>(mCargos);
+        ArrayList<String> cargos = new ArrayList<>(mCargos);
+
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getCargos size: " + cargos.size());
+
+        return cargos;
     }
 
     public void setPosition(String position) {
@@ -139,7 +145,7 @@ public class Repository {
     }
 
     public Employee getEmployeeByCPF(String cpf) {
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "getEmployeeByCPF"+ cpf);
 
         return this.mDataBase.getEmployeeByCPF(cpf);
@@ -165,22 +171,24 @@ public class Repository {
         String info = "id: " + product.getId() + " nome: " + product.getNome() + " fab: "
                 + product.getFabricante() + " qtdEst.: " + product.getQtdEstoque();
 
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "addProduct: " + info);
 
         mDataBase.setProduto(product);
     }
 
     public Employee getCurrentUser(){
-        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getCurrentUser: " + currentUser.getNome());
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getCurrentUser name: " + currentUser.getNome() +
+                    " cargo: " + currentUser.getCargo());
 
         return currentUser;
     }
 
     public void setCurrentUser(Employee employee) {
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "setCurrentUser: " + employee.getNome());
+            GesLogger.d(TAG, Thread.currentThread(), "setCurrentUser name: " + employee.getNome() +
+                    " cargo: " + employee.getCargo());
 
         currentUser = employee;
     }

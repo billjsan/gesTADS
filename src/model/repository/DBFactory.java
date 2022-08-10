@@ -5,10 +5,10 @@ import src.model.repository.database.PersistDatabase;
 import src.model.repository.database.VolatileDataBase;
 import src.util.tools.GesLogger;
 
-import static src.util.tools.GesLogger.TAG;
 
 public class DBFactory {
 
+    private static final String TAG = DBFactory.class.getSimpleName();
     static final int VOLATILE_DB = 1;
     static final int PERSIST_DB = 2;
 
