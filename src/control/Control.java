@@ -163,7 +163,8 @@ public class Control extends BroadcastReceiver {
     }
 
     private void editEmployee(Intent intent) {
-        // [LAS]
+        // [LAS] TESTE
+        // testando push
 
         if(intent == null || intent.getAction() != Intent.ACTION_LAUNCH_EDIT_EMPLOYEE){
             intent = new Intent(Intent.ACTION_LAUNCH_EDIT_EMPLOYEE);
