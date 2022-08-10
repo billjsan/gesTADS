@@ -53,7 +53,8 @@ public class ProductControl extends BroadcastReceiver {
     }
 
     private void launchSearchProductScreen(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "launchSearchProductScreen");
 
         mUIManager.startSearchProductUI(intent);
     }
@@ -96,7 +97,8 @@ public class ProductControl extends BroadcastReceiver {
     }
 
     private void validateProduct(Intent intent) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "validateProduct");
 
         List<Product> produtos = mRepository.getProdutos();
 
@@ -134,7 +136,8 @@ public class ProductControl extends BroadcastReceiver {
     }
 
     private void launchRegisterProductScreen(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "launchRegisterProductScreen");
 
         if(mRepository.getCurrentUser().getPrivilegio() != Employee.PRIVILEGE_ADMIN){
 

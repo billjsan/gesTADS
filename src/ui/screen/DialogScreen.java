@@ -10,7 +10,7 @@ public class DialogScreen extends GesTADSUI {
 
     private final String TAG = "DialogScreen";
     public DialogScreen(Intent intent) {
-        // [LAS] mostrar a action do intent
+        //[LAS] mostrar a action do intent - não entendi o que seria essa ação
         super(intent);
     }
 
@@ -20,7 +20,8 @@ public class DialogScreen extends GesTADSUI {
             GesLogger.d(TAG, Thread.currentThread(), "createView");
 
         if(mContextIntent == null){
-            // [LAS]
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+                GesLogger.d(TAG, " mContextIntent nulo");
 
             onDestroy();
             return;

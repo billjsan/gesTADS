@@ -89,7 +89,8 @@ public class SearchProductScreen extends GesTADSUI {
     }
 
     private void primaryScreen() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "primaryScreen");
 
         System.out.println(formattedTitle("BUSCAR PRODUTO"));
         System.out.println();
@@ -138,7 +139,8 @@ public class SearchProductScreen extends GesTADSUI {
     }
 
     private void resultScreen() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "resultScreen");
 
         System.out.println(formattedTitle("BUSCAR PRODUTO"));
         System.out.println();
@@ -156,7 +158,8 @@ public class SearchProductScreen extends GesTADSUI {
     }
 
     private int getShowResultSetStatus() {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getShowResultSetStatus");
 
         try {
             List<Intent> resultSet = getResultSet();
@@ -217,7 +220,8 @@ public class SearchProductScreen extends GesTADSUI {
     }
 
     private int getHandleSelectedResultItemStatus() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getHandleSelectedResultItemStatus");
 
         do {
             List<Intent> resultSet = getResultSet();
@@ -248,7 +252,8 @@ public class SearchProductScreen extends GesTADSUI {
     }
 
     private int getHandleSelectedActionStatus(Intent selectedProduct) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getHandleSelectedActionStatus");
 
         if (selectedProduct == null) return STATUS_FAIL;
 

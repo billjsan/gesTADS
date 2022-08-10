@@ -158,7 +158,8 @@ public class Control extends BroadcastReceiver {
     }
 
     private void editEmployee(Intent intent) {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "EditEmployee");
 
         if(mRepository.getCurrentUser().getPrivilegio() != Employee.PRIVILEGE_ADMIN){
 
@@ -179,7 +180,8 @@ public class Control extends BroadcastReceiver {
     }
 
     private void removeEmployee(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "removeEmployee");
 
         if(mRepository.getCurrentUser().getPrivilegio() != Employee.PRIVILEGE_ADMIN){
 

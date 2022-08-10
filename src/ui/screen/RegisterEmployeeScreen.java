@@ -30,7 +30,8 @@ public class RegisterEmployeeScreen extends GesTADSUI {
      */
     @Override
     public void onCreate() {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "onCreat");
 
         if (mContextIntent.getAction() == Intent.ACTION_LAUNCH_EDIT_EMPLOYEE &&
                 mContextIntent.hasExtras()) {
@@ -83,12 +84,14 @@ public class RegisterEmployeeScreen extends GesTADSUI {
     }
 
     private void unreachCase() {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "unreachCase");
         BroadcastReceiver.sendBroadcast(new Intent(Intent.ACTION_LAUNCH_MAIN_SCREEN));
     }
 
     private void registerEmployee() {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "registerEmployee");
 
         System.out.println(formattedTitle("REGISTER"));
         System.out.println(formattedTitle("Bem vindo ao GesTADS"));
@@ -122,7 +125,8 @@ public class RegisterEmployeeScreen extends GesTADSUI {
      * e getPassword() e evitar boilet plate, talvez no futuro essa tela seja implementada na sua propria classe
      */
     private void editEmployee(){
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "editEmployee");
 
         List<Integer> contextFlags = getContextFlags();
         if(contextFlags.contains(Intent.FLAG_RESULT_SET)){
@@ -221,7 +225,8 @@ public class RegisterEmployeeScreen extends GesTADSUI {
     }
 
     private String getPassword() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getPassword");
 
         boolean isPswrdSetd = false;
         String pass = "";

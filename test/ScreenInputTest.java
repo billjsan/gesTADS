@@ -18,7 +18,8 @@ public class ScreenInputTest extends GesTADSUI {
 
     @underTest
     public static void apagaScreen(){
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "apagaScreen");
 
         try {
             if (System.getProperty("os.name").contains("Windows")){

@@ -30,11 +30,12 @@ public class Employee {
     private EmployeeBehavior mEmployeeBehavior;
 
     public Employee() {
-        //[LAS]
+
     }
 
     public Employee(String nome, String login, String senha, String cargo, String cpf) {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "Employee Dados cadastrais");
         this.mNome = nome;
         this.mLogin = login;
         this.mSenha = senha;
@@ -57,47 +58,56 @@ public class Employee {
     }
 
     public EmployeeBehavior getEmployeeBehavior() {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "employeeBehavior getEmployeeBehavior");
         return mEmployeeBehavior;
     }
 
     public void setEmployeeBehavior(EmployeeBehavior mEmployeeBehavior) {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setEmployeeBehavior");
         this.mEmployeeBehavior = mEmployeeBehavior;
     }
 
     public String getNome() {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getNome");
         return mNome;
     }
 
     public void setNome(String mNome) {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setNome");
         this.mNome = mNome;
     }
 
     public String getSenha() {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getSenha");
         return mSenha;
     }
 
     public final void setSenha(String mSenha) {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setSenha");
         this.mSenha = mSenha;
     }
 
     public int getPrivilegio() {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getPrivilegio");
         return mPrivilegio;
     }
 
     public String getCargo() {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getCargo");
         return mCargo;
     }
 
     public void setCargo(String mCargo) {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setCargo" + mCargo);
         this.mCargo = mCargo;
         inferPrivilege();
     }
@@ -107,36 +117,43 @@ public class Employee {
     }
 
     public String getCpf() {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getCpf");
         return mCpf;
     }
 
     public void setCpf(String mCpf) {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setCpf");
         this.mCpf = mCpf;
     }
 
     public void setRg(String mRg) {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setRg");
     }
 
     public String getLogin() {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getLogin");
         return mLogin;
     }
 
     public void setLogin(String login) {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setLogin" + mLogin);
         this.mLogin = login;
     }
 
     public void setPrivilegio(int mPrivilegio) {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "setPrivilegio" + mPrivilegio);
         this.mPrivilegio = mPrivilegio;
     }
 
     private void inferPrivilege() {
-        //[LAS]
+        if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "inferPrivilege");
 
         if (mCargo == null || mCargo.isEmpty()) {
             setPrivilegio(Employee.PRIVILEGE_OPERATOR);

@@ -76,7 +76,8 @@ public abstract class GesTADSUI {
     //[ICS] avaliar necessidade, mudar nome para getContextFlags()
     @Deprecated
     protected List<Integer> getFlags(){
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "getFlags");
         if(mContextIntent != null && (mContextIntent.getAction() == Intent.ACTION_UI_FLAG)){
             return new ArrayList<>(mContextIntent.getFlags());
         }else {
@@ -85,13 +86,15 @@ public abstract class GesTADSUI {
     }
 
     protected List<Integer> getContextFlags(){
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "getContextFlags");
 
         return new ArrayList<>(mContextIntent.getFlags());
     }
 
     protected final String formattedLineMenu( String str1, String str2) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "formattedLineMenu");
 
         int lineSize = LINE_LENGTH;
         if ((str1.length() + str2.length() > lineSize)){
@@ -137,7 +140,8 @@ public abstract class GesTADSUI {
 
     @Deprecated
     protected String getUserInput() {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "getUserInput");
 
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
@@ -151,7 +155,8 @@ public abstract class GesTADSUI {
 
     @Deprecated
     protected void showMessageDialog(String message){
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "showMessageDialog");
 
         Intent intent = new Intent(Intent.ACTION_UI_FLAG);
         intent.putString(Intent.KEY_MESSAGE_DIALOG, message);
@@ -161,7 +166,8 @@ public abstract class GesTADSUI {
 
     @Deprecated
     protected Integer getIntFromTheUser(){
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "getIntFromTheUser");
 
         Integer integer = null;
         try {
@@ -182,7 +188,8 @@ public abstract class GesTADSUI {
      * @return
      */
     protected Integer screenGetIntegerFromUser(){
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "screenGetIntergerFromUser");
 
         Scanner input = new Scanner(System.in);
         Integer integerValue = null;

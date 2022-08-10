@@ -28,7 +28,8 @@ public class RegisterProductScreen extends GesTADSUI {
     }
 
     private void registerProduct() {
-        // [LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "registerProduct");
 
         System.out.println(formattedTitle("REGISTER"));
         System.out.println(formattedTitle("Bem vindo ao GesTADS"));
