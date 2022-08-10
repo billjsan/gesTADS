@@ -163,8 +163,8 @@ public class Control extends BroadcastReceiver {
     }
 
     private void editEmployee(Intent intent) {
-        // [LAS] TESTE
-        // testando push
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "EditEmployee");
 
         if(intent == null || intent.getAction() != Intent.ACTION_LAUNCH_EDIT_EMPLOYEE){
             intent = new Intent(Intent.ACTION_LAUNCH_EDIT_EMPLOYEE);
@@ -178,7 +178,8 @@ public class Control extends BroadcastReceiver {
     }
 
     private void removeEmployee(Intent intent) {
-        //[LAS]
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
+            GesLogger.d(TAG, "removeEmployee");
 
         if (intent == null || !intent.hasExtras()){
             if(isLoggedIn) mUIManager.startMainUI(null);
