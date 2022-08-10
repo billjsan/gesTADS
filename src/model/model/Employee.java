@@ -102,6 +102,10 @@ public class Employee {
         inferPrivilege();
     }
 
+    public void setId(Long id){
+        this.id = id;
+    }
+
     public String getCpf() {
         //[LAS]
         return mCpf;

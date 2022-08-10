@@ -114,7 +114,7 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     }
 
     @Override
-    public void removeEmployee(Employee employee) {
+    public void removeEmployee(Employee employee, Long id) {
         // [LAS]
 
         mEmployees.removeIf(storedEmployee -> storedEmployee.getCpf().equals(employee.getCpf()));
@@ -224,5 +224,10 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
             GesLogger.d(TAG, Thread.currentThread(), "setTransaction");
 
         this.mTransactions.add(transaction);
+    }
+
+    @Override
+    public List<Transaction> getTransacoes() {
+        return null;
     }
 }

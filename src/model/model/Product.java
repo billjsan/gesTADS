@@ -56,4 +56,8 @@ public class Product {
 
         this.qtdEsqoque = qtd;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

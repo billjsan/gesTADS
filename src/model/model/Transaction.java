@@ -8,7 +8,6 @@ public class Transaction {
     private static Long _id = 0L;
 
     private Long id;
-    private String obs;
     private Long produtoId;
     private int tipoTransacao;
     private int quantidade;

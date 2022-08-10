@@ -28,7 +28,7 @@ public class Repository {
                 "Repository constructor");
 
         mExecutor = Executors.newSingleThreadExecutor();
-        mDataBase = DBFactory.getDatabase(DBFactory.VOLATILE_DB);
+        mDataBase = DBFactory.getDatabase(DBFactory.PERSIST_DB);
     }
 
     //[CDS]
@@ -46,6 +46,7 @@ public class Repository {
                 Employee root = new Employee();
                 root.setLogin("admin");
                 root.setSenha("admin");
+                root.setCargo(Employee.POSITION_ADMIN);
                 root.setCpf("00000000000");
                 root.generateID();
                 root.setPrivilegio(Employee.PRIVILEGE_ADMIN);
@@ -102,13 +103,14 @@ public class Repository {
     }
 
     public void addEmployee(Employee employee) {
+        employee.generateID();
         String info = "id: " + employee.getId() + " nome: " + employee.getNome() + " cpf: "
                 + employee.getCpf() + " cargo: " + employee.getCargo() + " priv: " + employee.getPrivilegio() ;
 
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "addEmployee: " + info);
 
-        employee.generateID();
+
         mDataBase.insertEmployee(employee);
     }
 
@@ -139,10 +141,10 @@ public class Repository {
         return this.mDataBase.getEmployeeByCPF(cpf);
     }
 
-    public void removeEmployee(Employee empregado) {
+    public void removeEmployee(Employee empregado, Long id) {
         // [LAS] mostrar nome e cpf do empregado
 
-        mDataBase.removeEmployee(empregado);
+        mDataBase.removeEmployee(empregado, id);
     }
 
     public void updateEmployee(Employee employee, Long id) {

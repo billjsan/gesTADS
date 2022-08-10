@@ -19,13 +19,14 @@ public interface GesTADSDataBaseInterface {
     void insertEmployee(Employee employee);
     List<String> getCargos();
     void setCargo(String position);
-    void removeEmployee(Employee employee);
+    void removeEmployee(Employee employee, Long id);
     void updateEmployee(Employee employee, Long id);
 
     //metodos do produto
     Product getProdutoPorId(Long id);
     List<Product> getProdutos();
     void setProduto(Product produto);
+    @Deprecated
     void editProduto(Product produto, Long id);
     void removeProduto(Product produto);
 
@@ -39,4 +40,7 @@ public interface GesTADSDataBaseInterface {
     void updateProduto(Product product, Long id);
 
     void setTransaction(Transaction transaction);
+
+    List<Transaction> getTransacoes();
+
 }

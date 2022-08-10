@@ -198,7 +198,8 @@ public class Control extends BroadcastReceiver {
                     List<Intent> list = (List<Intent>) intent.getList(Intent.KEY_RESULT_SET);
                     Intent empregado = list.get(0);
 
-                    mRepository.removeEmployee(populateEmployeeWithIntent(empregado));
+                    mRepository.removeEmployee(populateEmployeeWithIntent(empregado),
+                            empregado.getLong(Intent.KEY_EMPLOYEE_ID));
                     showDialogUI("Usuário removido com sucesso");
                     mUIManager.startSearchEmployeeUI(new Intent(Intent.ACTION_LAUNCH_SEARCH_EMPLOYEE_SCREEN));
                 }
@@ -334,6 +335,7 @@ public class Control extends BroadcastReceiver {
                 GesLogger.d(TAG, Thread.currentThread(), "credentials validated");
 
             mRepository.isLoggedIn(true);
+           // mRepository.setCurrentUser(populateEmployeeWithIntent(intent));
             mUIManager.startMainUI(populateIntentWithEmployee(Intent.ACTION_UI_FLAG, mRepository.getCurrentUser()));
         }else {
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
@@ -363,6 +365,14 @@ public class Control extends BroadcastReceiver {
             if(employee.getLogin().equals(login)){
                 if(employee.getSenha().equals(pass) && employee.getLogin().equals(login)){
 
+                    System.out.println(employee.getNome());
+                    System.out.println(employee.getLogin());
+                    System.out.println(employee.getSenha());
+                    System.out.println(employee.getCargo());
+                    System.out.println(employee.getCpf());
+                    System.out.println(employee.getId());
+
+                    mRepository.isLoggedIn(true);
                     mRepository.setCurrentUser(employee);
                     return true;
                 }

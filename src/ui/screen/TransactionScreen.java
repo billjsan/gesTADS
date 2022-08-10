@@ -21,9 +21,6 @@ public class TransactionScreen extends GesTADSUI {
     protected void onCreate() {
         super.onCreate();
 
-        if(getContextFlags().contains(Intent.FLAG_RESULT_SET)){
-
-        }
 
     }
 

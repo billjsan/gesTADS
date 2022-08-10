@@ -104,6 +104,7 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
             while(rs.next()) {
 
                 Employee e = new Employee();
+                e.setId(rs.getLong("id"));
                 e.setNome(rs.getString("nome"));
                 e.setLogin(rs.getString("login"));
                 e.setSenha(rs.getString("senha"));
@@ -136,6 +137,7 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
             if(rs.next()) {
                 e = new Employee();
+                e.setId(rs.getLong("id"));
                 e.setNome(rs.getString("nome"));
                 e.setLogin(rs.getString("login"));
                 e.setSenha(rs.getString("senha"));
@@ -152,14 +154,14 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
         return null;
     }
 
-    public void removeEmployee(Employee employee) {
+    public void removeEmployee(Employee employee, Long id) {
 
         String sql = "delete from employee where id = ?";
 
         try {
             PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
 
-            pstm.setLong(1, employee.getId());
+            pstm.setLong(1, id);
             pstm.execute();
 
         } catch (SQLException e) {
@@ -193,6 +195,11 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
         } catch (Exception e){
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
                 GesLogger.e(TAG, "Erro de exceção ao atualizar employee: " + e.getMessage());
+            System.out.println(employee.getNome());
+            System.out.println(employee.getLogin());
+            System.out.println(employee.getCargo());
+            System.out.println(employee.getCpf());
+            System.out.println(id);
         }
     }
 
@@ -250,8 +257,10 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
             if(rs.next()) {
                 p = new Product();
+                p.setId(rs.getLong("id"));
                 p.setNome(rs.getString("nome"));
                 p.setFabricante(rs.getString("fabricante"));
+                p.setFabricante(rs.getString("quantidade"));
             }
 
             return p;
@@ -277,8 +286,10 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
             while(rs.next()) {
 
                 Product p = new Product();
+                p.setId(rs.getLong("id"));
                 p.setNome(rs.getString("nome"));
                 p.setFabricante(rs.getString("fabricante"));
+                p.setQtdEsqoque(rs.getInt("quantidade"));
 
                 produtos.add(p);
             }
@@ -293,14 +304,15 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
     @Override
     public void setProduto(Product produto) {
-        String sql = "insert into produto (id, nome, serialn, fabricante, descricao, fabricacao, validade) values (?,?,?,?,?,?,?)";
+        String sql = "insert into produto (id, nome, fabricante, quantidade) values (?,?,?,?)";
 
         try {
             PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
 
             pstm.setLong(1, produto.getId());
             pstm.setString(2, produto.getNome());
-            pstm.setString(4, produto.getFabricante());
+            pstm.setString(3, produto.getFabricante());
+            pstm.setInt(4, produto.getQtdEstoque());
 
             pstm.execute();
 
@@ -313,16 +325,14 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
     @Override
     public void editProduto(Product produto, Long id) {
         String sql = "update produto set nome = ?, "
-                + "serialn = ?, fabricante = ?,  descricao = ?," +
-                "fabricacao = ?, validade = ?"
-                + "where id = ?";
+                + "fabricante = ? where id = ?";
 
         try {
             PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
 
             pstm.setString(1, produto.getNome());
-            pstm.setString(3, produto.getFabricante());
-            pstm.setLong(7, id);
+            pstm.setString(2, produto.getFabricante());
+            pstm.setLong(3, id);
             pstm.execute();
 
         } catch (SQLException e) {
@@ -332,6 +342,10 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
                 GesLogger.e(TAG, "Erro de exceção ao atualizar produto: " + e.getMessage());
         }
+    }
+
+    public void removeProdutoByIdIzavan(Long id){
+        //implementar esse
     }
 
     @Override
@@ -372,32 +386,54 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
     @Override
     public void updateProduto(Product product, Long id) {
+        String sql = "update produto set nome = ?, "
+                + "fabricante = ?, quantidade = ? where id = ?";
 
+        try {
+            PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
+
+            pstm.setString(1, product.getNome());
+            pstm.setString(2, product.getFabricante());
+            pstm.setLong(3, product.getQtdEstoque());
+            pstm.setLong(4, id);
+            pstm.execute();
+
+        } catch (SQLException e) {
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro ao atualizar produto: " + e.getMessage());
+        } catch (Exception e){
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro de exceção ao atualizar produto: " + e.getMessage());
+        }
     }
 
     @Override
     public void setTransaction(Transaction transaction) {
 
-        String sql = "select * from produto where serialn = ?";
+        String sql = "insert into transaction (id, id_solicitante, id_produto, tipotransacao, quantidade) values (?,?,?,?,?)";
 
         try {
             PreparedStatement pstm = src.model.repository.database.ConnectionDataBase.getCurrentConnection().prepareStatement(sql);
+            pstm.setLong(1,transaction.getId());
+            pstm.setLong(2,transaction.getSolicitanteId());
+            pstm.setLong(3,transaction.getProdutoId());
+            pstm.setInt(4,transaction.getTipo());
+            pstm.setInt(5,transaction.getQuantidade());
 
-            ResultSet rs = pstm.executeQuery();
-
-            Product p = null;
-
-            if(rs.next()) {
-                p = new Product();
-                p.setNome(rs.getString("nome"));
-                p.setFabricante(rs.getString("fabricante"));
-            }
-
+            pstm.execute();
 
         } catch (SQLException e) {
             if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
-                GesLogger.e(TAG, "Erro ao buscar produto por serialn: " + e.getMessage());
+                GesLogger.e(TAG, "Erro ao criar uma transacao: " + e.getMessage());
+        } catch (Exception e){
+            if(GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                GesLogger.e(TAG, "Erro de exceção ao criar uma transacao: " + e.getMessage());
         }
+    }
 
+    @Override
+    public List<Transaction> getTransacoes() {
+        //implementar esse
+        return null;
     }
 }
