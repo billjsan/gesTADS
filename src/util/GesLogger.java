@@ -14,6 +14,7 @@ public class GesLogger {
     private static void printHeader(){
         System.out.println("[Date and time] [Application] [type] [Class] [Current thread] [Message log]");
     }
+
     public static void d(String subtag, String message){
         if(shoutPrintHeader) {
             printHeader();
@@ -30,6 +31,7 @@ public class GesLogger {
         System.out.println("[" + getCurrentTimeFormatted() + "] [" + TAG + "] [D] [" + subtag + "] ["
                 + thread.getName() + "] " + message);
     }
+
     public static void e(String subtag, String message){
         if(shoutPrintHeader) {
             printHeader();

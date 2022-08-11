@@ -145,7 +145,6 @@ public class TransactionControl extends BroadcastReceiver {
 
             Intent intent = new Intent(Intent.ACTION_RESULT_SET);
 
-            System.out.println("productToIntents: id: " + product.getId());
             intent.putLong(Intent.KEY_PRODUCT_ID, product.getId());
             intent.putString(Intent.KEY_PRODUCT_NAME, product.getNome());
             intent.putString(Intent.KEY_PRODUCT_FABRICANTE, product.getFabricante());

@@ -102,7 +102,7 @@ public class TransactionScreen extends GesTADSUI {
                 item += " qtd: ";
                 item += resultSet.get(i).getInt(Intent.KEY_PRODUCT_QTD_ESTOQUE);
 
-                System.out.println(formattedLineMenu(item, String.valueOf(i)));
+                System.out.println(formattedLineMenu(item, "[" + i + "]"));
             }
         }catch (NullPointerException e){
             if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE) GesLogger.e(TAG,

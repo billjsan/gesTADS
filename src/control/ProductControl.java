@@ -115,13 +115,6 @@ public class ProductControl extends BroadcastReceiver {
         //product.generateId(); //todo passei aqui
         product.setId(mRepository.getProdutos().get(mRepository.getProdutos().size() -1).getId() + 1);
 
-        System.out.println("product control: salvando produto no repo: ");
-        System.out.println(product.getId());
-        System.out.println(product.getNome());
-        System.out.println(product.getFabricante());
-        System.out.println(product.getQtdEstoque());
-
-
         mRepository.addProduct(product);
         showDialogUI("Produto cadastrado com sucesso");
         mUIManager.startMainUI(intent);
