@@ -508,14 +508,16 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
         private static final String TAG = "ConnectionDataBase";
         private static final String URL = "jdbc:mysql://localhost/gesTADS?serverTimezone=UTC";
-        private static final String USER = "root";
-        private static final String PASSWORD = "";
+        private static final String USER = "gesTADSuser";
+        private static final String PASSWORD = "gesTADSpassword";
 
         private static Connection currentConnection = null;
 
         public static Connection getCurrentConnection() {
             try {
-                Class.forName("com.mysql.jdbc.Driver");
+                //Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+
                 if (currentConnection == null)
                     currentConnection = DriverManager.getConnection(URL, USER, PASSWORD);
 
@@ -528,6 +530,14 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
             } catch (SQLException e) {
                 if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
                     GesLogger.e(TAG, "erro de inserção de SQL: " + e.getMessage());
+
+            } catch (InstantiationException e) {
+                if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "erro de instanciação do database: " + e.getMessage());
+
+            } catch (IllegalAccessException e) {
+                if (GesLogger.ISFULLLOGABLE || GesLogger.ISERRORLOGABLE)
+                    GesLogger.e(TAG, "acesso ilegal : " + e.getMessage());
             }
 
             return currentConnection;
