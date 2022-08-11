@@ -4,6 +4,8 @@ import src.model.model.Employee;
 import src.model.model.Product;
 import src.model.model.Transaction;
 import src.model.repository.database.GesTADSDataBaseInterface;
+import src.model.repository.database.PersistDatabase;
+import src.model.repository.database.VolatileDataBase;
 import src.util.GesLogger;
 
 import java.util.ArrayList;
@@ -214,14 +216,6 @@ public class Repository {
         this.mIsLoggedIn = status;
     }
 
-    public Product getProductBySerial(String serialNo) {
-     /*   if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
-            GesLogger.d(TAG, Thread.currentThread(), "getProductBYSerial");
-
-        return this.mDataBase.getProdutoPorSerial(serialNo);*/
-        return null;
-    }
-
     public void updateProduto(Product product, Long id) {
         String info = "id: " + id + " nome: " + product.getNome() +
                 " fab: " + product.getFabricante() + " qtdEst: " + product.getQtdEstoque();
@@ -247,5 +241,26 @@ public class Repository {
             GesLogger.d(TAG, Thread.currentThread(), "getTransactions");
 
         return new ArrayList<>(mDataBase.getTransacoes());
+    }
+
+    private static class DBFactory{
+
+        public static final int PERSIST_DB = 1;
+        public static final int VOLATILE_DB = 2;
+
+        public static GesTADSDataBaseInterface getDatabase(int db){
+
+            return db == PERSIST_DB ? getPersistDB() : getVolatileDb();
+        }
+
+        private static GesTADSDataBaseInterface getVolatileDb() {
+
+            return VolatileDataBase.getInstance();
+        }
+
+        private static GesTADSDataBaseInterface getPersistDB() {
+
+            return PersistDatabase.getInstance();
+        }
     }
 }

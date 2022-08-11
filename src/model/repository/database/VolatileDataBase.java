@@ -16,12 +16,25 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
     private volatile boolean isDBStarted;
     private final List<Employee> mEmployees = new ArrayList<>();
     private final List<String> mCargos = new ArrayList<>();
-    private List<Product> mProdutos =  new ArrayList<>();
-    private List<Transaction> mTransactions = new ArrayList<>();
+    private final List<Product> mProdutos =  new ArrayList<>();
+    private final List<Transaction> mTransactions = new ArrayList<>();
 
     private VolatileDataBase(){
         if(GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "constructor");
+
+        gambiarraResolveBugDB();
+    }
+
+    private void gambiarraResolveBugDB(){
+        Transaction transaction = new Transaction();
+        transaction.setId(0L);
+
+        Product product = new Product();
+        product.setId(0L);
+
+        mTransactions.add(transaction);
+        mProdutos.add(product);
     }
 
     public static VolatileDataBase getInstance(){
@@ -211,6 +224,7 @@ public class VolatileDataBase implements GesTADSDataBaseInterface {
 
     @Override
     public List<Transaction> getTransacoes() {
-        return null;
+
+        return new ArrayList<>(mTransactions);
     }
 }

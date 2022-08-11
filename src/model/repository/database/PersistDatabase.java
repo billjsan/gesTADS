@@ -35,8 +35,8 @@ public class PersistDatabase implements GesTADSDataBaseInterface {
 
             ConnectionDataBase.getCurrentConnection();
             ConnectionDataBase.getConnection();
-
         }
+
         isDBInitialized = true;
     }
 
