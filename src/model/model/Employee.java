@@ -33,7 +33,7 @@ public class Employee {
             GesLogger.d(TAG, Thread.currentThread(), "construtor vazio");
     }
 
-    public Employee(String nome, String login, String senha, String cargo, String cpf) {
+    public Employee(String nome, String login, String senha, String cargo, String cpf, Long id) {
         if (GesLogger.ISFULLLOGABLE || GesLogger.ISSAFELOGGABLE)
             GesLogger.d(TAG, Thread.currentThread(), "construtor com parametro");
 
@@ -42,8 +42,9 @@ public class Employee {
         this.mSenha = senha;
         this.mCargo = cargo;
         this.mCpf = cpf;
+        this.mId = id;
 
-        inferPrivilege();
+        //inferPrivilege();
     }
 
     public void generateID() {

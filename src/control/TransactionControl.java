@@ -68,7 +68,8 @@ public class TransactionControl extends BroadcastReceiver {
             mRepository.updateProduto(product, produtoIntent.getLong(Intent.KEY_PRODUCT_ID));
 
             Transaction transaction = new Transaction();
-            transaction.generateId();
+            //transaction.generateId(); todo passei aqui
+            transaction.setId(mRepository.getTransactions().get(mRepository.getTransactions().size() -1).getId() + 1);
             transaction.setTipoTranacao(Transaction.TRANSACTION_OUTCOMMING);
             transaction.setQuantidade(qtdRetirada);
             transaction.setSolicitante(mRepository.getCurrentUser().getId());
@@ -95,7 +96,8 @@ public class TransactionControl extends BroadcastReceiver {
         mRepository.updateProduto(product, produtoIntent.getLong(Intent.KEY_PRODUCT_ID));
 
         Transaction transaction = new Transaction();
-        transaction.generateId();
+        //transaction.generateId(); todo passei aqui
+        transaction.setId(mRepository.getTransactions().get(mRepository.getTransactions().size() -1).getId() + 1);
         transaction.setTipoTranacao(Transaction.TRANSACTION_INCOMMING);
         transaction.setQuantidade(qtdRecebida);
         transaction.setSolicitante(mRepository.getCurrentUser().getId());

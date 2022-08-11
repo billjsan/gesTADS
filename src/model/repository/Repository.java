@@ -48,7 +48,8 @@ public class Repository {
                 root.setSenha("admin");
                 root.setCargo(Employee.POSITION_ADMIN);
                 root.setCpf("00000000000");
-                root.generateID();
+                //root.generateID();
+                root.setId(0L);
                 root.setPrivilegio(Employee.PRIVILEGE_ADMIN);
                 mDataBase.insertEmployee(root);
 
@@ -107,7 +108,8 @@ public class Repository {
 
     public void addEmployee(Employee employee) {
 
-        employee.generateID();
+        //employee.generateID();
+        employee.setId(mDataBase.getEmployees().get(mDataBase.getEmployees().size() -1).getId() + 1);
         String info = "id: " + employee.getId() + " nome: " + employee.getNome() + " cpf: "
                 + employee.getCpf() + " cargo: " + employee.getCargo() + " priv: " + employee.getPrivilegio() ;
 
@@ -238,5 +240,12 @@ public class Repository {
             GesLogger.d(TAG, Thread.currentThread(), "addTransaction: " + info);
 
         mDataBase.setTransaction(transaction);
+    }
+
+    public List<Transaction> getTransactions() {
+        if(GesLogger.ISFULLLOGABLE || GesLogger.ISSENSITIVELOGABLE)
+            GesLogger.d(TAG, Thread.currentThread(), "getTransactions");
+
+        return new ArrayList<>(mDataBase.getTransacoes());
     }
 }

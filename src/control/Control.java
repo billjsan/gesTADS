@@ -301,7 +301,8 @@ public class Control extends BroadcastReceiver {
                 }
             }
 
-            newEmployee.generateID();
+            //newEmployee.generateID();
+            newEmployee.setId(mRepository.getEmployees().get(mRepository.getEmployees().size() -1).getId() + 1); //todo passei aqui
             mRepository.addEmployee(newEmployee);
 
             showDialogUI("Usuário cadastrado com sucesso");
@@ -330,7 +331,8 @@ public class Control extends BroadcastReceiver {
                 intent.getString(Intent.KEY_EMPLOYEE_USERNAME),
                 intent.getString(Intent.KEY_EMPLOYEE_PASSWORD),
                 intent.getString(Intent.KEY_EMPLOYEE_CARGO),
-                intent.getString(Intent.KEY_EMPLOYEE_CPF)
+                intent.getString(Intent.KEY_EMPLOYEE_CPF),
+                intent.getLong(Intent.KEY_EMPLOYEE_ID) // todo passei aqui
         );
     }
 

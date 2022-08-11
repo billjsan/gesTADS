@@ -112,7 +112,8 @@ public class ProductControl extends BroadcastReceiver {
         }
 
         Product product = populateProductWithIntent(intent);
-        product.generateId();
+        //product.generateId(); //todo passei aqui
+        product.setId(mRepository.getProdutos().get(mRepository.getProdutos().size() -1).getId() + 1);
 
         System.out.println("product control: salvando produto no repo: ");
         System.out.println(product.getId());
